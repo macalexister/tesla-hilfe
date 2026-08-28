@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Karte fürs Handschuhfach – Deine Tesla-Hilfe</title>
+<style>
+  :root {
+    --ink: #17202a;
+    --muted: #53606d;
+    --paper: #f7f7f2;
+    --line: #d9dedb;
+    --blue: #1c5d87;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); }
+
+  .hinweis {
+    max-width: 620px; margin: 0 auto; padding: 28px 20px;
+    font-size: 17px; line-height: 1.5;
+  }
+  .hinweis h1 { font-size: 24px; margin: 0 0 12px; }
+  .hinweis p { color: var(--muted); margin: 0 0 10px; }
+  .drucken {
+    display: inline-block; margin-top: 8px; padding: 14px 22px;
+    background: var(--ink); color: #fff; border: 0; border-radius: 12px;
+    font-size: 17px; font-weight: 700; cursor: pointer;
+  }
+
+  .blatt { display: flex; flex-direction: column; align-items: center; gap: 8mm; padding: 0 20px 40px; }
+
+  /* A6 quer, passt aufrecht ins Handschuhfach und in eine Jackentasche. */
+  .karte {
+    width: 148mm; height: 105mm;
+    background: #fff; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 4mm;
+    padding: 7mm 8mm;
+    display: grid; grid-template-columns: 52mm 1fr; gap: 7mm;
+    align-items: center;
+  }
+
+  .qr { text-align: center; }
+  .qr img { width: 45mm; height: 45mm; display: block; margin: 0 auto; }
+  .qr .url {
+    margin-top: 2.5mm; font-size: 8pt; color: var(--muted);
+    word-break: break-all; line-height: 1.25;
+  }
+  .qr .scan { margin-top: 1.5mm; font-size: 10pt; font-weight: 800; }
+
+  .text h2 { margin: 0 0 1mm; font-size: 17pt; line-height: 1.1; }
+  /* balance verteilt die zwei Zeilen gleichmaessig, sonst steht "ist." allein. */
+  .text .frage {
+    margin: 0 0 3.5mm; font-size: 11pt; color: var(--muted);
+    text-wrap: balance;
+  }
+
+  ul.themen { list-style: none; margin: 0 0 4mm; padding: 0; }
+  ul.themen li {
+    font-size: 11.5pt; font-weight: 600; padding: 0.9mm 0;
+    display: flex; gap: 2.5mm; align-items: baseline;
+  }
+
+  .alex {
+    border-top: 1px solid var(--line); padding-top: 3mm;
+    font-size: 10.5pt; color: var(--muted); line-height: 1.35;
+  }
+  .alex strong { color: var(--ink); font-size: 11.5pt; display: block; margin-bottom: 0.8mm; }
+
+  @media print {
+    @page { size: A4; margin: 12mm; }
+    body { background: #fff; }
+    .hinweis { display: none; }
+    .blatt { padding: 0; gap: 10mm; }
+    .karte { border: 1px dashed #b9c0c6; page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hinweis">
+  <h1>Karte fürs Handschuhfach</h1>
+  <p>Diese Seite ist zum Ausdrucken gedacht. Beim Drucken verschwindet dieser
+     Text und es bleiben zwei gleiche Karten in A6 übrig — eine fürs
+     Handschuhfach, eine für die Handtasche.</p>
+  <p>Nach dem Drucken an der gestrichelten Linie ausschneiden. Wer den Code
+     scannt, landet direkt auf der Hilfe.</p>
+  <button class="drucken" type="button" onclick="window.print()">Jetzt drucken</button>
+</div>
+
+<div class="blatt">
+  <div class="karte">
+    <div class="qr">
+      <img src="qr-tesla-hilfe.svg" alt="QR-Code zur Tesla-Hilfe">
+      <p class="scan">Code scannen</p>
+      <p class="url">macalexister.github.io/tesla-hilfe</p>
+    </div>
+
+    <div class="text">
+      <h2>🚗 Deine Tesla-Hilfe</h2>
+      <p class="frage">Du bist unsicher? Hier steht, was zu tun ist.</p>
+
+      <ul class="themen">
+        <li><span>🚗</span><span>Losfahren</span></li>
+        <li><span>⚡</span><span>Laden</span></li>
+        <li><span>🏖️</span><span>Urlaub</span></li>
+        <li><span>🧽</span><span>Waschanlage</span></li>
+        <li><span>🆘</span><span>Ich weiß nicht weiter</span></li>
+      </ul>
+
+      <div class="alex">
+        <strong>👨‍👩‍👧 Alex fragen</strong>
+        Anrufen oder WhatsApp — die Schaltflächen stehen oben auf jeder Seite.
+      </div>
+    </div>
+  </div>
+
+  <div class="karte">
+    <div class="qr">
+      <img src="qr-tesla-hilfe.svg" alt="QR-Code zur Tesla-Hilfe">
+      <p class="scan">Code scannen</p>
+      <p class="url">macalexister.github.io/tesla-hilfe</p>
+    </div>
+
+    <div class="text">
+      <h2>🚗 Deine Tesla-Hilfe</h2>
+      <p class="frage">Du bist unsicher? Hier steht, was zu tun ist.</p>
+
+      <ul class="themen">
+        <li><span>🚗</span><span>Losfahren</span></li>
+        <li><span>⚡</span><span>Laden</span></li>
+        <li><span>🏖️</span><span>Urlaub</span></li>
+        <li><span>🧽</span><span>Waschanlage</span></li>
+        <li><span>🆘</span><span>Ich weiß nicht weiter</span></li>
+      </ul>
+
+      <div class="alex">
+        <strong>👨‍👩‍👧 Alex fragen</strong>
+        Anrufen oder WhatsApp — die Schaltflächen stehen oben auf jeder Seite.
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
