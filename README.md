@@ -79,8 +79,15 @@ nichts kaputt.
 
 Die App sendet nichts an einen eigenen Server und setzt keine Cookies.
 
-- Die Telefonnummer steht **nicht** im Repository und **nicht** in der
-  Git-Historie.
+- Die Telefonnummer steht **nicht** im Repository und in keinem erreichbaren
+  Commit. Die Historie wurde nachträglich umgeschrieben, weil die Nummer in
+  den ersten vier Commits stand.
+- **Offener Punkt:** GitHub hält die alten, jetzt unerreichbaren Commits noch
+  vor. Wer die alte Commit-SHA kennt **und** Zugriff auf das Repository hat,
+  kann sie weiterhin abrufen (`git fetch origin <alte-sha>`). Geprüft und
+  bestätigt. Das Repository muss deshalb privat bleiben. Sicher entfernt ist
+  die Nummer erst, wenn das Repository auf GitHub gelöscht und neu angelegt
+  wird oder der GitHub-Support die Objekte aufräumt.
 - Wird die Nummer über `#setup` eingetragen, liegt sie im `localStorage` des
   Browsers auf dem Gerät. Löschen geht auf derselben Seite.
 - Externe Links führen zu Tesla, ADAC, EWE Go, Chargemap, Chargeprice und Apple.
@@ -88,7 +95,9 @@ Die App sendet nichts an einen eigenen Server und setzt keine Cookies.
 
 Wird die App öffentlich ausgeliefert, etwa über GitHub Pages, ist nur das
 sichtbar, was auch im Repository steht — die Nummer also nicht. Auf dem Gerät
-der Nutzerin wird sie einmal über `#setup` eingetragen.
+der Nutzerin wird sie einmal über `#setup` eingetragen. Solange die alten
+Objekte auf GitHub liegen, sollte das Repository aber nicht öffentlich
+geschaltet werden.
 
 ## Inhaltliche Grenzen
 
