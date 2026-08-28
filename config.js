@@ -1,14 +1,17 @@
 /*
-  Kontaktdaten der App.
+  Grundeinstellungen der App.
 
-  ACHTUNG: Diese Datei enthaelt eine echte Telefonnummer. Sie steht damit im
-  Quelltext und in der Git-Historie. Das Repository muss deshalb privat bleiben.
-  Wird die App spaeter oeffentlich ausgeliefert (z. B. GitHub Pages), ist die
-  Nummer fuer jeden lesbar. Dann hier eine Nummer eintragen, die oeffentlich
-  sein darf, oder die Felder leer lassen.
+  Hier steht bewusst KEINE Telefonnummer. Die Nummer soll nicht im
+  Repository und nicht in der Git-Historie landen. Sie kommt aus einer
+  von zwei Quellen, die beide nicht eingecheckt werden:
 
-  Leere Felder sind erlaubt: Die App blendet die betroffene Schaltflaeche dann
-  aus und zeigt stattdessen einen Hinweis.
+    1. config.local.js  - Datei daneben, steht in .gitignore.
+                          Vorlage: config.local.example.js
+    2. localStorage     - direkt auf dem iPhone eingetragen ueber die
+                          Seite "#setup" der App.
+
+  Fehlt beides, blendet die App die Anruf- und WhatsApp-Schaltflaeche aus
+  und erklaert stattdessen, wie man die Nummer eintraegt.
 */
 const CONFIG = {
   contactName: "Alex",

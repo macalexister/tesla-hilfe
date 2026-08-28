@@ -9,6 +9,7 @@ JavaScript.
 ## Lokal starten
 
 ```sh
+cp config.local.example.js config.local.js   # einmalig, echte Nummer eintragen
 python3 -m http.server 8080 --directory .
 ```
 
@@ -16,42 +17,73 @@ Dann `http://localhost:8080` öffnen.
 
 ## Aufbau
 
-| Datei         | Inhalt                                              |
-| ------------- | --------------------------------------------------- |
-| `index.html`  | Grundgerüst, Kopfzeile, Alex-Dialog                 |
-| `config.js`   | Kontaktdaten                                        |
-| `content.js`  | Alle Texte und Abläufe                              |
-| `app.js`      | Darstellung und Navigation                          |
-| `styles.css`  | Layout                                              |
+| Datei                     | Inhalt                                         |
+| ------------------------- | ---------------------------------------------- |
+| `index.html`              | Grundgerüst, Kopfzeile, Alex-Dialog            |
+| `config.js`               | Grundeinstellungen, **ohne** Telefonnummer     |
+| `config.local.example.js` | Vorlage für die private Nummer                 |
+| `config.local.js`         | echte Nummer, steht in `.gitignore`            |
+| `content.js`              | Alle Texte und Abläufe                         |
+| `app.js`                  | Darstellung und Navigation                     |
+| `styles.css`              | Layout                                         |
 
 Texte ändert man in `content.js`, ohne den Code anzufassen. Die Zurück-Schaltfläche
 folgt dem `parent`-Feld einer Seite, nicht dem Klickverlauf.
 
-## Kontakt konfigurieren
+## Telefonnummer
 
-Alle Kontaktdaten stehen in `config.js`. Sind die Felder leer, blendet die App
-die betroffenen Schaltflächen aus und zeigt stattdessen einen Hinweis.
+Die Nummer steht bewusst **nicht** im Repository. Die App holt sie aus einer von
+zwei Quellen, die beide nicht eingecheckt werden:
+
+1. **`config.local.js`** — liegt neben den anderen Dateien und steht in
+   `.gitignore`. Wird beim Ausliefern mitkopiert.
+2. **Browser-Speicher** — über die versteckte Seite `#setup` direkt auf dem
+   iPhone eingetragen. Die Nummer verlässt das Gerät nicht und überschreibt
+   `config.local.js`, falls beides vorhanden ist.
+
+Fehlt beides, blendet die App die Anruf- und WhatsApp-Schaltfläche aus und
+verlinkt stattdessen auf `#setup`.
+
+Weil `config.local.js` fehlen darf, meldet die Konsole beim Laden gegebenenfalls
+einen 404 für diese Datei. Das ist erwartet und ohne Wirkung.
+
+## Apps direkt öffnen
+
+Auf einigen Seiten gibt es große Schaltflächen, die auf dem iPhone die
+installierte App öffnen statt Safari. Das funktioniert über Universal Links.
+Jede verwendete Adresse ist beim Anbieter offiziell hinterlegt und lässt sich
+nachprüfen unter `https://<domain>/.well-known/apple-app-site-association`:
+
+| App               | Adresse                            | Eintrag beim Anbieter   |
+| ----------------- | ---------------------------------- | ----------------------- |
+| Tesla             | `tesla.com/1/app/home`             | `"Open Tesla App"`      |
+| Chargemap         | `chargemap.com/de-de/map`          | Pfadmuster `/*-*/map`   |
+| Chargeprice       | `chargeprice.app/`                 | alle Pfade              |
+| ADAC Pannenhilfe  | `adac.de/hilfe`                    | Pfad `/hilfe`           |
+| Apple Karten      | `maps.apple.com/?q=Ladestation`    | Systemapp von Apple     |
+
+**EWE Go, ADAC e-Charge und Aral pulse haben keine Universal Links.** Dort steht
+deshalb bewusst keine Schaltfläche „App öffnen“, sondern der ehrliche Hinweis,
+die App auf dem Startbildschirm anzutippen. Eine Schaltfläche, die stattdessen
+die Werbeseite öffnet, würde etwas Falsches versprechen.
+
+Ist eine App nicht installiert, öffnet iOS die normale Webseite. Es geht also
+nichts kaputt.
 
 ## Datenschutz
 
-Die App sendet nichts an einen eigenen Server, setzt keine Cookies und legt
-nichts im Browser ab.
+Die App sendet nichts an einen eigenen Server und setzt keine Cookies.
 
-**Aber:** `config.js` enthält bewusst eine echte private Telefonnummer, damit die
-App ohne weitere Einrichtung funktioniert. Diese Nummer steht damit im Quelltext
-und in der Git-Historie.
+- Die Telefonnummer steht **nicht** im Repository und **nicht** in der
+  Git-Historie.
+- Wird die Nummer über `#setup` eingetragen, liegt sie im `localStorage` des
+  Browsers auf dem Gerät. Löschen geht auf derselben Seite.
+- Externe Links führen zu Tesla, ADAC, EWE Go, Chargemap, Chargeprice und Apple.
+  Für deren Datenverarbeitung gelten deren eigene Bestimmungen.
 
-Daraus folgt:
-
-- Das Repository muss **privat** bleiben.
-- Wird die App öffentlich ausgeliefert, etwa über GitHub Pages, ist die Nummer
-  für jeden lesbar, der die Seite aufruft. Vorher in `config.js` eine Nummer
-  eintragen, die öffentlich sein darf, oder die Felder leeren.
-- Ein nachträgliches Entfernen aus `config.js` reicht nicht: Die Nummer bleibt
-  in älteren Commits stehen und müsste per History-Rewrite entfernt werden.
-
-Externe Links führen zu Tesla, ADAC, EWE Go, Chargemap und Chargeprice. Für
-deren Datenverarbeitung gelten deren eigene Bestimmungen.
+Wird die App öffentlich ausgeliefert, etwa über GitHub Pages, ist nur das
+sichtbar, was auch im Repository steht — die Nummer also nicht. Auf dem Gerät
+der Nutzerin wird sie einmal über `#setup` eingetragen.
 
 ## Inhaltliche Grenzen
 
@@ -61,6 +93,7 @@ Die App fasst zusammen und ersetzt keine offizielle Anleitung.
   deshalb keine feste Reihenfolge, sondern verweist auf das Display der Säule.
 - Es werden keine Telefonnummern für Pannenhilfe genannt, da diese sich ändern.
   Stattdessen wird auf die Tesla-App und die offiziellen Seiten verwiesen.
+  Einzige Ausnahme ist die 112.
 - Preise und Tarife ändern sich. Chargeprice ist nur ein Hinweis, keine Zusage.
 - Die Seite „Quellen“ in der App verlinkt die offiziellen Belege.
 

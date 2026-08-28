@@ -31,7 +31,7 @@
       <p>Wenn du unsicher bist, frag einfach Alex.</p>
       <a class="action-button primary" id="callLink" href="#">📞 Alex anrufen</a>
       <a class="action-button secondary" id="whatsappLink" href="#" rel="noopener">💬 WhatsApp schreiben</a>
-      <p class="notice" id="contactFallback" hidden>Es ist keine Kontaktnummer hinterlegt. Trage sie in <code>config.js</code> ein.</p>
+      <p class="notice" id="contactFallback" hidden>Es ist noch keine Nummer hinterlegt. <a class="text-link" href="#setup" id="setupLink">Jetzt eintragen</a> – sie bleibt nur auf diesem Gerät.</p>
       <div class="quick-actions" id="quickActions">
         <p class="quick-actions-title">Oder schick direkt eine fertige Nachricht:</p>
         <button type="button" data-message="Ich weiß nicht, wo ich laden soll.">Ich weiß nicht, wo ich laden soll.</button>
@@ -42,6 +42,8 @@
   </dialog>
 
   <script src="config.js"></script>
+  <!-- Optional und bewusst nicht im Repository: enthaelt die echte Nummer. -->
+  <script src="config.local.js" onerror="void 0"></script>
   <script src="content.js"></script>
   <script src="app.js"></script>
 </body>
