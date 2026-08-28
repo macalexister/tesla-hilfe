@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f2">
+  <title>Deine Tesla-Hilfe</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="back" id="backButton" type="button" aria-label="Zurück">←</button>
+    <a class="brand" href="#start">🚗 Deine Tesla-Hilfe</a>
+    <button class="help-link" id="alexButton" type="button">👨‍👩‍👧 Alex fragen</button>
+  </header>
+
+  <main id="app" tabindex="-1"></main>
+
+  <dialog id="alexDialog" aria-labelledby="alexTitle">
+    <form method="dialog" class="dialog-card">
+      <button class="close" value="cancel" aria-label="Fenster schließen">×</button>
+      <p class="eyebrow">Persönliche Hilfe</p>
+      <h2 id="alexTitle">👨‍👩‍👧 Alex fragen</h2>
+      <p>Wenn du unsicher bist, frag einfach Alex.</p>
+      <a class="action-button primary" id="callLink" href="#">📞 Alex anrufen</a>
+      <a class="action-button secondary" id="whatsappLink" href="#" target="_blank" rel="noopener">💬 WhatsApp schreiben</a>
+      <div class="quick-actions">
+        <button type="button" data-message="Ich weiß nicht, wo ich laden soll.">Ich weiß nicht, wo ich laden soll.</button>
+        <button type="button" data-message="Die Ladesäule funktioniert nicht.">Die Ladesäule funktioniert nicht.</button>
+        <button type="button" data-message="Ich verstehe die Anzeige nicht.">Ich verstehe die Anzeige nicht.</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

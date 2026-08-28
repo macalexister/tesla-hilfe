@@ -1,0 +1,50 @@
+:root {
+  --ink: #17202a;
+  --muted: #53606d;
+  --paper: #f7f7f2;
+  --card: #ffffff;
+  --line: #d9dedb;
+  --red: #c83b3b;
+  --blue: #1c5d87;
+  --green: #2f6d51;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); background: var(--paper); font-size: 18px; line-height: 1.45; }
+button, a { font: inherit; }
+button { cursor: pointer; }
+.topbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 10px max(16px, calc((100vw - 920px) / 2)); background: rgba(247,247,242,.96); border-bottom: 1px solid var(--line); }
+.brand { color: var(--ink); font-weight: 800; text-decoration: none; flex: 1; }
+.back, .help-link, .close { border: 0; background: transparent; color: var(--ink); }
+.back { font-size: 28px; width: 42px; visibility: hidden; }
+.help-link { color: var(--blue); font-weight: 700; white-space: nowrap; }
+main { max-width: 920px; margin: 0 auto; padding: 36px 16px 64px; }
+.hero { max-width: 680px; margin-bottom: 28px; }
+.eyebrow { color: var(--blue); font-weight: 800; letter-spacing: .04em; text-transform: uppercase; font-size: .8rem; margin: 0 0 8px; }
+h1 { font-size: clamp(2rem, 8vw, 4rem); line-height: 1.05; margin: 0 0 14px; }
+h2 { font-size: clamp(1.65rem, 5vw, 2.6rem); line-height: 1.1; margin: 0 0 12px; }
+h3 { margin: 0 0 8px; font-size: 1.25rem; }
+p { margin: 0 0 16px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+.choice, .step, .app-card, .answer { display: block; width: 100%; text-align: left; padding: 22px; border: 2px solid var(--line); border-radius: 18px; background: var(--card); color: var(--ink); text-decoration: none; box-shadow: 0 2px 0 rgba(23,32,42,.04); }
+.choice { min-height: 120px; font-size: 1.25rem; font-weight: 800; }
+.choice small, .app-card small { display: block; margin-top: 7px; color: var(--muted); font-size: .92rem; font-weight: 500; }
+.choice:hover, .choice:focus-visible, .answer:hover, .answer:focus-visible { border-color: var(--blue); outline: 4px solid rgba(28,93,135,.16); }
+.red { border-color: #e4a6a6; } .blue { border-color: #a7c7dc; } .green { border-color: #a9cbb7; }
+.steps { display: grid; gap: 12px; margin: 24px 0; }
+.step { display: flex; gap: 16px; align-items: flex-start; }
+.number { display: grid; place-items: center; flex: 0 0 38px; height: 38px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 800; }
+.next { margin-top: 22px; }
+.action-button { display: block; min-height: 56px; padding: 14px 18px; border-radius: 14px; text-align: center; text-decoration: none; font-weight: 800; margin: 10px 0; }
+.primary { background: var(--ink); color: white; } .secondary { background: #e6eef2; color: var(--blue); }
+.text-link { color: var(--blue); font-weight: 700; }
+.notice { padding: 16px; border-left: 5px solid var(--blue); background: #eaf1f4; border-radius: 8px; margin: 20px 0; }
+.app-card strong { display: block; font-size: 1.15rem; }
+dialog { border: 0; border-radius: 20px; padding: 0; max-width: 480px; width: calc(100% - 28px); box-shadow: 0 20px 70px rgba(0,0,0,.25); }
+dialog::backdrop { background: rgba(23,32,42,.45); }
+.dialog-card { padding: 26px; position: relative; }
+.close { position: absolute; top: 12px; right: 14px; font-size: 30px; }
+.quick-actions { display: grid; gap: 8px; margin-top: 18px; }
+.quick-actions button { border: 1px solid var(--line); background: var(--paper); border-radius: 10px; padding: 10px; text-align: left; color: var(--ink); }
+@media (max-width: 520px) { .help-link { font-size: .88rem; } main { padding-top: 28px; } .choice, .step, .app-card, .answer { padding: 18px; } }
