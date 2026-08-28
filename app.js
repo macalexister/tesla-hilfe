@@ -89,11 +89,8 @@ function render(id) {
     </section>`;
 
   if (page.choices) html += renderChoices(page.choices);
-  /* Im Notfall darf die Handlung nicht unter sieben Schritten liegen.
-     actionsFirst zieht die Schaltflaechen ueber die Erklaerung. */
-  if (page.appLinks && page.actionsFirst) html += renderAppLinks(page.appLinks);
   if (page.steps) html += renderSteps(page.steps);
-  if (page.appLinks && !page.actionsFirst) html += renderAppLinks(page.appLinks);
+  if (page.appLinks) html += renderAppLinks(page.appLinks);
   if (page.cards) html += renderCards(page.cards);
   if (page.links) html += renderLinks(page.links);
   if (page.note) html += `<p class="notice">${esc(page.note)}</p>`;

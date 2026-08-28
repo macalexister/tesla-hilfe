@@ -107,7 +107,11 @@ Die App fasst zusammen und ersetzt keine offizielle Anleitung.
   deshalb keine feste Reihenfolge, sondern verweist auf das Display der Säule.
 - Es werden keine Telefonnummern für Pannenhilfe genannt, da diese sich ändern.
   Stattdessen wird auf die Tesla-App und die offiziellen Seiten verwiesen.
-  Einzige Ausnahme ist die 112.
+- Die App enthält **bewusst keine Notfallseite**. Sie deckt das ab, was im
+  Alltag passiert: fahren, laden, Ladesäule streikt, Akku wird knapp. Was im
+  echten Notfall zu tun ist, gehört nicht in eine Seite, die man erst suchen
+  muss — der Notruf 112 wird auf jedem iPhone direkt über die Telefon-App
+  gewählt, auch bei gesperrtem Bildschirm.
 - Preise und Tarife ändern sich. Chargeprice ist nur ein Hinweis, keine Zusage.
 - Die Seite „Quellen“ in der App verlinkt die offiziellen Belege.
 

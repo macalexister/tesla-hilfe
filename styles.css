@@ -56,7 +56,6 @@ a.app-card:hover, a.app-card:focus-visible { border-color: var(--blue); outline:
 .open-app-text strong { display: block; font-size: 1.2rem; font-weight: 800; }
 .open-app-text small { display: block; margin-top: 3px; color: #c3d2dc; font-size: .9rem; font-weight: 600; }
 .open-app:hover, .open-app:focus-visible { outline: 4px solid rgba(28,93,135,.35); }
-.open-app.urgent { background: var(--red); }
 .setup { display: grid; gap: 10px; max-width: 420px; margin: 8px 0 0; }
 .setup label { font-weight: 700; }
 .setup input { min-height: 56px; padding: 12px 14px; font: inherit; font-size: 1.1rem; border: 2px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); }

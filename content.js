@@ -13,7 +13,6 @@
     note     - Hinweisbox am Ende
     links    - Schaltflaechen zu externen Seiten
     appLinks - grosse Schaltflaechen, die auf dem iPhone direkt die App oeffnen
-    actionsFirst - appLinks ueber die Schritte ziehen (nur fuer Notfallseiten)
     form     - Sonderfall: "contact" zeigt das Formular fuer die Nummer
 */
 
@@ -53,7 +52,6 @@ const PAGES = {
       ["⚡", "Ich möchte laden", "Supercharger oder andere Ladesäule.", "charge"],
       ["🏖️", "Ich fahre in den Urlaub", "Das Tesla-Navi plant die Strecke.", "holiday"],
       ["🆘", "Ich weiß nicht weiter", "Kurze Antwort für deine Situation.", "stuck"],
-      ["🚨", "Notfall oder Panne", "Auto steht, blinkt oder fährt nicht mehr.", "emergency", "red"],
       ["📱", "Welche App brauche ich?", "Die richtige App für deine Aufgabe.", "apps"]
     ]
   },
@@ -189,8 +187,7 @@ const PAGES = {
       ["⚡", "Ladesäule funktioniert nicht", "Der Reihe nach durchgehen.", "failed-charge"],
       ["🗺️", "Ich weiß nicht, wo ich laden soll", "Tesla-Navi oder Chargemap.", "find-charge"],
       ["💶", "Ich möchte günstig laden", "Preise vergleichen.", "cheap-charge"],
-      ["❓", "Ich verstehe eine Anzeige nicht", "Foto machen und Alex fragen.", "screen-help"],
-      ["🚨", "Es ist ein Notfall", "Auto steht oder fährt nicht mehr.", "emergency", "red"]
+      ["❓", "Ich verstehe eine Anzeige nicht", "Foto machen und Alex fragen.", "screen-help"]
     ]
   },
 
@@ -245,28 +242,6 @@ const PAGES = {
     title: "Das musst du nicht allein herausfinden",
     intro: "Mach ein Foto von der Anzeige und schick es Alex. Er sagt dir, was zu tun ist.",
     note: "Solange das Auto normal fährt, ist eine unklare Anzeige selten dringend. Fahr an eine sichere Stelle, bevor du das Foto machst."
-  },
-
-  emergency: {
-    parent: "start",
-    eyebrow: "Notfall oder Panne",
-    title: "Zuerst in Sicherheit",
-    actionsFirst: true,
-    steps: [
-      "Warnblinker einschalten: die dreieckige Taste über dem Bildschirm.",
-      "Wenn möglich rechts ranfahren oder auf einen Parkplatz rollen.",
-      "Warnweste anziehen, bevor du aussteigst.",
-      "Hinter der Leitplanke warten, nicht neben dem Auto stehen bleiben.",
-      "Bei Verletzten oder Gefahr: 112 anrufen.",
-      "Wenn nur das Auto steht: Tesla-Pannenhilfe über die Tesla-App anfordern.",
-      "Danach Alex anrufen."
-    ],
-    appLinks: [
-      ["📞", "112 anrufen (Notruf)", "tel:112", "Feuerwehr, Polizei und Rettungsdienst", "urgent"],
-      ["🚗", "Tesla-App öffnen", "https://www.tesla.com/1/app/home", "Dort unter Service die Pannenhilfe anfordern"],
-      OPEN_APP.adacHelp
-    ],
-    note: "Die Tesla-Pannenhilfe erreichst du am einfachsten in der Tesla-App unter Service. Die Nummer steht dort und ist immer die aktuelle."
   },
 
   apps: {
