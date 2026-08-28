@@ -101,6 +101,15 @@ Die App fasst zusammen und ersetzt keine offizielle Anleitung.
 
 - Der Ladeablauf an fremden Säulen ist **betreiberabhängig**. Die App behauptet
   deshalb keine feste Reihenfolge, sondern verweist auf das Display der Säule.
+- Hat eine Säule **kein Display**, verweist die App bewusst nicht auf die
+  Lämpchen der Säule — deren Farben bedeuten bei jedem Hersteller etwas
+  anderes. Stattdessen zählt die Ladeanschlussleuchte am Auto: grünes Blinken
+  heißt laden, durchgehend grün heißt fertig, rot heißt Störung. Das steht so
+  in der Tesla-Anleitung und gilt unabhängig vom Betreiber.
+- Beim Thema **Waschanlage** folgt die App der Tesla-Anleitung, auch wo diese
+  unbequem ist: nur kontaktlose Anlagen ohne Bürsten, mindestens 30 cm Abstand
+  beim Hochdruckreiniger. Schäden durch falsches Waschen sind laut Tesla nicht
+  von der Garantie gedeckt.
 - Es werden keine Telefonnummern für Pannenhilfe genannt, da diese sich ändern.
   Stattdessen wird auf die Tesla-App und die offiziellen Seiten verwiesen.
 - Die App enthält **bewusst keine Notfallseite**. Sie deckt das ab, was im

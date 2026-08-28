@@ -52,7 +52,8 @@ const PAGES = {
       ["⚡", "Ich möchte laden", "Supercharger oder andere Ladesäule.", "charge"],
       ["🏖️", "Ich fahre in den Urlaub", "Das Tesla-Navi plant die Strecke.", "holiday"],
       ["🆘", "Ich weiß nicht weiter", "Kurze Antwort für deine Situation.", "stuck"],
-      ["📱", "Welche App brauche ich?", "Die richtige App für deine Aufgabe.", "apps"]
+      ["📱", "Welche App brauche ich?", "Die richtige App für deine Aufgabe.", "apps"],
+      ["🧽", "Ich fahre in die Waschanlage", "Vorher den Waschanlagen-Modus einschalten.", "carwash"]
     ]
   },
 
@@ -102,6 +103,7 @@ const PAGES = {
     intro: "Nicht jede Karte funktioniert an jeder Säule. Der Ablauf ist bei jedem Anbieter etwas anders.",
     choices: [
       ["🔌", "So läuft es ab", "Der Ablauf Schritt für Schritt.", "public-charge-flow", "blue"],
+      ["🚫", "Die Säule hat kein Display", "Nur Karte, Kabel und ein Lämpchen.", "no-display", "blue"],
       ["💳", "ADAC e-Charge / Aral pulse", "Deine ADAC-Ladekarte und App.", "adac", "blue"],
       ["💳", "EWE Go", "Deine EWE-Go-Karte und App.", "ewe", "green"],
       ["🗺️", "Ladestation suchen", "Chargemap zeigt Ladestationen.", "chargemap"]
@@ -122,6 +124,28 @@ const PAGES = {
       "Zum Beenden: in der App oder mit der Karte beenden, dann Kabel abziehen."
     ],
     note: "Es gibt keine Reihenfolge, die überall gilt. Das Display an der Säule sagt dir immer, was dran ist. Wenn du unsicher bist: mach ein Foto und frag Alex."
+  },
+
+  "no-display": {
+    parent: "other-charge",
+    eyebrow: "Säule ohne Display",
+    title: "Dann zählt das Auto",
+    intro: "Manche Ladesäulen haben nur ein Kartenfeld, zwei Steckdosen und ein kleines Lämpchen. Das ist normal und keine kaputte Säule.",
+    steps: [
+      "Kabel zuerst am Auto einstecken, hinten links, bis es einrastet.",
+      "Anderes Ende in die Steckdose der Säule stecken. Meist musst du dafür eine kleine Klappe hochschieben.",
+      "Ladekarte an das Kartenfeld halten und einen Moment liegen lassen.",
+      "Jetzt zum Auto schauen, nicht zur Säule: Blinkt das Tesla-T am Ladeanschluss grün, läuft alles.",
+      "Zum Beenden: dieselbe Karte noch einmal an das Kartenfeld halten.",
+      "Danach die Taste am Kabelgriff drücken und das Kabel abziehen."
+    ],
+    cards: [
+      ["🟢 Woran du siehst, dass es lädt", "Am Auto, nicht an der Säule. Das Tesla-T am Ladeanschluss blinkt beim Laden grün, langsamer werdend, je voller der Akku ist. Ist der Ladevorgang fertig, leuchtet es durchgehend grün. Leuchtet es rot, gibt es eine Störung — dann steht auf dem Bildschirm im Auto, was los ist."],
+      ["🔌 Kabel dabei?", "An vielen dieser Säulen hängt kein Kabel. Dann brauchst du ein eigenes Ladekabel vom Typ 2. Schau vorher nach, ob eines im Auto liegt — wenn du unsicher bist, frag Alex. An Schnellladesäulen hängt das Kabel dagegen immer fest dran."],
+      ["🔒 Der Stecker rastet nicht ein", "Steck ihn noch einmal ein und halte ihn dabei leicht nach oben, bis das Auto ihn erkennt und verriegelt."],
+      ["🚗 Das Kabel geht nicht mehr raus", "Das Auto verriegelt das Kabel absichtlich. Es muss aufgeschlossen sein, damit du es abziehen kannst. Hab den Schlüssel oder dein iPhone dabei und drücke die Taste am Kabelgriff."]
+    ],
+    note: "Die Lämpchen an der Säule bedeuten bei jedem Hersteller etwas anderes. Verlass dich deshalb auf das grüne Blinken am Auto. Wenn nichts passiert: Foto machen und Alex fragen."
   },
 
   adac: {
@@ -178,6 +202,28 @@ const PAGES = {
     note: "Du musst nicht selbst ausrechnen, wann geladen wird. Das macht der Tesla. Wenn dir der Akkustand bei Ankunft zu knapp vorkommt, lade am Stopp einfach ein paar Minuten länger."
   },
 
+  carwash: {
+    parent: "start",
+    eyebrow: "Waschanlage",
+    title: "Erst der Waschmodus",
+    intro: "Der Tesla hat einen eigenen Modus fürs Waschen. Ohne ihn können Ladeklappe und Scheibenwischer Schaden nehmen — und dafür zahlt die Garantie nicht.",
+    steps: [
+      "Vor der Einfahrt anhalten. Das Auto muss stehen und darf nicht laden.",
+      "Auf dem Bildschirm tippen: Fahrzeug, dann Service, dann Waschanlagen-Modus.",
+      "Das Auto schließt alle Fenster, verriegelt die Ladeklappe und schaltet Scheibenwischer, Wächter-Modus und Parksensor-Töne ab.",
+      "Bei einer Anlage, die das Auto durchzieht: auf die Bremse treten und „Freies Rollen ein“ tippen. Sonst zieht das Auto beim Aussteigen die Handbremse an.",
+      "Türen zu, Auto verriegelt lassen und den Bildschirm während der Wäsche in Ruhe lassen.",
+      "Nach der Wäsche losfahren. Ab 15 km/h schaltet sich der Modus von selbst ab, oder du tippst „Beenden“.",
+      "Auf den ersten Metern ein paar Mal sanft bremsen. Das trocknet die Bremsen."
+    ],
+    cards: [
+      ["🧼 Nur kontaktlose Waschanlagen", "Tesla schreibt ausdrücklich Anlagen ohne Bürsten vor — also solche, die das Auto nicht berühren. Bürsten und Textillappen können den Lack beschädigen. Frag im Zweifel das Personal nach einer kontaktlosen Wäsche."],
+      ["🚿 Selbst waschen mit Hochdruck", "Mindestens 30 cm Abstand halten, die Düse in Bewegung lassen und nicht auf eine Stelle zielen. Nicht direkt auf Dichtungen, Parksensoren oder Kameras halten. Während des Ladens niemals mit Hochdruck an den Ladeanschluss."],
+      ["☀️ Nicht in der prallen Sonne", "Und kein heißes Wasser, keine scharfen Reiniger. Ein Mikrofasertuch ist besser als ein Waschhandschuh."]
+    ],
+    note: "Wenn du den Waschmodus vergisst, ist das kein Notfall — aber mach es beim nächsten Mal vorher. Findest du den Punkt auf dem Bildschirm nicht: Foto machen und Alex fragen."
+  },
+
   stuck: {
     parent: "start",
     eyebrow: "Ich weiß nicht weiter",
@@ -209,8 +255,9 @@ const PAGES = {
     eyebrow: "Ladesäule funktioniert nicht",
     title: "Der Reihe nach",
     steps: [
-      "Kabel abziehen, kurz warten, wieder fest einstecken.",
+      "Kabel abziehen, kurz warten, wieder fest einstecken. Dabei den Stecker leicht nach oben halten.",
       "Auf das Display der Säule schauen: Steht dort eine Meldung?",
+      "Hat die Säule kein Display? Dann schau auf das Tesla-T am Ladeanschluss: grünes Blinken heißt, es lädt.",
       "In der App prüfen, ob der Ladepunkt frei und in Betrieb ist.",
       "Es mit einem anderen Ladeplatz an derselben Station versuchen.",
       "Klappt es immer noch nicht: Foto machen und Alex fragen."
@@ -269,10 +316,13 @@ const PAGES = {
     intro: "Diese App fasst nur zusammen. Verbindlich ist immer die offizielle Anleitung deines Fahrzeugs und die Anzeige an der Ladesäule.",
     links: [
       ["Tesla Model 3 Bedienungsanleitung", "https://www.tesla.com/ownersmanual/model3/de_de/"],
+      ["Tesla Anleitung: Reinigung und Waschanlage", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-65384C1F-86F2-44E8-A8BC-8A12E7E00A40.html"],
+      ["Tesla Anleitung: Anweisungen zum Laden", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-BEE08D47-0CE0-4BDD-83F2-9854FB3D578F.html"],
       ["Tesla Support: Supercharger", "https://www.tesla.com/de_DE/support/charging/supercharger"],
       ["Tesla Support: Tesla App", "https://www.tesla.com/de_DE/support/tesla-app"],
       ["Tesla Pannenhilfe", "https://www.tesla.com/de_DE/support/roadside-assistance"],
       ["ADAC e-Charge", "https://www.adac.de/rund-ums-fahrzeug/e-angebote/ladekarte/"],
+      ["EWE Go: Häufige Fragen", "https://www.ewe-go.de/faq"],
       ["EWE Go", "https://www.ewe-go.de/"],
       ["Chargemap", "https://chargemap.com/de-de"],
       ["Chargeprice", "https://www.chargeprice.app/"]
