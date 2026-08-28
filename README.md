@@ -44,6 +44,11 @@ zwei Quellen, die beide nicht eingecheckt werden:
 Fehlt beides, blendet die App die Anruf- und WhatsApp-Schaltfläche aus und
 verlinkt stattdessen auf `#setup`.
 
+Die Eingabe darf in jeder üblichen Schreibweise erfolgen. `0171 1234567`,
+`0049 171 1234567` und `+49 (0)171 1234567` ergeben alle dieselbe Nummer
+`+491711234567`; ohne diese Umrechnung würde `wa.me` niemanden finden.
+Nach dem Speichern zeigt das Feld, was tatsächlich hinterlegt wurde.
+
 Weil `config.local.js` fehlen darf, meldet die Konsole beim Laden gegebenenfalls
 einen 404 für diese Datei. Das ist erwartet und ohne Wirkung.
 

@@ -124,6 +124,22 @@ function digitsOnly(value) {
   return String(value || "").replace(/\D/g, "");
 }
 
+/* Deutsche Schreibweisen in eine Nummer bringen, die tel: und wa.me
+   verstehen. Ohne das wird aus dem ueblichen "+49 (0)171 1234567" die
+   unbrauchbare Nummer 490171..., und WhatsApp findet niemanden.
+
+     0171 1234567      -> 491711234567   (fuehrende 0 ist die Vorwahl im Inland)
+     0049 171 1234567  -> 491711234567
+     +49 (0)171 123... -> 491711234567   (die 0 in Klammern faellt weg) */
+function normalizePhone(value) {
+  let digits = digitsOnly(value);
+  if (!digits) return "";
+  if (digits.startsWith("00")) digits = digits.slice(2);
+  else if (digits.startsWith("0")) digits = "49" + digits.slice(1);
+  if (digits.startsWith("490")) digits = "49" + digits.slice(3);
+  return digits;
+}
+
 /* Die Telefonnummer soll nicht im Repository stehen. Sie kommt deshalb
    aus einer der beiden Quellen, die beide nicht eingecheckt werden:
 
@@ -152,14 +168,24 @@ function saveContact(phone) {
   }
 }
 
-/* typeof-Pruefung, damit eine fehlende config.local.js kein Fehler ist. */
+/* typeof-Pruefung, damit eine fehlende config.local.js kein Fehler ist.
+   Leere Felder werden uebersprungen: sonst wuerde die eingecheckte
+   config.js mit ihren leeren Feldern eine echte Nummer ueberschreiben. */
 function contact() {
   const local = typeof CONFIG_LOCAL === "object" && CONFIG_LOCAL ? CONFIG_LOCAL : {};
-  return Object.assign({}, CONFIG, local, storedContact());
+  const merged = Object.assign({}, CONFIG);
+  [local, storedContact()].forEach(source => {
+    Object.keys(source).forEach(key => {
+      if (source[key] !== "" && source[key] != null) merged[key] = source[key];
+    });
+  });
+  /* Eine Nummer reicht: WhatsApp nutzt dieselbe, wenn nichts anderes dasteht. */
+  if (!merged.contactWhatsAppPhone) merged.contactWhatsAppPhone = merged.contactPhone;
+  return merged;
 }
 
 function renderContactForm() {
-  const current = digitsOnly(contact().contactPhone);
+  const current = normalizePhone(contact().contactPhone);
   return `<form class="setup" id="contactForm">
       <label for="contactInput">Handynummer mit Ländervorwahl</label>
       <input id="contactInput" name="phone" type="tel" inputmode="tel" autocomplete="tel"
@@ -182,11 +208,13 @@ function wireContactForm() {
 
   form.addEventListener("submit", event => {
     event.preventDefault();
-    const phone = digitsOnly(input.value);
+    const phone = normalizePhone(input.value);
     if (phone.length < 8) return report(false, "Das sieht nicht nach einer vollständigen Nummer aus.");
     if (!saveContact(phone)) return report(false, "Der Browser erlaubt kein Speichern. Privates Surfen ausschalten und erneut versuchen.");
+    /* Die fertige Nummer zurueckschreiben, damit man sieht, was gespeichert wurde. */
+    input.value = "+" + phone;
     setContactLinks(CONFIG.defaultWhatsAppText);
-    report(true, "Gespeichert. Die Nummer bleibt nur auf diesem Gerät.");
+    report(true, "Gespeichert als +" + phone + ". Die Nummer bleibt nur auf diesem Gerät.");
   });
 
   app.querySelector("#contactClear").addEventListener("click", () => {
@@ -199,16 +227,18 @@ function wireContactForm() {
 
 function setContactLinks(message) {
   const data = contact();
-  const phone = digitsOnly(data.contactPhone);
-  const whatsappPhone = digitsOnly(data.contactWhatsAppPhone);
+  const phone = normalizePhone(data.contactPhone);
+  const whatsappPhone = normalizePhone(data.contactWhatsAppPhone);
 
+  /* Beim Ausblenden wird die Adresse geleert. Sonst bliebe eine geloeschte
+     Nummer im HTML stehen und waere weiter auslesbar. */
   callLink.hidden = !phone;
-  if (phone) callLink.href = `tel:+${phone}`;
+  callLink.href = phone ? `tel:+${phone}` : "#setup";
 
   whatsappLink.hidden = !whatsappPhone;
-  if (whatsappPhone) {
-    whatsappLink.href = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`;
-  }
+  whatsappLink.href = whatsappPhone
+    ? `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`
+    : "#setup";
 
   const hasContact = Boolean(phone || whatsappPhone);
   contactFallback.hidden = hasContact;
