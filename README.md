@@ -82,14 +82,10 @@ Die App sendet nichts an einen eigenen Server und setzt keine Cookies.
 - Die Telefonnummer steht **nicht** im Repository und in keinem Commit. Sie
   stand ursprünglich in den ersten vier Commits. Ein Umschreiben der Historie
   hat nicht gereicht: GitHub lieferte die alten Commits weiterhin über ihre
-  SHA aus. Dieses Repository wurde deshalb **neu angelegt** und die bereinigte
-  Historie hineingeschoben. Nachgeprüft: `git fetch origin <alte-sha>` läuft
-  hier in `not our ref`.
-- **Ein Rest bleibt:** Das alte Repository liegt noch als
-  `tesla-hilfe-alt-nummer-drin` im Konto und enthält die Nummer. Es sollte
-  gelöscht werden. Das geht nur von Hand über die GitHub-Oberfläche
-  (Settings → Danger Zone), weil dafür ein Recht nötig ist, das der
-  Kommandozeile bewusst fehlt.
+  SHA aus. Dieses Repository wurde deshalb neu angelegt, die bereinigte
+  Historie hineingeschoben und das alte Repository gelöscht. Nachgeprüft:
+  `git fetch origin <alte-sha>` läuft für beide alten Commits in
+  `not our ref`.
 - Wird die Nummer über `#setup` eingetragen, liegt sie im `localStorage` des
   Browsers auf dem Gerät. Löschen geht auf derselben Seite.
 - Externe Links führen zu Tesla, ADAC, EWE Go, Chargemap, Chargeprice und Apple.
