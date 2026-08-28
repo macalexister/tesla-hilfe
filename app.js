@@ -1,83 +1,135 @@
-/* Keep private contact data in one place. Replace the empty value locally before use. */
-const CONFIG = {
-  contactPhone: "",
-  contactWhatsAppPhone: "",
-  whatsappText: "Hi Alex, ich brauche gerade Hilfe mit dem Tesla."
-};
-
+/*
+  Darstellung und Navigation. Inhalte stehen in content.js,
+  Kontaktdaten in config.js.
+*/
 const app = document.querySelector("#app");
 const backButton = document.querySelector("#backButton");
 const alexDialog = document.querySelector("#alexDialog");
-const history = [];
+const alexButton = document.querySelector("#alexButton");
+const callLink = document.querySelector("#callLink");
+const whatsappLink = document.querySelector("#whatsappLink");
+const contactFallback = document.querySelector("#contactFallback");
+const quickActions = document.querySelector("#quickActions");
 
-const pages = {
-  start: {
-    eyebrow: "Eine Frage. Eine Handlung.",
-    title: "Was möchtest du gerade machen?",
-    intro: "Hier findest du schnell den nächsten Schritt.",
-    choices: [
-      ["🚗", "Ich fahre los", "Einsteigen und sicher starten.", "drive"],
-      ["⚡", "Ich möchte laden", "Tesla Supercharger oder andere Ladesäule.", "charge"],
-      ["🏖️", "Ich fahre in den Urlaub", "Das Tesla-Navi plant die Strecke.", "holiday"],
-      ["🆘", "Ich weiß nicht weiter", "Eine kurze Antwort für deine Situation.", "stuck"],
-      ["📱", "Welche App brauche ich?", "Die richtige App für deine Aufgabe.", "apps"]
-    ]
-  },
-  drive: {
-    eyebrow: "Ich fahre los",
-    title: "In vier einfachen Schritten",
-    steps: ["Einsteigen.", "Bremse drücken.", "Gang auswählen.", "Losfahren."],
-    note: "Bei einer längeren Strecke: Ziel ins Tesla-Navi eingeben. Der Tesla kann die Route und Ladeplanung übernehmen, soweit deine Fahrzeug- und Softwareversion dies unterstützt."
-  },
-  charge: {
-    eyebrow: "Ich möchte laden",
-    title: "Welche Ladesäule möchtest du nutzen?",
-    choices: [["🔴", "Tesla Supercharger", "Einfach mit dem Tesla-Navi hinfahren.", "supercharger", "red"], ["🔵", "Andere Ladesäule", "Zum Beispiel ADAC e-Charge / Aral pulse oder EWE Go.", "other-charge", "blue"]]
-  },
-  supercharger: { eyebrow: "Tesla Supercharger", title: "So lädst du", steps: ["Ins Auto setzen und den Ladepunkt im Tesla-Navi auswählen.", "Zum vorgeschlagenen Supercharger fahren und parken.", "Ladekabel nehmen und am Auto einstecken.", "Keine Ladekarte nötig: Der Ladevorgang startet normalerweise automatisch.", "Laden lassen, danach entriegeln, Kabel abziehen und weiterfahren."] },
-  "other-charge": { eyebrow: "Andere Ladesäule", title: "Du kannst auch öffentlich laden", intro: "Nicht jede Karte funktioniert an jeder Säule. Prüfe vor dem Start die App oder die Angaben an der Säule.", choices: [["💳", "ADAC e-Charge / Aral pulse", "App und physische Ladekarte.", "adac", "blue"], ["💳", "EWE Go", "App und physische Ladekarte.", "ewe", "green"], ["🗺️", "Ladestation suchen", "Chargemap zeigt dir Ladestationen.", "chargemap"]] },
-  holiday: { eyebrow: "Ich fahre in den Urlaub", title: "Lass den Tesla planen", steps: ["Ziel ins Tesla-Navi eingeben.", "Tesla-Route berechnen lassen.", "Ladestopps prüfen.", "Falls verfügbar: erwarteten Akku bei Ankunft prüfen.", "Zum Ladestopp fahren, laden und weiterfahren."], note: "Nicht selbst ausrechnen, wann du laden musst. Eine Ankunftsreserve von 20 % ist nur eine einfache Orientierung, wenn dein Tesla diese Einstellung anbietet." },
-  apps: { eyebrow: "Welche App brauche ich?", title: "Nimm die App für deine Aufgabe", appCards: [["🚗 Tesla", "Navigation und Ladeplanung"], ["🗺️ Chargemap", "Ladestationen finden"], ["💶 Chargeprice", "Preise vergleichen"], ["💳 ADAC e-Charge / Aral pulse", "Mit deiner ADAC-Ladekarte laden"], ["💳 EWE Go", "Mit deiner EWE-Go-Karte laden"]], note: "Einfach losfahren: Tesla. Ladestation suchen: Chargemap. Preise vergleichen: Chargeprice. Mit deiner Karte laden: ADAC e-Charge / Aral pulse oder EWE Go." },
-  stuck: { eyebrow: "Ich weiß nicht weiter", title: "Was ist gerade los?", choices: [["🔋", "Akku wird knapp", "Ladeplanung nicht selbst ausrechnen.", "low-battery"], ["⚡", "Ladesäule funktioniert nicht", "Prüfe Kabel, App und Hinweise an der Säule.", "failed-charge"], ["🗺️", "Ich weiß nicht, wo ich laden soll", "Suche mit Chargemap oder dem Tesla-Navi.", "find-charge"], ["💶", "Ich möchte günstig laden", "Vergleiche aktuelle Preise mit Chargeprice.", "cheap-charge"], ["❓", "Ich verstehe eine Anzeige nicht", "Mach ein Foto und frag Alex.", "screen-help"]] },
-  "low-battery": { eyebrow: "Akku wird knapp", title: "Jetzt ruhig bleiben", steps: ["Ziel oder einen Tesla Supercharger ins Tesla-Navi eingeben.", "Den vorgeschlagenen Ladestopp prüfen.", "Wenn du unsicher bist: Alex fragen."] },
-  "failed-charge": { eyebrow: "Ladesäule funktioniert nicht", title: "Probier diese Reihenfolge", steps: ["Kabel abziehen und noch einmal einstecken.", "Die passende App oder Ladekarte prüfen.", "Wenn es weiter nicht klappt: eine andere Säule wählen und Alex fragen."] },
-  "find-charge": { eyebrow: "Ladestation suchen", title: "Nimm Chargemap", intro: "Chargemap hilft dir, Ladestationen in der Nähe oder auf deiner Strecke zu finden.", next: ["Chargemap öffnen", "https://chargemap.com"] },
-  "cheap-charge": { eyebrow: "Günstig laden", title: "Nimm Chargeprice", intro: "Chargeprice vergleicht aktuelle Ladepreise. Preise können sich ändern.", next: ["Chargeprice öffnen", "https://chargeprice.app"] },
-  "screen-help": { eyebrow: "Anzeige unklar", title: "Du musst das nicht allein herausfinden", intro: "Mach ein Foto von der Anzeige und frag Alex. Er kann dir sagen, was du als Nächstes tun sollst." },
-  adac: { eyebrow: "ADAC e-Charge / Aral pulse", title: "So lädst du an der Säule", steps: ["Ins Auto setzen und die Ladestation im Tesla-Navi oder in der App auswählen.", "Zur Ladesäule fahren, parken und das Ladekabel einstecken.", "Falls nötig: die ADAC-e-Charge-App oder die physische Ladekarte verwenden. Dieser Schritt ist je nach Säule optional.", "Prüfen, ob der Ladevorgang begonnen hat.", "Nach dem Laden entriegeln, Kabel abziehen und weiterfahren."] },
-  ewe: { eyebrow: "EWE Go", title: "So lädst du an der Säule", steps: ["Ins Auto setzen und die Ladestation im Tesla-Navi oder in der App auswählen.", "Zur Ladesäule fahren, parken und das Ladekabel einstecken.", "Falls nötig: die EWE-Go-App oder die physische Ladekarte verwenden. Dieser Schritt ist je nach Säule optional.", "Prüfen, ob der Ladevorgang begonnen hat.", "Nach dem Laden entriegeln, Kabel abziehen und weiterfahren."] },
-  chargemap: { eyebrow: "Chargemap", title: "Ladestation finden", intro: "Suche dort eine passende Ladestation. Für die eigentliche Fahrt und Ladeplanung kannst du danach das Tesla-Navi nutzen.", next: ["Chargemap öffnen", "https://chargemap.com"] },
-};
+const START = "start";
+
+/* Inhalte sind statisch, aber Escaping kostet nichts und schliesst
+   eine ganze Fehlerklasse aus, falls spaeter Fremdtexte dazukommen. */
+function esc(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function pageId() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  return Object.prototype.hasOwnProperty.call(PAGES, id) ? id : START;
+}
+
+function renderChoices(choices) {
+  const items = choices.map(([icon, title, sub, target, color = ""]) =>
+    `<button class="choice ${esc(color)}" type="button" data-go="${esc(target)}">
+       <span aria-hidden="true">${esc(icon)}</span> ${esc(title)}
+       <small>${esc(sub)}</small>
+     </button>`).join("");
+  return `<div class="grid">${items}</div>`;
+}
+
+function renderSteps(steps) {
+  const items = steps.map((step, i) =>
+    `<li class="step"><span class="number" aria-hidden="true">${i + 1}</span><strong>${esc(step)}</strong></li>`).join("");
+  return `<ol class="steps">${items}</ol>`;
+}
+
+function renderCards(cards) {
+  const items = cards.map(([title, sub, url]) => {
+    const body = `<strong>${esc(title)}</strong><small>${esc(sub)}</small>`;
+    return url
+      ? `<a class="app-card" href="${esc(url)}" rel="noopener">${body}<small class="open-hint">Öffnen ↗</small></a>`
+      : `<div class="app-card">${body}</div>`;
+  }).join("");
+  return `<div class="grid">${items}</div>`;
+}
+
+function renderLinks(links) {
+  const items = links.map(([label, url], i) => {
+    const external = !url.startsWith("tel:");
+    const style = i === 0 ? "primary" : "secondary";
+    return `<a class="action-button ${style}" href="${esc(url)}" rel="noopener">${esc(label)}${external ? " ↗" : ""}</a>`;
+  }).join("");
+  return `<div class="next">${items}</div>`;
+}
 
 function render(id) {
-  const page = pages[id] || pages.start;
-  backButton.style.visibility = id === "start" ? "hidden" : "visible";
-  let html = `<section class="hero"><p class="eyebrow">${page.eyebrow || ""}</p><h1>${page.title}</h1>${page.intro ? `<p>${page.intro}</p>` : ""}</section>`;
-  if (page.choices) html += `<div class="grid">${page.choices.map(([icon, title, sub, target, color = ""]) => `<button class="choice ${color}" data-go="${target}"><span>${icon}</span> ${title}<small>${sub}</small></button>`).join("")}</div>`;
-  if (page.steps) html += `<div class="steps">${page.steps.map((step, i) => `<div class="step"><span class="number">${i + 1}</span><strong>${step}</strong></div>`).join("")}</div>`;
-  if (page.appCards) html += `<div class="grid">${page.appCards.map(([title, sub]) => `<div class="app-card"><strong>${title}</strong><small>${sub}</small></div>`).join("")}</div>`;
-  if (page.note) html += `<div class="notice">${page.note}</div>`;
-  if (page.next) html += `<div class="next"><a class="action-button primary" href="${page.next[1]}" target="_blank" rel="noopener">${page.next[0]} ↗</a></div>`;
+  const page = PAGES[id] || PAGES[START];
+  backButton.classList.toggle("is-invisible", id === START);
+
+  let html = `<section class="hero">
+      ${page.eyebrow ? `<p class="eyebrow">${esc(page.eyebrow)}</p>` : ""}
+      <h1>${esc(page.title)}</h1>
+      ${page.intro ? `<p>${esc(page.intro)}</p>` : ""}
+    </section>`;
+
+  if (page.choices) html += renderChoices(page.choices);
+  if (page.steps) html += renderSteps(page.steps);
+  if (page.cards) html += renderCards(page.cards);
+  if (page.links) html += renderLinks(page.links);
+  if (page.note) html += `<p class="notice">${esc(page.note)}</p>`;
+
   app.innerHTML = html;
+  app.querySelectorAll("[data-go]").forEach(button =>
+    button.addEventListener("click", () => navigate(button.dataset.go)));
+
+  document.title = id === START ? "Deine Tesla-Hilfe" : `${page.title} – Deine Tesla-Hilfe`;
+  window.scrollTo(0, 0);
   app.focus();
-  app.querySelectorAll("[data-go]").forEach(button => button.addEventListener("click", () => navigate(button.dataset.go)));
 }
 
-function navigate(id) { history.push(location.hash.slice(1) || "start"); location.hash = id; render(id); }
-function goBack() { const previous = history.pop() || "start"; location.hash = previous; render(previous); }
+function navigate(id) {
+  if (id === pageId()) return render(id);
+  location.hash = id;
+}
 
-document.querySelector("#alexButton").addEventListener("click", () => alexDialog.showModal());
+/* Zurueck folgt der Seitenstruktur, nicht dem Klickverlauf.
+   Damit landet man nie auf einer alten oder unerwarteten Seite. */
+function goBack() {
+  navigate(PAGES[pageId()]?.parent || START);
+}
+
+function digitsOnly(value) {
+  return String(value || "").replace(/\D/g, "");
+}
+
+function setContactLinks(message) {
+  const phone = digitsOnly(CONFIG.contactPhone);
+  const whatsappPhone = digitsOnly(CONFIG.contactWhatsAppPhone);
+
+  callLink.hidden = !phone;
+  if (phone) callLink.href = `tel:+${phone}`;
+
+  whatsappLink.hidden = !whatsappPhone;
+  if (whatsappPhone) {
+    whatsappLink.href = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`;
+  }
+
+  const hasContact = Boolean(phone || whatsappPhone);
+  contactFallback.hidden = hasContact;
+  quickActions.hidden = !whatsappPhone;
+}
+
+alexButton.addEventListener("click", () => {
+  setContactLinks(CONFIG.defaultWhatsAppText);
+  alexDialog.showModal();
+});
+
 backButton.addEventListener("click", goBack);
-document.querySelectorAll(".quick-actions button").forEach(button => button.addEventListener("click", () => {
-  CONFIG.whatsappText = button.dataset.message;
-  updateContactLinks();
-}));
-function updateContactLinks() {
-  const phone = CONFIG.contactPhone.replace(/\D/g, "");
-  const whatsappPhone = CONFIG.contactWhatsAppPhone.replace(/\D/g, "");
-  document.querySelector("#callLink").href = phone ? `tel:+${phone}` : "#";
-  document.querySelector("#whatsappLink").href = whatsappPhone ? `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(CONFIG.whatsappText)}` : "#";
-}
-window.addEventListener("hashchange", () => render(location.hash.slice(1) || "start"));
-updateContactLinks();
-render(location.hash.slice(1) || "start");
+
+quickActions.querySelectorAll("button").forEach(button =>
+  button.addEventListener("click", () => setContactLinks(button.dataset.message)));
+
+window.addEventListener("hashchange", () => render(pageId()));
+
+setContactLinks(CONFIG.defaultWhatsAppText);
+render(pageId());
