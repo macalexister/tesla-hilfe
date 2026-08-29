@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 210" role="img"
+     aria-labelledby="titel text">
+  <title id="titel">Wo der Ladeanschluss sitzt</title>
+  <desc id="text">Blick auf die Fahrerseite des Autos. Der Ladeanschluss sitzt
+    hinten links im Rücklicht. Die Klappe öffnet sich, wenn das Auto
+    aufgeschlossen ist.</desc>
+
+  <style>
+    .karo   { fill: #17202a; }
+    .glas   { fill: #c7d4de; }
+    .reifen { fill: #2b3540; }
+    .felge  { fill: #61707e; }
+    .titel  { fill: #17202a; font-weight: 800; }
+    .text   { fill: #53606d; }
+    .zeiger { stroke: #c83b3b; stroke-width: 2.5; fill: none; stroke-linecap: round; }
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  </style>
+
+  <!-- Fahrerseite, Front zeigt nach links.
+       Nur so liegt die linke Fahrzeugseite zum Betrachter. -->
+  <g>
+    <path class="karo" d="M22 132
+             C22 116 30 108 52 103
+             L92 74 C118 58 208 56 238 76
+             L288 104 C306 109 316 117 316 132
+             L316 143 C316 149 312 152 306 152
+             L32 152 C26 152 22 149 22 143 Z"/>
+    <!-- Fensterband -->
+    <path class="glas" d="M100 80 L124 66 C146 58 200 58 224 72 L254 90 Z"/>
+    <!-- Tuertrennung -->
+    <path d="M168 62 L168 148" stroke="#2b3540" stroke-width="1.6"/>
+
+    <!-- Raeder -->
+    <circle class="reifen" cx="88" cy="152" r="19"/>
+    <circle class="reifen" cx="256" cy="152" r="19"/>
+    <circle class="felge"  cx="88"  cy="152" r="8"/>
+    <circle class="felge"  cx="256" cy="152" r="8"/>
+
+    <!-- Scheinwerfer vorne links -->
+    <path d="M24 116 h14" stroke="#e8eef3" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Ruecklicht hinten. Der aeussere Teil ist die Ladeklappe. -->
+    <rect x="286" y="112" width="26" height="9" rx="3" fill="#c83b3b"/>
+    <rect x="290" y="122" width="20" height="15" rx="3" fill="#0f1720"
+          stroke="#7fb3d5" stroke-width="2"/>
+    <circle cx="300" cy="129" r="4.5" fill="#2f6d51"/>
+  </g>
+
+  <!-- Markierung -->
+  <circle cx="300" cy="126" r="20" class="zeiger"/>
+  <path class="zeiger" d="M300 146 v22"/>
+
+  <text class="titel" x="316" y="186" font-size="15" text-anchor="end">Hinten links</text>
+  <text class="text"  x="316" y="204" font-size="13" text-anchor="end">im Rücklicht</text>
+</svg>

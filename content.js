@@ -13,6 +13,7 @@
     note     - Hinweisbox am Ende
     links    - Schaltflaechen zu externen Seiten
     appLinks - grosse Schaltflaechen, die auf dem iPhone direkt die App oeffnen
+    figure   - Zeichnung [Datei, alt-Text, Hinweis unter dem Bild]
     form     - Sonderfall: "contact" zeigt das Formular fuer die Nummer
 */
 
@@ -93,6 +94,7 @@ const PAGES = {
       "Warten. Der Bildschirm im Auto zeigt, dass geladen wird. Eine Ladekarte brauchst du hier normalerweise nicht.",
       "Zum Beenden: Taste am Kabelgriff drücken, Kabel abziehen, zurückhängen, weiterfahren."
     ],
+    figure: ["bilder/ladeanschluss.svg", "Blick auf die Fahrerseite: Der Ladeanschluss sitzt hinten links im Rücklicht.", "Zeichnung der Fahrerseite. Die Klappe geht auf, wenn das Auto aufgeschlossen ist."],
     note: "Wenn nach etwa einer Minute nichts passiert: Kabel einmal abziehen und neu einstecken. Hilft das nicht, nimm den Nachbarplatz."
   },
 
@@ -139,6 +141,7 @@ const PAGES = {
       "Zum Beenden: dieselbe Karte noch einmal an das Kartenfeld halten.",
       "Danach die Taste am Kabelgriff drücken und das Kabel abziehen."
     ],
+    figure: ["bilder/ladeleuchte.svg", "Die Leuchte am Ladeanschluss: blinkt sie grün, wird geladen. Leuchtet sie durchgehend grün, ist der Ladevorgang fertig. Leuchtet sie rot, gibt es eine Störung.", "Zeichnung. Die Leuchte sitzt am Auto, hinten links am Ladeanschluss."],
     cards: [
       ["🟢 Woran du siehst, dass es lädt", "Am Auto, nicht an der Säule. Das Tesla-T am Ladeanschluss blinkt beim Laden grün, langsamer werdend, je voller der Akku ist. Ist der Ladevorgang fertig, leuchtet es durchgehend grün. Leuchtet es rot, gibt es eine Störung — dann steht auf dem Bildschirm im Auto, was los ist."],
       ["🔌 Kabel dabei?", "An vielen dieser Säulen hängt kein Kabel. Dann brauchst du ein eigenes Ladekabel vom Typ 2. Schau vorher nach, ob eines im Auto liegt — wenn du unsicher bist, frag Alex. An Schnellladesäulen hängt das Kabel dagegen immer fest dran."],
@@ -216,6 +219,7 @@ const PAGES = {
       "Nach der Wäsche losfahren. Ab 15 km/h schaltet sich der Modus von selbst ab, oder du tippst „Beenden“.",
       "Auf den ersten Metern ein paar Mal sanft bremsen. Das trocknet die Bremsen."
     ],
+    figure: ["bilder/waschmodus.svg", "Der Weg auf dem Bildschirm: erst unten links auf das Auto-Symbol tippen, dann in der Liste auf Service, dann den Schalter neben Waschanlagen-Modus einschalten.", "Zeichnung. Auf deinem Bildschirm kann es etwas anders aussehen."],
     cards: [
       ["🧼 Nur kontaktlose Waschanlagen", "Tesla schreibt ausdrücklich Anlagen ohne Bürsten vor — also solche, die das Auto nicht berühren. Bürsten und Textillappen können den Lack beschädigen. Frag im Zweifel das Personal nach einer kontaktlosen Wäsche."],
       ["🚿 Selbst waschen mit Hochdruck", "Mindestens 30 cm Abstand halten, die Düse in Bewegung lassen und nicht auf eine Stelle zielen. Nicht direkt auf Dichtungen, Parksensoren oder Kameras halten. Während des Ladens niemals mit Hochdruck an den Ladeanschluss."],

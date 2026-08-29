@@ -38,10 +38,38 @@ Dann `http://localhost:8080` öffnen.
 | `content.js`              | Alle Texte und Abläufe                         |
 | `app.js`                  | Darstellung und Navigation                     |
 | `styles.css`              | Layout                                         |
+| `bilder/`                 | Zeichnungen, selbst erstellt                   |
 | `karte/`                  | QR-Code und druckbare Karte fürs Handschuhfach |
 
 Texte ändert man in `content.js`, ohne den Code anzufassen. Die Zurück-Schaltfläche
 folgt dem `parent`-Feld einer Seite, nicht dem Klickverlauf.
+
+## Zeichnungen
+
+Drei Seiten zeigen eine Skizze: der Weg zum Waschanlagen-Modus, die Leuchte am
+Ladeanschluss und die Lage des Ladeanschlusses am Auto. Sie stehen bewusst
+**vor** den Schritten — sie beantworten „wo muss ich hintippen“ schneller als
+Text, und hinter sieben Schritten würden sie erst nach anderthalb
+Bildschirmlängen auftauchen.
+
+Es sind **Zeichnungen, keine Screenshots**, und zwar aus zwei Gründen:
+
+1. Die Abbildungen im Tesla-Handbuch sind urheberrechtlich geschützt
+   („© Tesla“) und dürfen nicht in dieses Repository.
+2. Tesla weist selbst darauf hin, dass die Anzeige je nach Softwarestand,
+   Ausstattung und Region abweicht. Eine Skizze zeigt den Weg und veraltet
+   nicht mit jedem Update. Unter jedem Bild steht deshalb ein Hinweis, dass
+   es auf dem eigenen Bildschirm anders aussehen kann.
+
+Die Dateien sind reines SVG, zusammen 12 KB. Jede trägt `<title>` und `<desc>`,
+im `alt`-Text steht der Inhalt noch einmal ausformuliert.
+
+Neues Bild einbauen: Datei nach `bilder/` legen und auf der Seite in
+`content.js` ergänzen:
+
+```js
+figure: ["bilder/datei.svg", "Was zu sehen ist.", "Hinweis unter dem Bild."]
+```
 
 ## Telefonnummer
 

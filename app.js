@@ -78,6 +78,18 @@ function renderAppLinks(appLinks) {
   return `<div class="open-apps">${items}</div>`;
 }
 
+/* Zeichnungen, keine Fotos. Tesla weist selbst darauf hin, dass der
+   Bildschirm je nach Softwarestand anders aussieht; eine Skizze zeigt den
+   Weg und veraltet nicht mit jedem Update. Ausserdem sind die Abbildungen
+   im Tesla-Handbuch urheberrechtlich geschuetzt und duerfen hier nicht
+   liegen. Die Beschreibung im alt-Text traegt den Inhalt fuer Screenreader. */
+function renderFigure([datei, beschreibung, hinweis = "Zeichnung, kein Foto."]) {
+  return `<figure class="bild">
+      <img src="${esc(datei)}" alt="${esc(beschreibung)}" decoding="async">
+      <figcaption>${esc(hinweis)}</figcaption>
+    </figure>`;
+}
+
 function render(id) {
   const page = PAGES[id] || PAGES[START];
   backButton.classList.toggle("is-invisible", id === START);
@@ -89,6 +101,10 @@ function render(id) {
     </section>`;
 
   if (page.choices) html += renderChoices(page.choices);
+  /* Die Zeichnung steht vor den Schritten. Sie beantwortet die Frage
+     "wo muss ich hintippen" schneller als jeder Text, und hinter sieben
+     Schritten wuerde sie erst nach anderthalb Bildschirmlaengen auftauchen. */
+  if (page.figure) html += renderFigure(page.figure);
   if (page.steps) html += renderSteps(page.steps);
   if (page.appLinks) html += renderAppLinks(page.appLinks);
   if (page.cards) html += renderCards(page.cards);
@@ -103,7 +119,10 @@ function render(id) {
 
   document.title = id === START ? "Deine Tesla-Hilfe" : `${page.title} – Deine Tesla-Hilfe`;
   window.scrollTo(0, 0);
-  app.focus();
+  /* preventScroll ist zwingend: focus() scrollt sonst zum Element und macht
+     das scrollTo darueber zunichte. Die Ueberschrift lag dadurch auf jeder
+     Seite unter der Kopfleiste. */
+  app.focus({ preventScroll: true });
 }
 
 function navigate(id) {

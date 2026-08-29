@@ -51,7 +51,11 @@ a.app-card:hover, a.app-card:focus-visible { border-color: var(--blue); outline:
 /* Schaltflaeche, die auf dem iPhone direkt die App oeffnet. Bewusst dunkel
    und gross: Das ist auf diesen Seiten die eigentliche Handlung. */
 .open-apps { display: grid; gap: 12px; margin: 24px 0; }
-.open-app { display: flex; align-items: center; gap: 16px; min-height: 76px; padding: 16px 20px; border-radius: 18px; background: var(--ink); color: #fff; text-decoration: none; box-shadow: 0 2px 0 rgba(23,32,42,.12); }
+/* Die Zeichnung bekommt eine eigene Flaeche, damit klar ist: das ist ein
+   Bild vom Auto, nicht ein Teil dieser App. */
+.bild { margin: 22px 0; }
+.bild img { display: block; width: 100%; max-width: 420px; height: auto; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 10px; }
+.bild figcaption { margin-top: 8px; max-width: 420px; color: var(--muted); font-size: .92rem; }.open-app { display: flex; align-items: center; gap: 16px; min-height: 76px; padding: 16px 20px; border-radius: 18px; background: var(--ink); color: #fff; text-decoration: none; box-shadow: 0 2px 0 rgba(23,32,42,.12); }
 .open-app-icon { flex: 0 0 auto; font-size: 30px; line-height: 1; }
 .open-app-text strong { display: block; font-size: 1.2rem; font-weight: 800; }
 .open-app-text small { display: block; margin-top: 3px; color: #c3d2dc; font-size: .9rem; font-weight: 600; }

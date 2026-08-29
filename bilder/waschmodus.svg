@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 430" role="img"
+     aria-labelledby="titel text">
+  <title id="titel">Weg zum Waschanlagen-Modus</title>
+  <desc id="text">Auf dem Bildschirm im Auto zuerst unten links auf das Auto-Symbol
+    tippen, dann in der Liste auf Service, dann den Schalter neben
+    Waschanlagen-Modus einschalten.</desc>
+
+  <style>
+    .rahmen { fill: #1b2530; }
+    .feld   { fill: #26323f; }
+    .aktiv  { fill: #2c4a63; stroke: #7fb3d5; stroke-width: 2; }
+    .weiss  { fill: #ffffff; font-weight: 700; }
+    .grau   { fill: #9fb0bd; }
+    .nummer { fill: #1c5d87; }
+    .nrtext { fill: #ffffff; font-weight: 800; }
+    .hinweis{ fill: #53606d; }
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  </style>
+
+  <!-- Schritt 1: Auto-Symbol unten links auf dem Bildschirm -->
+  <g>
+    <circle class="nummer" cx="16" cy="34" r="15"/>
+    <text class="nrtext" x="16" y="40" font-size="17" text-anchor="middle">1</text>
+
+    <rect class="rahmen" x="42" y="10" width="286" height="96" rx="10"/>
+    <!-- angedeutete Karte im Hintergrund -->
+    <path d="M52 78 L110 52 L170 74 L232 46 L318 70" stroke="#3b4c5c"
+          stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- untere Leiste -->
+    <rect class="feld" x="42" y="76" width="286" height="30" rx="0"/>
+    <rect class="aktiv" x="50" y="82" width="46" height="18" rx="6"/>
+    <!-- Auto von vorn, wie es Tesla unten links zeigt -->
+    <path d="M58 95 h16 M59 92 q0-5 3-5 h8 q3 0 3 5 M61 87 l1.5-3 h7 l1.5 3"
+          stroke="#ffffff" stroke-width="1.6" fill="none"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="61" cy="95" r="1.4" fill="#ffffff"/>
+    <circle cx="71" cy="95" r="1.4" fill="#ffffff"/>
+    <text class="grau" x="106" y="96" font-size="12">Fahrzeug</text>
+  </g>
+  <text class="hinweis" x="42" y="124" font-size="13">
+    Unten links auf das Auto-Symbol tippen.
+  </text>
+
+  <!-- Pfeil -->
+  <path d="M170 134 v22" stroke="#9fb0bd" stroke-width="3" stroke-linecap="round"/>
+  <path d="M164 150 l6 8 l6 -8" stroke="#9fb0bd" stroke-width="3" fill="none"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Schritt 2: Service in der Liste -->
+  <g>
+    <circle class="nummer" cx="16" cy="196" r="15"/>
+    <text class="nrtext" x="16" y="202" font-size="17" text-anchor="middle">2</text>
+
+    <rect class="rahmen" x="42" y="170" width="286" height="104" rx="10"/>
+    <rect class="feld" x="52" y="180" width="266" height="26" rx="6"/>
+    <text class="grau" x="64" y="197" font-size="13">Laden</text>
+    <rect class="feld" x="52" y="212" width="266" height="26" rx="6"/>
+    <text class="grau" x="64" y="229" font-size="13">Anzeige</text>
+    <rect class="aktiv" x="52" y="244" width="266" height="26" rx="6"/>
+    <text class="weiss" x="64" y="261" font-size="13">Service</text>
+    <text class="grau" x="306" y="261" font-size="13" text-anchor="end">›</text>
+  </g>
+  <text class="hinweis" x="42" y="292" font-size="13">
+    In der Liste auf „Service“ tippen.
+  </text>
+
+  <!-- Pfeil -->
+  <path d="M170 302 v22" stroke="#9fb0bd" stroke-width="3" stroke-linecap="round"/>
+  <path d="M164 318 l6 8 l6 -8" stroke="#9fb0bd" stroke-width="3" fill="none"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Schritt 3: Schalter einschalten -->
+  <g>
+    <circle class="nummer" cx="16" cy="368" r="15"/>
+    <text class="nrtext" x="16" y="374" font-size="17" text-anchor="middle">3</text>
+
+    <rect class="rahmen" x="42" y="338" width="286" height="60" rx="10"/>
+    <rect class="aktiv" x="52" y="352" width="266" height="32" rx="6"/>
+    <text class="weiss" x="64" y="372" font-size="13">Waschanlagen-Modus</text>
+    <!-- eingeschalteter Schalter -->
+    <rect x="266" y="359" width="40" height="20" rx="10" fill="#2f6d51"/>
+    <circle cx="296" cy="369" r="8" fill="#ffffff"/>
+  </g>
+  <text class="hinweis" x="42" y="416" font-size="13">
+    Einschalten. Das Auto macht den Rest.
+  </text>
+</svg>

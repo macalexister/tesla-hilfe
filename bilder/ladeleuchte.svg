@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 250" role="img"
+     aria-labelledby="titel text">
+  <title id="titel">Die Leuchte am Ladeanschluss</title>
+  <desc id="text">Das Tesla-T am Ladeanschluss blinkt grün, solange geladen wird.
+    Leuchtet es durchgehend grün, ist der Ladevorgang fertig. Leuchtet es rot,
+    gibt es eine Störung; dann steht die Meldung auf dem Bildschirm im Auto.</desc>
+
+  <style>
+    .karte  { fill: #ffffff; stroke: #d9dedb; stroke-width: 1.5; }
+    .titel  { fill: #17202a; font-weight: 800; }
+    .text   { fill: #53606d; }
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  </style>
+
+  <!-- 1: blinkt gruen -->
+  <g>
+    <rect class="karte" x="1" y="1" width="338" height="76" rx="10"/>
+    <circle cx="46" cy="39" r="24" fill="#0f1720"/>
+    <circle cx="46" cy="39" r="17" fill="#2f6d51"/>
+    <!-- angedeutetes Tesla-T -->
+    <path d="M38 33 h16 M46 33 v13" stroke="#eafaf1" stroke-width="2.6"
+          stroke-linecap="round"/>
+    <!-- Blink-Wellen -->
+    <path d="M74 30 q6 9 0 18" stroke="#2f6d51" stroke-width="2.5" fill="none"
+          stroke-linecap="round"/>
+    <path d="M82 25 q10 14 0 28" stroke="#2f6d51" stroke-width="2.5" fill="none"
+          stroke-linecap="round" opacity=".55"/>
+    <text class="titel" x="102" y="35" font-size="15">Blinkt grün</text>
+    <text class="text"  x="102" y="55" font-size="13">Es lädt. Alles gut.</text>
+  </g>
+
+  <!-- 2: durchgehend gruen -->
+  <g>
+    <rect class="karte" x="1" y="87" width="338" height="76" rx="10"/>
+    <circle cx="46" cy="125" r="24" fill="#0f1720"/>
+    <circle cx="46" cy="125" r="17" fill="#2f6d51"/>
+    <path d="M38 119 h16 M46 119 v13" stroke="#eafaf1" stroke-width="2.6"
+          stroke-linecap="round"/>
+    <text class="titel" x="102" y="121" font-size="15">Leuchtet grün</text>
+    <text class="text"  x="102" y="141" font-size="13">Fertig geladen.</text>
+  </g>
+
+  <!-- 3: rot -->
+  <g>
+    <rect class="karte" x="1" y="173" width="338" height="76" rx="10"/>
+    <circle cx="46" cy="211" r="24" fill="#0f1720"/>
+    <circle cx="46" cy="211" r="17" fill="#c83b3b"/>
+    <path d="M38 205 h16 M46 205 v13" stroke="#fdeaea" stroke-width="2.6"
+          stroke-linecap="round"/>
+    <text class="titel" x="102" y="203" font-size="15">Leuchtet rot</text>
+    <text class="text"  x="102" y="222" font-size="13">Störung. Was los ist,</text>
+    <text class="text"  x="102" y="238" font-size="13">steht im Auto auf dem Bildschirm.</text>
+  </g>
+</svg>
