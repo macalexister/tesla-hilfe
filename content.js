@@ -154,9 +154,9 @@ const PAGES = {
       ["⛽ Warum an Aral die ADAC-Karte?", "Der ADAC-Tarif läuft über Aral pulse. An deren eigenen Säulen kostet er 55 Cent statt 62 Cent mit EWE Go. Aral-Säulen stehen meist an Tankstellen — du erkennst sie am blau-weißen Aral-Zeichen."],
       ["🔌 Warum sonst EWE Go?", "Überall außerhalb von Aral kostet die ADAC-Karte 75 Cent, die EWE-Go-Karte dagegen 52 bis 62 Cent. Bei einer vollen Ladung sind das schnell 6 bis 11 Euro Unterschied."],
       ["🤷 Unsicher, wo du stehst?", "Dann nimm die EWE-Go-Karte. Sie ist öfter die günstigere. Falsch machen kannst du nichts — es wird nur ein paar Euro teurer."],
-      ["⏱️ Nicht ewig stehen lassen", "Bei EWE Go an fremden Säulen kommt nach vier Stunden eine Gebühr dazu. Wenn du länger parkst, steck ab, sobald das Auto voll ist."]
+      ["⏱️ Nicht ewig stehen lassen", "Wenn das Auto voll ist, steck ab. Bei EWE Go kommt an fremden Säulen nach vier Stunden eine Gebühr dazu, bei der ADAC-Karte schon nach 45 Minuten an Schnellladern. An Aral-Säulen gibt es diese Gebühr nicht."]
     ],
-    note: "Die Preise ändern sich hin und wieder. Wenn du es genau wissen willst, zeigt Chargeprice den Preis für die Säule, vor der du gerade stehst.",
+    note: "Preise zuletzt geprüft am 31. August 2026. Sie ändern sich hin und wieder — wenn du es genau wissen willst, zeigt Chargeprice den Preis für die Säule, vor der du gerade stehst.",
     appLinks: [OPEN_APP.chargeprice]
   },
 

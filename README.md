@@ -153,6 +153,52 @@ Der Code liegt zusätzlich als `karte/qr-tesla-hilfe.svg` und `.png` bereit
 python3 -c "import segno; segno.make('https://macalexister.github.io/tesla-hilfe/', error='h').save('karte/qr-tesla-hilfe.svg', scale=10, border=4, dark='#17212a', light='#ffffff')"
 ```
 
+## Ladepreise pflegen
+
+Die Seite „Die einfache Regel" (`welche-karte` in `content.js`) nennt konkrete
+Preise. Das ist Absicht: Eine Regel, die man sich merken kann, hilft mehr als
+eine Preisabfrage, die im Funkloch nicht lädt.
+
+**Stand 31.08.2026:**
+
+| | Aral pulse | alle anderen Säulen |
+| --- | --- | --- |
+| ADAC e-Charge | 0,55 €/kWh | 0,75 €/kWh |
+| EWE Go | 0,62 €/kWh (Partner) | 0,52 €/kWh (eigene), 0,62 € (Partner) |
+
+Blockiergebühr: ADAC 0,15 €/min ab 120 min AC bzw. **45 min DC** an
+Fremdsäulen, keine bei Aral. EWE Go 0,10 €/min ab 240 min an Partnersäulen,
+höchstens 24 €, keine an eigenen.
+
+Daraus folgt die Regel: **an Aral die ADAC-Karte, überall sonst EWE Go.**
+
+Quellen: [ADAC e-Charge](https://www.adac.de/rund-ums-fahrzeug/e-angebote/ladekarte/) ·
+[EWE Go Ladetarif](https://www.ewe-go.de/ladetarif)
+
+Alle paar Monate prüfen. Zu ändern sind dann: die Preise in `welche-karte`,
+das Datum im `note`-Feld derselben Seite und die Zahlen in
+`bilder/karten-regel.svg`.
+
+### Warum keine Preis-API
+
+Geprüft wurden Chargeprice, Open Charge Map, Ladefuchs, GoingElectric,
+Chargemap und das Ladesäulenregister der Bundesnetzagentur. Ergebnis: Für
+einen stationsgenauen Vergleich genau dieser beiden Tarife gibt es keine
+Schnittstelle, die sich aus einer reinen Browser-App nutzen lässt.
+
+- **Chargeprice** könnte es fachlich, verlangt aber einen geheim zu haltenden
+  Schlüssel. In einer statischen Seite auf GitHub Pages steht der im Quelltext
+  und ist für jeden lesbar — das verstößt gegen die Nutzungsbedingungen.
+  Zusätzlich untersagen diese das Zwischenspeichern der Preise.
+- **Open Charge Map** und das **Ladesäulenregister** kennen Standorte und
+  Betreiber, aber keine Tarifpreise. Preise stehen dort nur als Freitext.
+- **Ladefuchs** hat die Daten, stellt sie aber nicht offen bereit.
+- Weder ADAC noch EWE Go veröffentlichen ihre Preise maschinenlesbar.
+
+Eine Live-Abfrage bräuchte also einen eigenen kleinen Server als Vermittler.
+Für eine App, die ohne Backend auskommen soll, ist das der falsche Preis —
+zumal die Regel selbst seit November 2024 unverändert gilt.
+
 ## Inhaltliche Grenzen
 
 Die App fasst zusammen und ersetzt keine offizielle Anleitung.
