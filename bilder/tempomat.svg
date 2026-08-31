@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 294" role="img"
+     aria-labelledby="titel text">
+  <title id="titel">Das Rädchen am Lenkrad</title>
+  <desc id="text">Rechts am Lenkrad, dort wo der Daumen liegt, sitzt ein
+    Rädchen. Hineindrücken schaltet den Tempomat ein und aus. Nach oben oder
+    unten rollen macht schneller oder langsamer. Seitlich drücken ändert den
+    Abstand zum Vordermann.</desc>
+
+  <style>
+    .lenkrad { fill: none; stroke: #1b2530; stroke-width: 13; }
+    .speiche { stroke: #1b2530; stroke-width: 11; stroke-linecap: round; }
+    .nabe    { fill: #1b2530; }
+    .rad     { fill: #46535f; stroke: #7fb8dd; stroke-width: 2.5; }
+    .rille   { stroke: #99a8b5; stroke-width: 1.6; stroke-linecap: round; }
+    .pfeil   { stroke: #1c5d87; stroke-width: 2.6; fill: none;
+               stroke-linecap: round; stroke-linejoin: round; }
+    .titel   { fill: #17202a; font-weight: 800; }
+    .text    { fill: #53606d; }
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  </style>
+
+  <!-- Lenkrad, angedeutet -->
+  <path class="lenkrad" d="M40 130 a58 52 0 1 1 116 0 a58 52 0 1 1 -116 0"/>
+  <path class="speiche" d="M48 122 h40 M112 122 h42 M98 174 v12"/>
+  <ellipse class="nabe" cx="98" cy="122" rx="22" ry="13"/>
+
+  <!-- das rechte Raedchen, vergroessert danebengestellt -->
+  <g>
+    <rect class="rad" x="140" y="100" width="40" height="44" rx="12"/>
+    <path class="rille" d="M147 112 h26 M147 122 h26 M147 132 h26"/>
+  </g>
+
+  <!-- hineindruecken -->
+  <path class="pfeil" d="M214 122 h-24"/>
+  <path class="pfeil" d="M198 116 l-8 6 l8 6"/>
+  <text class="titel" x="220" y="118" font-size="12.5">Drücken</text>
+  <text class="text"  x="220" y="134" font-size="11.5">ein und aus</text>
+
+  <!-- rollen -->
+  <path class="pfeil" d="M160 92 v-22"/>
+  <path class="pfeil" d="M154 76 l6 -8 l6 8"/>
+  <path class="pfeil" d="M160 152 v16"/>
+  <path class="pfeil" d="M154 162 l6 8 l6 -8"/>
+  <text class="titel" x="180" y="66" font-size="12.5">Rollen</text>
+  <text class="text"  x="180" y="82" font-size="11.5">schneller oder</text>
+  <text class="text"  x="180" y="96" font-size="11.5">langsamer</text>
+
+  <!-- seitlich -->
+  <path class="pfeil" d="M126 196 h68"/>
+  <path class="pfeil" d="M134 190 l-8 6 l8 6 M186 190 l8 6 l-8 6"/>
+  <text class="titel" x="126" y="222" font-size="12.5">Zur Seite drücken</text>
+  <text class="text"  x="126" y="237" font-size="11.5">mehr oder weniger Abstand</text>
+
+  <text class="titel" x="8" y="266" font-size="13.5">Alles über das rechte Rädchen.</text>
+  <text class="text"  x="8" y="286" font-size="12.5">Zum Ausschalten reicht auch die Bremse.</text>
+</svg>

@@ -153,6 +153,26 @@ Der Code liegt zusätzlich als `karte/qr-tesla-hilfe.svg` und `.png` bereit
 python3 -c "import segno; segno.make('https://macalexister.github.io/tesla-hilfe/', error='h').save('karte/qr-tesla-hilfe.svg', scale=10, border=4, dark='#17212a', light='#ffffff')"
 ```
 
+## Fahrassistenz
+
+Die Seite `tempomat` erklärt **nur den Abstandstempomat**. Der Lenkassistent
+ist beim Model 3 ebenfalls serienmäßig, wird aber bewusst nicht erklärt: Er
+verlangt dauerhaft Hände am Lenkrad, überwacht die Aufmerksamkeit und sperrt
+sich bei Nichtreaktion unter Warnblinken und Zwangsbremsung. Für eine
+unsichere Erstfahrerin ist das keine Hilfe, sondern eine zusätzliche
+Stressquelle.
+
+Erwähnt wird er nur in einer Karte — damit sie ihn nicht versehentlich
+einschaltet und weiß, wie sie ihn loswird (Bremse). Wichtig: Steht die
+Einstellung auf „Einzelklick", aktiviert **ein** Druck aufs Rädchen beide
+Funktionen. Auf „Doppelklick" schaltet ein Druck nur den Tempomat.
+
+Kein Zusatzpaket nötig. Das kostenpflichtige Paket (rund 99 €/Monat) enthält
+Spurwechsel, Navigieren mit Lenkassistent, Autoparken und Herbeirufen — davon
+steht nichts in dieser App.
+
+Quelle: [Handbuch Abstandsgeschwindigkeitsregler](https://www.tesla.com/ownersmanual/model3/de_de/GUID-DA920829-F1FA-44F9-8754-6D914C524A79.html)
+
 ## Ladepreise pflegen
 
 Die Seite „Die einfache Regel" (`welche-karte` in `content.js`) nennt konkrete

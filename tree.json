@@ -1,0 +1,225 @@
+{
+  "start": {
+    "title": "Was möchtest du gerade machen?",
+    "choices": [
+      {
+        "title": "Ich fahre los",
+        "subtitle": "Einsteigen und sicher starten.",
+        "target": "drive"
+      },
+      {
+        "title": "Ich möchte laden",
+        "subtitle": "Supercharger oder andere Ladesäule.",
+        "target": "charge"
+      },
+      {
+        "title": "Ich fahre in den Urlaub",
+        "subtitle": "Das Tesla-Navi plant die Strecke.",
+        "target": "holiday"
+      },
+      {
+        "title": "Ich weiß nicht weiter",
+        "subtitle": "Kurze Antwort für deine Situation.",
+        "target": "stuck"
+      },
+      {
+        "title": "Welche App brauche ich?",
+        "subtitle": "Die richtige App für deine Aufgabe.",
+        "target": "apps"
+      },
+      {
+        "title": "Ich fahre in die Waschanlage",
+        "subtitle": "Vorher den Waschanlagen-Modus einschalten.",
+        "target": "carwash"
+      }
+    ]
+  },
+  "drive": {
+    "parent": "start",
+    "title": "Losfahren",
+    "choices": []
+  },
+  "charge": {
+    "parent": "start",
+    "title": "Welche Ladesäule ist es?",
+    "choices": [
+      {
+        "title": "Tesla Supercharger",
+        "subtitle": "Rote Tesla-Säule. Keine Karte nötig.",
+        "target": "supercharger"
+      },
+      {
+        "title": "Andere Ladesäule",
+        "subtitle": "Alles, was nicht von Tesla ist.",
+        "target": "other-charge"
+      },
+      {
+        "title": "Wo lade ich am besten?",
+        "subtitle": "Zuhause, Supercharger, ADAC oder EWE Go.",
+        "target": "welche-karte"
+      },
+      {
+        "title": "Akku im Alltag",
+        "subtitle": "Wie viel laden, wie oft.",
+        "target": "akku-alltag"
+      }
+    ]
+  },
+  "welche-karte": {
+    "parent": "charge",
+    "title": "Die einfache Regel",
+    "choices": []
+  },
+  "supercharger": {
+    "parent": "charge",
+    "title": "So lädst du",
+    "choices": []
+  },
+  "other-charge": {
+    "parent": "charge",
+    "title": "Öffentlich laden",
+    "choices": [
+      {
+        "title": "So läuft es ab",
+        "subtitle": "Der Ablauf Schritt für Schritt.",
+        "target": "public-charge-flow"
+      },
+      {
+        "title": "Die Säule hat kein Display",
+        "subtitle": "Nur Karte, Kabel und ein Lämpchen.",
+        "target": "no-display"
+      },
+      {
+        "title": "Mit der EWE-Go-Karte laden",
+        "subtitle": "Meistens die günstigere.",
+        "target": "ewe"
+      },
+      {
+        "title": "Mit der ADAC-Karte laden",
+        "subtitle": "Günstiger an Aral-Tankstellen.",
+        "target": "adac"
+      },
+      {
+        "title": "Ladestation suchen",
+        "subtitle": "Chargemap zeigt Ladestationen.",
+        "target": "chargemap"
+      }
+    ]
+  },
+  "public-charge-flow": {
+    "parent": "other-charge",
+    "title": "Der Ablauf",
+    "choices": []
+  },
+  "no-display": {
+    "parent": "other-charge",
+    "title": "Dann zählt das Auto",
+    "choices": []
+  },
+  "adac": {
+    "parent": "other-charge",
+    "title": "Mit der ADAC-Karte laden",
+    "choices": []
+  },
+  "ewe": {
+    "parent": "other-charge",
+    "title": "Mit der EWE-Go-Karte laden",
+    "choices": []
+  },
+  "chargemap": {
+    "parent": "other-charge",
+    "title": "Ladestation finden",
+    "choices": []
+  },
+  "holiday": {
+    "parent": "start",
+    "title": "Lass den Tesla planen",
+    "choices": []
+  },
+  "carwash": {
+    "parent": "start",
+    "title": "Erst der Waschmodus",
+    "choices": []
+  },
+  "stuck": {
+    "parent": "start",
+    "title": "Was ist gerade los?",
+    "choices": [
+      {
+        "title": "Akku wird knapp",
+        "subtitle": "Nicht rechnen. Das Navi zeigt Ladesäulen.",
+        "target": "low-battery"
+      },
+      {
+        "title": "Ladesäule funktioniert nicht",
+        "subtitle": "Der Reihe nach durchgehen.",
+        "target": "failed-charge"
+      },
+      {
+        "title": "Ich weiß nicht, wo ich laden soll",
+        "subtitle": "Tesla-Navi oder Chargemap.",
+        "target": "find-charge"
+      },
+      {
+        "title": "Ich möchte günstig laden",
+        "subtitle": "Preise vergleichen.",
+        "target": "cheap-charge"
+      },
+      {
+        "title": "Ich verstehe eine Anzeige nicht",
+        "subtitle": "Foto machen und Alex fragen.",
+        "target": "screen-help"
+      }
+    ]
+  },
+  "low-battery": {
+    "parent": "stuck",
+    "title": "Ruhig bleiben",
+    "choices": []
+  },
+  "akku-alltag": {
+    "parent": "charge",
+    "title": "Zwei einfache Regeln",
+    "choices": []
+  },
+  "failed-charge": {
+    "parent": "stuck",
+    "title": "Der Reihe nach",
+    "choices": []
+  },
+  "find-charge": {
+    "parent": "stuck",
+    "title": "Zwei Wege",
+    "choices": []
+  },
+  "cheap-charge": {
+    "parent": "stuck",
+    "title": "Preise vergleichen",
+    "choices": []
+  },
+  "screen-help": {
+    "parent": "stuck",
+    "title": "Das musst du nicht allein herausfinden",
+    "choices": []
+  },
+  "apps": {
+    "parent": "start",
+    "title": "Eine Aufgabe, eine App",
+    "choices": []
+  },
+  "sources": {
+    "parent": "start",
+    "title": "Quellen",
+    "choices": []
+  },
+  "setup": {
+    "parent": "start",
+    "title": "Nummer für „Alex fragen“",
+    "choices": []
+  },
+  "fotos": {
+    "parent": "start",
+    "title": "Eigene Fotos",
+    "choices": []
+  }
+}

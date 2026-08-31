@@ -14,7 +14,6 @@
     links    - Schaltflaechen zu externen Seiten
     appLinks - grosse Schaltflaechen, die auf dem iPhone direkt die App oeffnen
     figure   - Bild [Datei, alt-Text, Hinweis, optional [Quelltext, URL]]
-    weiter   - Kacheln ganz am Ende, fuer Themen die danach kommen
     form     - Sonderfall: "contact" zeigt das Formular fuer die Nummer
 */
 
@@ -94,8 +93,8 @@ const PAGES = {
     choices: [
       ["🚗", "Ich fahre los", "Einsteigen und sicher starten.", "drive"],
       ["⚡", "Ich möchte laden", "Supercharger oder andere Ladesäule.", "charge"],
+      ["🏖️", "Ich fahre in den Urlaub", "Das Tesla-Navi plant die Strecke.", "holiday"],
       ["🆘", "Ich weiß nicht weiter", "Kurze Antwort für deine Situation.", "stuck"],
-      ["🏖️", "Längere Fahrt", "Das Tesla-Navi plant die Ladestopps.", "holiday"],
       ["📱", "Welche App brauche ich?", "Die richtige App für deine Aufgabe.", "apps"],
       ["🧽", "Ich fahre in die Waschanlage", "Vorher den Waschanlagen-Modus einschalten.", "carwash"]
     ]
@@ -122,57 +121,7 @@ const PAGES = {
       ["👆 Der Streifen ist weg", "Während der Fahrt blendet er sich aus. Er kommt zurück, wenn du vom Bildschirmrand zur Beifahrerseite wischst."],
       ["🛟 Wenn der Bildschirm nicht reagiert", "Über dem Innenspiegel an der Decke sitzen vier Tasten: P, R, N und D. Sie sind für den Notfall gedacht und werden dann von selbst aktiv. Bremse treten, dann D drücken."]
     ],
-    weiter: [
-      ["🆕", "Was anders ist als gewohnt", "Bremsen, Türen, Scheibenwischer.", "anders", "green"],
-      ["🛣️", "Tempomat auf der Autobahn", "Das Auto hält Tempo und Abstand.", "tempomat", "blue"]
-    ],
     note: "Bei einer längeren Strecke: Ziel ins Tesla-Navi eingeben. Der Tesla plant die nötigen Ladestopps selbst mit ein."
-  },
-
-  /* Nur der Abstandstempomat. Der Lenkassistent ist zwar auch serienmaessig,
-     wird hier aber bewusst NICHT erklaert: Er verlangt dauernd Haende am
-     Lenkrad, ueberwacht die Aufmerksamkeit und sperrt sich bei Nichtreaktion
-     unter Warnblinken. Fuer eine unsichere Erstfahrerin ist das keine Hilfe,
-     sondern eine zusaetzliche Stressquelle. Erwaehnt wird er nur, damit sie
-     ihn nicht versehentlich einschaltet. */
-  tempomat: {
-    parent: "drive",
-    eyebrow: "Tempomat",
-    title: "Tempo und Abstand halten",
-    intro: "Das Auto hält von selbst die Geschwindigkeit und den Abstand zum Vordermann. Du lenkst weiter selbst.",
-    figure: ["bilder/tempomat.svg", "Am rechten Daumen des Lenkrads sitzt ein Rädchen. Hineindrücken schaltet den Tempomat ein und aus. Nach oben oder unten rollen ändert die Geschwindigkeit. Seitlich drücken ändert den Abstand.", "Zeichnung. Alles läuft über das rechte Rädchen am Lenkrad."],
-    steps: [
-      "Auf der Autobahn oder Landstraße die Geschwindigkeit fahren, die du halten willst.",
-      "Das rechte Rädchen am Lenkrad einmal hineindrücken. Ein Ton bestätigt es, die Zahl auf dem Bildschirm wird blau.",
-      "Fuß vom Gas nehmen. Das Auto hält jetzt Tempo und Abstand von selbst.",
-      "Schneller oder langsamer: das Rädchen nach oben oder unten rollen.",
-      "Mehr Abstand: das Rädchen zur Seite drücken. Die Zahl auf dem Bildschirm zeigt die Stufe — nimm ruhig eine größere.",
-      "Ausschalten: auf die Bremse treten. Die Zahl wird wieder grau."
-    ],
-    cards: [
-      ["🖐️ Du fährst weiter", "Der Tempomat ist keine Selbstfahrfunktion. Hände ans Lenkrad, Augen auf die Straße, Fuß bremsbereit. Er nimmt dir nur das Gasgeben ab."],
-      ["🚦 Er hält nicht an roten Ampeln", "Auch nicht an Stoppschildern. Dort musst du selbst bremsen. Der Tempomat achtet nur auf Fahrzeuge, die vor dir fahren."],
-      ["🛑 Wo du ihn nicht benutzt", "In der Stadt, an Baustellen, bei starkem Regen, Schnee oder Nebel, und bei tiefstehender Sonne. Dann lieber selbst fahren."],
-      ["⚡ Er kann plötzlich beschleunigen", "Biegt der Vordermann ab, fährt das Auto wieder auf die eingestellte Geschwindigkeit hoch. Das kommt manchmal überraschend — Fuß bremsbereit halten."],
-      ["🚗 Stehende Autos erkennt er schlecht", "Ein Stauende oder ein liegengebliebenes Auto wird unter Umständen zu spät erkannt. Verlass dich nie darauf, dass er bremst."],
-      ["🎯 Nur Tempomat, nicht mitlenken", "Der Tesla kann auch selbst lenken. Das ist eine andere Funktion und für den Anfang nichts für dich. Falls beim Drücken plötzlich das Lenkrad mitzieht: einmal auf die Bremse, dann ist alles aus. Alex kann einstellen, dass ein Druck nur den Tempomat einschaltet."]
-    ],
-    note: "Der Tempomat ist bei deinem Auto serienmäßig dabei — du brauchst kein Zusatzpaket dafür. Bei Tempo unter 30 km/h schaltet er sich nur ein, wenn ein Auto vor dir fährt."
-  },
-
-  anders: {
-    parent: "drive",
-    eyebrow: "Anders als gewohnt",
-    title: "Fünf Dinge, die dich überraschen",
-    intro: "Ein Elektroauto verhält sich an ein paar Stellen anders. Nichts davon ist ein Fehler.",
-    cards: [
-      ["🛑 Es bremst, wenn du vom Gas gehst", "Nimmst du den Fuß vom Gaspedal, wird das Auto von selbst langsamer — deutlich spürbar. Das ist gewollt, der Akku holt sich dabei Energie zurück. Bei stärkerem Bremsen gehen die Bremslichter automatisch an, der Hintermann sieht dich also. Zum Anhalten trittst du trotzdem auf die Bremse."],
-      ["🔇 Kein Motorgeräusch", "Du hörst nichts, wenn das Auto an ist. Dass es fahrbereit ist, siehst du am leuchtenden Bildschirm. Es gibt keinen Startknopf und keinen Zündschlüssel."],
-      ["🚪 Die Tür geht mit einem Knopf auf", "Von innen drückst du die Taste oben am Türgriff und schiebst die Tür auf. Der Hebel darunter ist eine Notentriegelung für den Stromausfall — benutz ihn nicht im Alltag, sonst kann die Scheibe Schaden nehmen."],
-      ["🅿️ An der Ampel", "Wenn du stehst, zeigt der Bildschirm oft „Halten“. Dann kannst du den Fuß von der Bremse nehmen, das Auto bleibt stehen. Steht es nicht da, halte lieber die Bremse."],
-      ["🌧️ Scheibenwischer sitzen am Lenkrad", "Links am Lenkrad ist eine Taste mit Wischersymbol. Einmal drücken wischt einmal. Gedrückt halten sprüht Wasser. Für Dauerbetrieb: Taste drücken, dann im Menü „Auto“ wählen."]
-    ],
-    note: "Wenn dich etwas anderes am Auto wundert: Foto machen und Alex fragen. Es ist selten kaputt."
   },
 
   charge: {
@@ -183,9 +132,7 @@ const PAGES = {
       ["🔴", "Tesla Supercharger", "Rote Tesla-Säule. Keine Karte nötig.", "supercharger", "red"],
       ["🔵", "Andere Ladesäule", "Alles, was nicht von Tesla ist.", "other-charge", "blue"],
       ["❓", "Wo lade ich am besten?", "Zuhause, Supercharger, ADAC oder EWE Go.", "welche-karte", "green"],
-      ["🔋", "Akku im Alltag", "Wie viel laden, wie oft.", "akku-alltag"],
-      ["⚡", "Es klappt nicht", "Die Säule lädt nicht.", "failed-charge", "red"],
-      ["💶", "Günstig laden", "Preise vergleichen.", "cheap-charge"]
+      ["🔋", "Akku im Alltag", "Wie viel laden, wie oft.", "akku-alltag"]
     ],
     note: "Du erkennst einen Supercharger am Tesla-Logo. Alles andere ist eine öffentliche Ladesäule von anderen Anbietern."
   },
@@ -341,7 +288,7 @@ const PAGES = {
 
   holiday: {
     parent: "start",
-    eyebrow: "Längere Fahrt",
+    eyebrow: "Ich fahre in den Urlaub",
     title: "Lass den Tesla planen",
     intro: "Die Strecke plant das Auto. Du musst nur eine Sache vorher wissen: ob du am Ziel laden kannst.",
     steps: [
@@ -392,9 +339,8 @@ const PAGES = {
     choices: [
       ["🔋", "Akku wird knapp", "Nicht rechnen. Das Navi zeigt Ladesäulen.", "low-battery"],
       ["⚡", "Ladesäule funktioniert nicht", "Der Reihe nach durchgehen.", "failed-charge"],
-      ["🚨", "Das Auto steht", "Panne, platter Reifen, nichts geht.", "panne", "red"],
-      ["🔄", "Der Bildschirm sagt Update", "Kein Fehler. Was jetzt gilt.", "update", "blue"],
       ["🗺️", "Ich weiß nicht, wo ich laden soll", "Tesla-Navi oder Chargemap.", "find-charge"],
+      ["💶", "Ich möchte günstig laden", "Preise vergleichen.", "cheap-charge"],
       ["❓", "Ich verstehe eine Anzeige nicht", "Foto machen und Alex fragen.", "screen-help"]
     ]
   },
@@ -430,10 +376,7 @@ const PAGES = {
     cards: [
       ["🏠 Warum 20 Prozent zu Hause?", "Damit du am nächsten Morgen losfahren kannst, auch wenn etwas dazwischenkommt. Ein stehendes Auto verliert etwa ein Prozent pro Tag — nach zwei Wochen Urlaub sind das schon 14 Prozent."],
       ["🔌 Warum nur 80 Prozent?", "Der Akku hält länger, wenn er nicht ständig randvoll ist. Ganz voll laden lohnt sich nur vor einer langen Fahrt."],
-      ["⚡ Lieber öfter als selten", "Du musst nicht warten, bis der Akku leer ist. Häufiges Laden ist für den Akku sogar besser als seltenes."],
-      ["❄️ Im Winter kommst du weniger weit", "Bei Kälte braucht das Auto mehr Strom — fürs Fahren und fürs Heizen. Das ist normal, der Akku ist nicht kaputt. Die Anzeige rechnet das schon mit ein."],
-      ["🌡️ Vor der Fahrt vorheizen", "Im Winter in der Tesla-App auf Klima gehen und einschalten, am besten eine halbe Stunde vorher. Dann ist es warm, die Scheiben sind frei — und wenn das Auto dabei am Strom hängt, kostet es keine Reichweite."],
-      ["🧊 Etwas ist eingefroren", "In der Tesla-App gibt es „Fahrzeug enteisen“. Das taut Scheiben, Fenster und auch die Ladeklappe auf. Klemmt ein Türgriff, drück fest auf den vorderen Teil, um das Eis zu brechen — nicht mit Werkzeug hebeln."]
+      ["⚡ Lieber öfter als selten", "Du musst nicht warten, bis der Akku leer ist. Häufiges Laden ist für den Akku sogar besser als seltenes."]
     ],
     note: "Das sind Empfehlungen, keine Vorschriften. Wenn du einmal mit 10 Prozent nach Hause kommst, ist nichts passiert."
   },
@@ -464,51 +407,11 @@ const PAGES = {
   },
 
   "cheap-charge": {
-    parent: "charge",
+    parent: "stuck",
     eyebrow: "Günstig laden",
     title: "Preise vergleichen",
     intro: "Chargeprice zeigt, was das Laden an einer Station mit deiner Karte kostet. Die Preise können sich ändern.",
     appLinks: [OPEN_APP.chargeprice]
-  },
-
-  panne: {
-    parent: "stuck",
-    eyebrow: "Das Auto steht",
-    title: "Ruhig bleiben",
-    intro: "Erst in Sicherheit bringen, dann telefonieren. Selbst reparieren musst du nichts.",
-    steps: [
-      "Warnblinker einschalten und wenn möglich rechts ranfahren.",
-      "Aussteigen und hinter die Leitplanke gehen, nicht neben dem Auto stehen bleiben.",
-      "Alex anrufen. Wenn er nicht erreichbar ist: ADAC-Pannenhilfe.",
-      "Warten, bis Hilfe da ist."
-    ],
-    cards: [
-      ["🚛 Ganz wichtig beim Abschleppen", "Ein Tesla darf NICHT mit Rädern auf der Straße gezogen werden — auch nicht mit angehobener Achse. Er muss komplett auf einen Anhänger. Sag das dem Abschleppdienst. Wenn jemand ihn trotzdem ziehen will: nicht zustimmen und Alex anrufen."],
-      ["🛞 Platter Reifen", "Es gibt kein Ersatzrad und keinen Wagenheber — das ist bei diesem Auto normal. Langsam bis zur nächsten sicheren Stelle rollen, dann Pannenhilfe rufen. Nicht mit platten Reifen weiterfahren."],
-      ["🔌 Das Auto reagiert auf gar nichts", "Bildschirm bleibt schwarz, das Handy schließt nicht auf? Dann ist meist die kleine Zusatzbatterie leer, nicht der große Akku. Das kann nur die Pannenhilfe lösen."],
-      ["🛑 Die Bremse geht nicht", "Im Notfall: die Parken-Taste an der Dachkonsole gedrückt halten. Das Auto bremst dann kontrolliert bis zum Stillstand. Nicht mit dem Bremspedal pumpen."],
-      ["📇 Handy leer, Auto geht nicht auf", "Nimm die Schlüsselkarte. Halte sie an die Säule zwischen Fahrer- und Fondtür, etwa auf einem Drittel der Höhe. Zum Losfahren die Karte auf die Ablage für das Handy in der Mittelkonsole legen, dann Bremse treten."]
-    ],
-    appLinks: [OPEN_APP.adacHelp],
-    note: "Die Tesla-Pannenhilfe erreichst du auch über die Tesla-App unter Service. Ruf im Zweifel lieber einmal zu früh an als zu spät."
-  },
-
-  update: {
-    parent: "stuck",
-    eyebrow: "Update",
-    title: "Das Auto aktualisiert sich",
-    intro: "Der Bildschirm zeigt einen Fortschrittsbalken und du kannst nicht losfahren. Das ist kein Fehler.",
-    steps: [
-      "Ruhig bleiben. Das Auto bekommt eine neue Version, wie das iPhone.",
-      "Warten. Meist dauert es etwa eine halbe Stunde, manchmal länger.",
-      "Im Auto sitzen bleiben oder in der Nähe warten. Abbrechen geht nicht.",
-      "Wenn der Balken durch ist, fährst du wie immer los."
-    ],
-    cards: [
-      ["📅 Damit es nicht wieder passiert", "Alex kann einstellen, dass Updates nur nachts laufen. Sag ihm Bescheid, wenn es dich einmal erwischt hat."],
-      ["⏳ Du hast einen Termin?", "Ruf an und sag Bescheid, dass es später wird. Das Update lässt sich nicht abbrechen, sobald es läuft."]
-    ],
-    note: "Solange nur ein Pfeil oder eine Uhr oben im Bildschirm zu sehen ist, läuft noch kein Update — dann kannst du normal fahren."
   },
 
   "screen-help": {
@@ -583,3 +486,5 @@ const PAGES = {
     note: "Die Fotos werden beim Aufnehmen automatisch verkleinert. Sie liegen nur in diesem Browser — auf Mutters iPhone sind sie erst zu sehen, wenn sie über „Herunterladen“ ins Projekt übernommen wurden."
   }
 };
+
+module.exports = { PAGES };

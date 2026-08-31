@@ -133,6 +133,10 @@ function render(id) {
   if (page.steps) html += renderSteps(page.steps);
   if (page.appLinks) html += renderAppLinks(page.appLinks);
   if (page.cards) html += renderCards(page.cards);
+  /* weiter steht am Ende: Kacheln, die erst interessieren, wenn die
+     eigentliche Frage der Seite beantwortet ist. choices dagegen sind
+     die Frage selbst und gehoeren nach oben. */
+  if (page.weiter) html += renderChoices(page.weiter);
   if (page.links) html += renderLinks(page.links);
   if (page.note) html += `<p class="notice">${esc(page.note)}</p>`;
   if (page.form === "contact") html += renderContactForm();
