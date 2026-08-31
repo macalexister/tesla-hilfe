@@ -104,39 +104,7 @@ const PAGES = {
     parent: "start",
     eyebrow: "Ich fahre los",
     title: "Losfahren",
-    intro: "Es gibt zwei Bauarten. Schau zuerst nach: Sitzt rechts hinter dem Lenkrad ein kleiner Hebel?",
-    choices: [
-      ["🕹️", "Ja, da ist ein Hebel", "Damit wählst du vorwärts und rückwärts.", "drive-hebel", "blue"],
-      ["📱", "Nein, kein Hebel", "Dann geht es über den Bildschirm.", "drive-schirm", "green"]
-    ],
-    note: "Wenn du unsicher bist: Foto vom Lenkrad machen und Alex fragen. Der Hebel wäre etwa so lang wie ein Finger und sitzt rechts hinter dem Lenkradkranz."
-  },
-
-  "drive-hebel": {
-    parent: "drive",
-    eyebrow: "Mit Fahrhebel",
-    title: "Losfahren",
-    intro: "Der Hebel rechts hinter dem Lenkrad wählt die Fahrtrichtung.",
-    steps: [
-      "Einsteigen, Tür schließen, anschnallen. Das Auto ist jetzt an — es gibt keinen Startknopf.",
-      "Fuß auf die Bremse und dort lassen.",
-      "Vorwärts: den Hebel ganz nach unten drücken.",
-      "Rückwärts: den Hebel ganz nach oben drücken. Danach nach hinten schauen — über die Schulter und in die Spiegel, nicht nur auf die Kamera.",
-      "Oben im Bildschirm siehst du, welche Stufe gewählt ist.",
-      "Fuß von der Bremse nehmen und losfahren."
-    ],
-    cards: [
-      ["🅿️ Wieder parken", "Auf die Bremse treten und den Knopf am Ende des Hebels drücken. Danach auf dem Bildschirm nachsehen, ob wirklich P steht — verlass dich nicht darauf, dass das Auto von selbst parkt."],
-      ["🔁 Vor und zurück wechseln", "Zwischen vorwärts und rückwärts geht es nur, wenn du fast stehst. Also erst anhalten, dann umschalten."]
-    ],
-    note: "Bei einer längeren Strecke: Ziel ins Tesla-Navi eingeben. Der Tesla plant die nötigen Ladestopps selbst mit ein."
-  },
-
-  "drive-schirm": {
-    parent: "drive",
-    eyebrow: "Ohne Fahrhebel",
-    title: "Losfahren",
-    intro: "Auf dem Bildschirm erscheint ein Streifen mit vier Buchstaben: P heißt Parken, R rückwärts, N Leerlauf, D vorwärts.",
+    intro: "Dein Tesla hat keinen Schalthebel. Vorwärts und rückwärts wählst du auf dem Bildschirm: P heißt Parken, R rückwärts, N Leerlauf, D vorwärts.",
     figure: ["bilder/fahrstufe.svg", "Am linken Rand des Bildschirms, also auf deiner Seite, erscheint ein schmaler Streifen mit P, R, N und D. Nach oben wischen wählt D für vorwärts, nach unten wischen wählt R für rückwärts.", "Zeichnung. Der Streifen erscheint erst, wenn du im geparkten Auto auf die Bremse trittst."],
     steps: [
       "Einsteigen, Tür schließen, anschnallen. Das Auto ist jetzt an — es gibt keinen Startknopf.",
@@ -173,21 +141,23 @@ const PAGES = {
     parent: "charge",
     eyebrow: "Welche Karte wann",
     title: "Die einfache Regel",
-    intro: "Vier Wege gibt es. Welcher der richtige ist, hängt nur davon ab, wo du gerade bist.",
-    cards: [
-      ["🏠 Zuhause — die Regel für jeden Tag", "Wenn du zu Hause laden kannst, mach das. Steck einfach abends an. Langsames Laden über Nacht ist für den Akku am besten und am günstigsten."],
-      ["🔴 Unterwegs auf langer Fahrt — Supercharger", "Auf Reisen und langen Strecken: Supercharger. Die sind schnell, du brauchst keine Karte, und das Auto rechnet sie von selbst in die Route ein."],
-      ["🔵 Kurz unterwegs, kein Supercharger da — ADAC-Karte", "Für alles dazwischen: die ADAC-Karte. Sie funktioniert an den meisten Säulen in Deutschland und ist deine erste Wahl, wenn kein Supercharger in der Nähe ist."],
-      ["🟢 Wenn die ADAC-Karte nicht geht — EWE Go", "Manche Säulen nehmen nur bestimmte Karten. Wird die ADAC-Karte abgelehnt, probier die EWE-Go-Karte. Eine von beiden geht fast immer."]
-    ],
+    intro: "Merk dir nur einen Satz: An Aral die ADAC-Karte, überall sonst die EWE-Go-Karte.",
+    figure: ["bilder/karten-regel.svg", "Eine Übersicht: An einer Aral-Tankstelle kostet die ADAC-Karte 55 Cent je Kilowattstunde und ist damit günstiger. An allen anderen Säulen kostet die EWE-Go-Karte 52 bis 62 Cent und ist günstiger als die ADAC-Karte mit 75 Cent.", "Preise können sich ändern."],
     steps: [
-      "Zuhause? Dann dort laden.",
-      "Lange Fahrt? Supercharger, das Navi plant sie ein.",
-      "Sonst: ADAC-Karte zuerst probieren.",
-      "Geht die nicht: EWE-Go-Karte probieren.",
-      "Geht beides nicht: eine andere Säule nehmen."
+      "Zuhause? Dann dort laden, das ist immer am günstigsten.",
+      "Lange Fahrt? Supercharger. Das Navi plant sie ein, du brauchst keine Karte.",
+      "Stehst du an einer Aral-Tankstelle? Dann die ADAC-Karte.",
+      "An jeder anderen Säule: die EWE-Go-Karte.",
+      "Wird eine Karte abgelehnt: die andere probieren. Eine von beiden geht fast immer."
     ],
-    note: "Meistens passt die Karte einfach nicht zum Betreiber. Es kann aber auch an der Karte oder der Säule liegen — dann steht ein Hinweis auf dem Display oder in der App."
+    cards: [
+      ["⛽ Warum an Aral die ADAC-Karte?", "Der ADAC-Tarif läuft über Aral pulse. An deren eigenen Säulen kostet er 55 Cent statt 62 Cent mit EWE Go. Aral-Säulen stehen meist an Tankstellen — du erkennst sie am blau-weißen Aral-Zeichen."],
+      ["🔌 Warum sonst EWE Go?", "Überall außerhalb von Aral kostet die ADAC-Karte 75 Cent, die EWE-Go-Karte dagegen 52 bis 62 Cent. Bei einer vollen Ladung sind das schnell 6 bis 11 Euro Unterschied."],
+      ["🤷 Unsicher, wo du stehst?", "Dann nimm die EWE-Go-Karte. Sie ist öfter die günstigere. Falsch machen kannst du nichts — es wird nur ein paar Euro teurer."],
+      ["⏱️ Nicht ewig stehen lassen", "Bei EWE Go an fremden Säulen kommt nach vier Stunden eine Gebühr dazu. Wenn du länger parkst, steck ab, sobald das Auto voll ist."]
+    ],
+    note: "Die Preise ändern sich hin und wieder. Wenn du es genau wissen willst, zeigt Chargeprice den Preis für die Säule, vor der du gerade stehst.",
+    appLinks: [OPEN_APP.chargeprice]
   },
 
   supercharger: {
@@ -218,8 +188,8 @@ const PAGES = {
     choices: [
       ["🔌", "So läuft es ab", "Der Ablauf Schritt für Schritt.", "public-charge-flow", "blue"],
       ["🚫", "Die Säule hat kein Display", "Nur Karte, Kabel und ein Lämpchen.", "no-display", "blue"],
-      ["💳", "Mit der ADAC-Karte laden", "Deine ADAC-Ladekarte und App.", "adac", "blue"],
-      ["💳", "EWE Go", "Deine EWE-Go-Karte und App.", "ewe", "green"],
+      ["💳", "Mit der EWE-Go-Karte laden", "Meistens die günstigere.", "ewe", "green"],
+      ["💳", "Mit der ADAC-Karte laden", "Günstiger an Aral-Tankstellen.", "adac", "blue"],
       ["🗺️", "Ladestation suchen", "Chargemap zeigt Ladestationen.", "chargemap"]
     ]
   },
@@ -277,7 +247,7 @@ const PAGES = {
       "Zum Beenden: in der App oder mit der Karte beenden, dann Kabel abziehen."
     ],
     links: [["ADAC e-Charge ansehen", "https://www.adac.de/rund-ums-fahrzeug/e-angebote/ladekarte/"]],
-    note: "Wird die Karte nicht angenommen, liegt es meist am Betreiber. Dann die EWE-Go-Karte probieren. Steht eine Meldung auf dem Display, lies sie oder schick Alex ein Foto."
+    note: "Diese Karte lohnt sich vor allem an Aral-Tankstellen. Wird sie nicht angenommen, probier die EWE-Go-Karte."
   },
 
   ewe: {
@@ -293,7 +263,7 @@ const PAGES = {
       "Zum Beenden: in der App oder mit der Karte beenden, dann Kabel abziehen."
     ],
     links: [["EWE Go ansehen", "https://www.ewe-go.de/"]],
-    note: "Wird die Karte nicht angenommen, liegt es meist am Betreiber. Dann die ADAC-Karte probieren. Steht eine Meldung auf dem Display, lies sie oder schick Alex ein Foto."
+    note: "Das ist an den meisten Säulen die günstigere Karte. Wird sie nicht angenommen, probier die ADAC-Karte."
   },
 
   chargemap: {

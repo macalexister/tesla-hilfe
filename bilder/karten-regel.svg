@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 250" role="img"
+     aria-labelledby="titel text">
+  <title id="titel">Welche Ladekarte ist günstiger</title>
+  <desc id="text">An einer Aral-Tankstelle kostet die ADAC-Karte 55 Cent je
+    Kilowattstunde, die EWE-Go-Karte 62 Cent — dort ist ADAC günstiger. An
+    jeder anderen Ladesäule kostet die ADAC-Karte 75 Cent, die EWE-Go-Karte
+    52 bis 62 Cent — dort ist EWE Go günstiger.</desc>
+
+  <style>
+    .karte  { fill: #ffffff; stroke: #d9dedb; stroke-width: 1.5; }
+    .gewinn { fill: #eaf4ee; stroke: #2f6d51; stroke-width: 2; }
+    .titel  { fill: #17202a; font-weight: 800; }
+    .preis  { fill: #17202a; font-weight: 800; }
+    .blass  { fill: #7c8996; }
+    .text   { fill: #53606d; }
+    .gruen  { fill: #2f6d51; font-weight: 800; }
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  </style>
+
+  <!-- Fall 1: Aral -->
+  <g>
+    <rect class="karte" x="1" y="1" width="338" height="112" rx="12"/>
+    <text class="titel" x="16" y="28" font-size="15">⛽ An einer Aral-Tankstelle</text>
+
+    <rect class="gewinn" x="16" y="40" width="150" height="56" rx="10"/>
+    <text class="gruen" x="28" y="60" font-size="12">ADAC-Karte</text>
+    <text class="preis" x="28" y="84" font-size="21">55 ct</text>
+    <text class="gruen" x="150" y="60" font-size="13" text-anchor="end">✓</text>
+
+    <rect class="karte" x="176" y="40" width="148" height="56" rx="10"/>
+    <text class="blass" x="188" y="60" font-size="12">EWE Go</text>
+    <text class="blass" x="188" y="84" font-size="21" font-weight="800">62 ct</text>
+  </g>
+
+  <!-- Fall 2: alle anderen -->
+  <g>
+    <rect class="karte" x="1" y="124" width="338" height="112" rx="12"/>
+    <text class="titel" x="16" y="151" font-size="15">🔌 An jeder anderen Säule</text>
+
+    <rect class="karte" x="16" y="163" width="150" height="56" rx="10"/>
+    <text class="blass" x="28" y="183" font-size="12">ADAC-Karte</text>
+    <text class="blass" x="28" y="207" font-size="21" font-weight="800">75 ct</text>
+
+    <rect class="gewinn" x="176" y="163" width="148" height="56" rx="10"/>
+    <text class="gruen" x="188" y="183" font-size="12">EWE Go</text>
+    <text class="preis" x="188" y="207" font-size="21">52–62 ct</text>
+    <text class="gruen" x="310" y="183" font-size="13" text-anchor="end">✓</text>
+  </g>
+
+  <text class="text" x="1" y="248" font-size="12">Preis je Kilowattstunde, Stand August 2026</text>
+</svg>
