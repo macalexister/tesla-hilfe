@@ -13,7 +13,7 @@
     note     - Hinweisbox am Ende
     links    - Schaltflaechen zu externen Seiten
     appLinks - grosse Schaltflaechen, die auf dem iPhone direkt die App oeffnen
-    figure   - Zeichnung [Datei, alt-Text, Hinweis unter dem Bild]
+    figure   - Bild [Datei, alt-Text, Hinweis, optional [Quelltext, URL]]
     form     - Sonderfall: "contact" zeigt das Formular fuer die Nummer
 */
 
@@ -94,7 +94,7 @@ const PAGES = {
       "Warten. Der Bildschirm im Auto zeigt, dass geladen wird. Eine Ladekarte brauchst du hier normalerweise nicht.",
       "Zum Beenden: Taste am Kabelgriff drücken, Kabel abziehen, zurückhängen, weiterfahren."
     ],
-    figure: ["bilder/ladeanschluss.svg", "Blick auf die Fahrerseite: Der Ladeanschluss sitzt hinten links im Rücklicht.", "Zeichnung der Fahrerseite. Die Klappe geht auf, wenn das Auto aufgeschlossen ist."],
+    figure: ["bilder/ladeanschluss-foto.jpg", "Der geöffnete Ladeanschluss eines Model 3: Die Klappe ist Teil des Rücklichts, darunter sitzt die Buchse. Links daneben leuchtet das Tesla-T.", "Foto eines europäischen Model 3, zugeschnitten.", ["CarlJohanSveningsson, CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:European_Tesla_Model_3_charge_port.jpg"]],
     note: "Wenn nach etwa einer Minute nichts passiert: Kabel einmal abziehen und neu einstecken. Hilft das nicht, nimm den Nachbarplatz."
   },
 
@@ -116,6 +116,7 @@ const PAGES = {
     parent: "other-charge",
     eyebrow: "Andere Ladesäule",
     title: "Der Ablauf",
+    figure: ["bilder/ladeanschluss.svg", "Blick auf die Fahrerseite: Der Ladeanschluss sitzt hinten links im Rücklicht.", "Zeichnung der Fahrerseite. Die Klappe geht auf, wenn das Auto aufgeschlossen ist."],
     steps: [
       "Ins Auto setzen und die Ladestation ins Tesla-Navi eingeben.",
       "Hinfahren und am Ladeplatz parken.",
@@ -330,6 +331,10 @@ const PAGES = {
       ["EWE Go", "https://www.ewe-go.de/"],
       ["Chargemap", "https://chargemap.com/de-de"],
       ["Chargeprice", "https://www.chargeprice.app/"]
+    ],
+    cards: [
+      ["📷 Bilder", "Die Zeichnungen sind selbst erstellt. Das Foto vom Ladeanschluss stammt von CarlJohanSveningsson über Wikimedia Commons, steht unter der Lizenz CC BY-SA 4.0 und wurde für diese App zugeschnitten und verkleinert.", "https://commons.wikimedia.org/wiki/File:European_Tesla_Model_3_charge_port.jpg"],
+      ["⚖️ Lizenz des Fotos", "CC BY-SA 4.0 — Weitergabe erlaubt, auch verändert, solange Urheber und Lizenz genannt werden.", "https://creativecommons.org/licenses/by-sa/4.0/deed.de"]
     ],
     note: "Preise, Tarife und Funktionen ändern sich. Angaben in dieser App können veraltet sein."
   },

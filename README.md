@@ -44,15 +44,15 @@ Dann `http://localhost:8080` öffnen.
 Texte ändert man in `content.js`, ohne den Code anzufassen. Die Zurück-Schaltfläche
 folgt dem `parent`-Feld einer Seite, nicht dem Klickverlauf.
 
-## Zeichnungen
+## Zeichnungen und Fotos
 
-Drei Seiten zeigen eine Skizze: der Weg zum Waschanlagen-Modus, die Leuchte am
-Ladeanschluss und die Lage des Ladeanschlusses am Auto. Sie stehen bewusst
-**vor** den Schritten — sie beantworten „wo muss ich hintippen“ schneller als
-Text, und hinter sieben Schritten würden sie erst nach anderthalb
-Bildschirmlängen auftauchen.
+Vier Seiten zeigen ein Bild: der Weg zum Waschanlagen-Modus, die Leuchte am
+Ladeanschluss, die Lage des Ladeanschlusses am Auto und ein Foto des
+geöffneten Ladeanschlusses. Sie stehen bewusst **vor** den Schritten — sie
+beantworten „wo muss ich hintippen“ schneller als Text, und hinter sieben
+Schritten würden sie erst nach anderthalb Bildschirmlängen auftauchen.
 
-Es sind **Zeichnungen, keine Screenshots**, und zwar aus zwei Gründen:
+### Warum die Bildschirm-Darstellungen gezeichnet sind
 
 1. Die Abbildungen im Tesla-Handbuch sind urheberrechtlich geschützt
    („© Tesla“) und dürfen nicht in dieses Repository.
@@ -61,14 +61,42 @@ Es sind **Zeichnungen, keine Screenshots**, und zwar aus zwei Gründen:
    nicht mit jedem Update. Unter jedem Bild steht deshalb ein Hinweis, dass
    es auf dem eigenen Bildschirm anders aussehen kann.
 
-Die Dateien sind reines SVG, zusammen 12 KB. Jede trägt `<title>` und `<desc>`,
-im `alt`-Text steht der Inhalt noch einmal ausformuliert.
+Die SVG-Dateien sind zusammen 12 KB. Jede trägt `<title>` und `<desc>`, im
+`alt`-Text steht der Inhalt noch einmal ausformuliert.
 
-Neues Bild einbauen: Datei nach `bilder/` legen und auf der Seite in
-`content.js` ergänzen:
+### Herkunft des Fotos
+
+`bilder/ladeanschluss-foto.jpg` zeigt den geöffneten Ladeanschluss eines
+europäischen Model 3.
+
+| | |
+| --- | --- |
+| Urheber | CarlJohanSveningsson |
+| Quelle | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:European_Tesla_Model_3_charge_port.jpg) |
+| Lizenz | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Änderungen | zugeschnitten auf 4:3, auf 900 px verkleinert, JPEG-Qualität 82 |
+
+Die Lizenz verlangt Urhebernennung, Lizenzangabe und einen Hinweis auf
+Änderungen. Alles drei steht unter dem Bild in der App und auf der Seite
+„Quellen“. Das bearbeitete Foto steht damit ebenfalls unter CC BY-SA 4.0.
+
+**Bilder aus Foren oder von Herstellerseiten sind keine Option** — sie sind
+urheberrechtlich geschützt, auch wenn sie frei abrufbar sind. Nur Material
+unter freier Lizenz oder eigene Aufnahmen gehören hierher.
+
+### Neues Bild einbauen
+
+Datei nach `bilder/` legen und auf der Seite in `content.js` ergänzen:
 
 ```js
-figure: ["bilder/datei.svg", "Was zu sehen ist.", "Hinweis unter dem Bild."]
+figure: ["bilder/datei.jpg", "Was zu sehen ist.", "Hinweis unter dem Bild."]
+```
+
+Bei fremdem Material zusätzlich den Nachweis angeben:
+
+```js
+figure: ["bilder/datei.jpg", "Was zu sehen ist.", "Hinweis.",
+         ["Urheber, Lizenz, Änderung", "https://quelle"]]
 ```
 
 ## Telefonnummer

@@ -78,15 +78,21 @@ function renderAppLinks(appLinks) {
   return `<div class="open-apps">${items}</div>`;
 }
 
-/* Zeichnungen, keine Fotos. Tesla weist selbst darauf hin, dass der
-   Bildschirm je nach Softwarestand anders aussieht; eine Skizze zeigt den
-   Weg und veraltet nicht mit jedem Update. Ausserdem sind die Abbildungen
-   im Tesla-Handbuch urheberrechtlich geschuetzt und duerfen hier nicht
-   liegen. Die Beschreibung im alt-Text traegt den Inhalt fuer Screenreader. */
-function renderFigure([datei, beschreibung, hinweis = "Zeichnung, kein Foto."]) {
+/* Zeichnungen und Fotos. Tesla weist selbst darauf hin, dass der Bildschirm
+   je nach Softwarestand anders aussieht; eine Skizze zeigt den Weg und
+   veraltet nicht mit jedem Update. Ausserdem sind die Abbildungen im
+   Tesla-Handbuch urheberrechtlich geschuetzt und duerfen hier nicht liegen.
+
+   Fotos stammen von Wikimedia Commons unter freier Lizenz. Die Lizenz
+   verlangt Urhebernennung, Lizenzangabe und einen Hinweis auf Aenderungen -
+   deshalb der Quellen-Link unter dem Bild. */
+function renderFigure([datei, beschreibung, hinweis = "Zeichnung, kein Foto.", quelle]) {
+  const nachweis = quelle
+    ? ` <a class="bild-quelle" href="${esc(quelle[1])}" rel="noopener">${esc(quelle[0])} ↗</a>`
+    : "";
   return `<figure class="bild">
       <img src="${esc(datei)}" alt="${esc(beschreibung)}" decoding="async">
-      <figcaption>${esc(hinweis)}</figcaption>
+      <figcaption>${esc(hinweis)}${nachweis}</figcaption>
     </figure>`;
 }
 
