@@ -37,8 +37,8 @@
 */
 const OPEN_APP = {
   tesla: ["🚗", "Tesla-App öffnen", "https://www.tesla.com/1/app/home"],
-  chargemap: ["🗺️", "Chargemap öffnen", "https://chargemap.com/de-de/map"],
-  chargeprice: ["💶", "Chargeprice öffnen", "https://www.chargeprice.app/"],
+  chargemap: ["🗺️", "Chargemap öffnen", "https://chargemap.com/de-de/map", "Zeigt, wo Ladesäulen stehen"],
+  chargeprice: ["💶", "Chargeprice öffnen", "https://www.chargeprice.app/", "Zeigt, was das Laden hier kostet"],
   adacHelp: ["🛟", "ADAC Pannenhilfe öffnen", "https://www.adac.de/hilfe"],
   maps: ["📍", "Ladestationen in der Karte suchen", "https://maps.apple.com/?q=Ladestation", "Öffnet die Karten-App auf dem iPhone"]
 };
@@ -184,14 +184,16 @@ const PAGES = {
     parent: "charge",
     eyebrow: "Andere Ladesäule",
     title: "Öffentlich laden",
-    intro: "Nicht jede Karte funktioniert an jeder Säule. Der Ablauf ist bei jedem Anbieter etwas anders.",
+    intro: "Die Faustregel: An Aral die ADAC-Karte, überall sonst die EWE-Go-Karte.",
     choices: [
       ["🔌", "So läuft es ab", "Der Ablauf Schritt für Schritt.", "public-charge-flow", "blue"],
       ["🚫", "Die Säule hat kein Display", "Nur Karte, Kabel und ein Lämpchen.", "no-display", "blue"],
       ["💳", "Mit der EWE-Go-Karte laden", "Meistens die günstigere.", "ewe", "green"],
       ["💳", "Mit der ADAC-Karte laden", "Günstiger an Aral-Tankstellen.", "adac", "blue"],
       ["🗺️", "Ladestation suchen", "Chargemap zeigt Ladestationen.", "chargemap"]
-    ]
+    ],
+    appLinks: [OPEN_APP.chargeprice],
+    note: "Die Faustregel stimmt fast immer. Willst du es für deine Säule genau wissen, zeigt Chargeprice den Preis für beide Karten."
   },
 
   "public-charge-flow": {
@@ -246,8 +248,13 @@ const PAGES = {
       "Prüfen, ob geladen wird. Der Bildschirm im Tesla zeigt es an.",
       "Zum Beenden: in der App oder mit der Karte beenden, dann Kabel abziehen."
     ],
+    cards: [
+      ["⛽ Wann diese Karte?", "An Aral-Tankstellen. Dort ist sie günstiger als die EWE-Go-Karte. Überall sonst ist EWE Go die bessere Wahl."],
+      ["💶 Genau wissen?", "Chargeprice zeigt dir für die Säule, vor der du stehst, was beide Karten kosten."]
+    ],
+    appLinks: [OPEN_APP.chargeprice],
     links: [["ADAC e-Charge ansehen", "https://www.adac.de/rund-ums-fahrzeug/e-angebote/ladekarte/"]],
-    note: "Diese Karte lohnt sich vor allem an Aral-Tankstellen. Wird sie nicht angenommen, probier die EWE-Go-Karte."
+    note: "Wird die Karte nicht angenommen, probier die EWE-Go-Karte."
   },
 
   ewe: {
@@ -262,8 +269,13 @@ const PAGES = {
       "Prüfen, ob geladen wird. Der Bildschirm im Tesla zeigt es an.",
       "Zum Beenden: in der App oder mit der Karte beenden, dann Kabel abziehen."
     ],
+    cards: [
+      ["🔌 Wann diese Karte?", "An allen Säulen ausser Aral-Tankstellen. Das ist der Normalfall — nimm im Zweifel diese."],
+      ["💶 Genau wissen?", "Chargeprice zeigt dir für die Säule, vor der du stehst, was beide Karten kosten."]
+    ],
+    appLinks: [OPEN_APP.chargeprice],
     links: [["EWE Go ansehen", "https://www.ewe-go.de/"]],
-    note: "Das ist an den meisten Säulen die günstigere Karte. Wird sie nicht angenommen, probier die ADAC-Karte."
+    note: "Wird die Karte nicht angenommen, probier die ADAC-Karte."
   },
 
   chargemap: {
@@ -417,8 +429,8 @@ const PAGES = {
     intro: "Tippe auf eine Schaltfläche. Die App öffnet sich direkt auf deinem iPhone.",
     appLinks: [
       ["🚗", "Tesla-App öffnen", "https://www.tesla.com/1/app/home", "Fahren, Navigation und Ladeplanung"],
-      ["🗺️", "Chargemap öffnen", "https://chargemap.com/de-de/map", "Ladestationen finden"],
-      ["💶", "Chargeprice öffnen", "https://www.chargeprice.app/", "Preise vergleichen"],
+      ["🗺️", "Chargemap öffnen", "https://chargemap.com/de-de/map", "Wo steht die nächste Ladesäule?"],
+      ["💶", "Chargeprice öffnen", "https://www.chargeprice.app/", "Was kostet das Laden mit welcher Karte?"],
       ["🛟", "ADAC Pannenhilfe öffnen", "https://www.adac.de/hilfe", "Wenn das Auto stehen bleibt"]
     ],
     cards: [
