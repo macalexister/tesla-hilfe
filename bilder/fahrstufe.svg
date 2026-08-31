@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 280" role="img"
+     aria-labelledby="titel text">
+  <title id="titel">Fahrstufe auf dem Bildschirm wählen</title>
+  <desc id="text">Solange der Fuß auf der Bremse steht, erscheint am linken Rand
+    des Bildschirms, auf der Fahrerseite, ein schmaler Streifen mit den Buchstaben P, R, N und D.
+    Nach oben wischen wählt D für vorwärts, nach unten wischen wählt R für
+    rückwärts. Ein Tippen auf den Streifen schaltet auf P zum Parken.</desc>
+
+  <style>
+    .rahmen { fill: #1b2530; }
+    .karte  { fill: #26323f; }
+    .leiste { fill: #16202b; }
+    .aktiv  { fill: #2f6d51; }
+    .weiss  { fill: #ffffff; font-weight: 800; }
+    .blass  { fill: #8395a4; font-weight: 700; }
+    .hinweis{ fill: #53606d; }
+    .titel  { fill: #17202a; font-weight: 800; }
+    .pfeil  { stroke: #7fb8dd; stroke-width: 3.4; fill: none;
+              stroke-linecap: round; stroke-linejoin: round; }
+    /* Steht auf dem dunklen Bildschirm und muss deshalb hell sein. */
+    .wisch  { fill: #cfe0ec; font-weight: 700; }
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  </style>
+
+  <!-- Bildschirm im Auto -->
+  <rect class="rahmen" x="8" y="8" width="324" height="184" rx="12"/>
+
+  <!-- angedeutete Karte -->
+  <path d="M22 150 L86 112 L150 138 L214 100 L286 128" stroke="#334454"
+        stroke-width="3" fill="none" stroke-linecap="round"/>
+  <rect class="karte" x="140" y="22" width="180" height="26" rx="8"/>
+  <text class="blass" x="152" y="40" font-size="12">Navigation</text>
+
+  <!-- Fahrmodusleiste am rechten Rand -->
+  <rect class="leiste" x="20" y="22" width="52" height="156" rx="26"/>
+  <text class="blass" x="46" y="48"  font-size="17" text-anchor="middle">P</text>
+  <text class="blass" x="46" y="82"  font-size="17" text-anchor="middle">R</text>
+  <text class="blass" x="46" y="116" font-size="17" text-anchor="middle">N</text>
+
+  <!-- D ist gewaehlt -->
+  <circle class="aktiv" cx="46" cy="150" r="21"/>
+  <text class="weiss" x="46" y="157" font-size="19" text-anchor="middle">D</text>
+
+  <!-- Wischgesten. Die Beschriftung steht ausserhalb des Bildschirms,
+       auf dem dunklen Grund waere sie nicht zu lesen. -->
+  <path class="pfeil" d="M100 130 v-56"/>
+  <path class="pfeil" d="M92 86 l8 -12 l8 12"/>
+  <text class="wisch" x="112" y="106" font-size="12">wischen</text>
+
+  <!-- Beschriftung unter dem Bild -->
+  <text class="titel" x="8" y="222" font-size="14">Fuß auf die Bremse,</text>
+  <text class="titel" x="8" y="242" font-size="14">dann auf dem Streifen wischen.</text>
+  <text class="hinweis" x="8" y="266" font-size="13">Nach oben: vorwärts (D). Nach unten: rückwärts (R).</text>
+</svg>

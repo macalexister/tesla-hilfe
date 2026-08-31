@@ -7,7 +7,46 @@
   --red: #c83b3b;
   --blue: #1c5d87;
   --green: #2f6d51;
+  /* Text auf einer Flaeche in --ink. Muss mitkippen, sonst steht im
+     Dunkelmodus weisse Schrift auf hellem Grund. */
+  --auf-ink: #ffffff;
+  /* Zurueckhaltende Flaeche fuer Hinweise und zweite Schaltflaechen. */
+  --sanft: #eaf1f4;
+  /* Untergrund der Zeichnungen. Bleibt auch nachts hell, sonst waeren
+     die dunklen Beschriftungen darin nicht zu lesen - aber gedaempft,
+     damit die Flaeche im Dunkeln nicht blendet. */
+  --bildgrund: #ffffff;
+  /* Fokusrahmen. Muss mitkippen, sonst ist er nachts auf dunklem
+     Grund nicht mehr zu erkennen. */
+  --fokus: rgba(28,93,135,.28);
+  --fokus-stark: rgba(28,93,135,.45);
+  /* Sagt dem Browser, dass beide Darstellungen bewusst gebaut sind.
+     Ohne diese Angabe erfinden manche Browser eine eigene Umkehrung,
+     die den festen Farben in den Zeichnungen widerspricht. */
+  color-scheme: light dark;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Dunkle Darstellung, wenn das Geraet danach fragt. Die Farben sind nicht
+   einfach umgedreht: Reines Schwarz auf Weiss flimmert, deshalb ein
+   ruhiges Blaugrau. Rot, Blau und Gruen werden heller, sonst faellt der
+   Kontrast auf dunklem Grund unter das Lesbare. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #eef3f7;
+    --muted: #a8b6c2;
+    --paper: #131a21;
+    --card: #1b242d;
+    --line: #2e3a45;
+    --red: #ef8a8a;
+    --blue: #7fb8dd;
+    --green: #7fcfa6;
+    --auf-ink: #131a21;
+    --sanft: #22303c;
+    --bildgrund: #dfe6ec;
+    --fokus: rgba(127,184,221,.45);
+    --fokus-stark: rgba(127,184,221,.7);
+  }
 }
 
 * { box-sizing: border-box; }
@@ -17,7 +56,7 @@
 body { margin: 0; color: var(--ink); background: var(--paper); font-size: 18px; line-height: 1.45; }
 button, a { font: inherit; }
 button { cursor: pointer; }
-.topbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 10px max(16px, calc((100vw - 920px) / 2)); background: rgba(247,247,242,.96); border-bottom: 1px solid var(--line); }
+.topbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 10px max(16px, calc((100vw - 920px) / 2)); background: var(--paper); border-bottom: 1px solid var(--line); }
 .brand { color: var(--ink); font-weight: 800; text-decoration: none; flex: 1; }
 .back, .help-link, .close { border: 0; background: transparent; color: var(--ink); }
 .back { font-size: 28px; width: 42px; }
@@ -32,21 +71,21 @@ h2 { font-size: clamp(1.65rem, 5vw, 2.6rem); line-height: 1.1; margin: 0 0 12px;
 h3 { margin: 0 0 8px; font-size: 1.25rem; }
 p { margin: 0 0 16px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
-.choice, .step, .app-card, .answer { display: block; width: 100%; text-align: left; padding: 22px; border: 2px solid var(--line); border-radius: 18px; background: var(--card); color: var(--ink); text-decoration: none; box-shadow: 0 2px 0 rgba(23,32,42,.04); }
+.choice, .step, .app-card { display: block; width: 100%; text-align: left; padding: 22px; border: 2px solid var(--line); border-radius: 18px; background: var(--card); color: var(--ink); text-decoration: none; box-shadow: 0 2px 0 rgba(23,32,42,.04); }
 .choice { min-height: 120px; font-size: 1.25rem; font-weight: 800; }
 .choice small, .app-card small { display: block; margin-top: 7px; color: var(--muted); font-size: .92rem; font-weight: 500; }
-.choice:hover, .choice:focus-visible, .answer:hover, .answer:focus-visible { border-color: var(--blue); outline: 4px solid rgba(28,93,135,.16); }
-.red { border-color: #e4a6a6; } .blue { border-color: #a7c7dc; } .green { border-color: #a9cbb7; }
+.choice:hover, .choice:focus-visible { border-color: var(--blue); outline: 4px solid var(--fokus); }
+.red { border-color: var(--red); } .blue { border-color: var(--blue); } .green { border-color: var(--green); }
 .steps { display: grid; gap: 12px; margin: 24px 0; padding: 0; list-style: none; }
 .step { display: flex; gap: 16px; align-items: flex-start; }
-.number { display: grid; place-items: center; flex: 0 0 38px; height: 38px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 800; }
+.number { display: grid; place-items: center; flex: 0 0 38px; height: 38px; border-radius: 50%; background: var(--ink); color: var(--auf-ink); font-weight: 800; }
 .next { margin-top: 22px; display: grid; gap: 4px; }
 .action-button { display: block; min-height: 56px; padding: 14px 18px; border-radius: 14px; text-align: center; text-decoration: none; font-weight: 800; margin: 10px 0; }
-.primary { background: var(--ink); color: white; } .secondary { background: #e6eef2; color: var(--blue); }
+.primary { background: var(--ink); color: var(--auf-ink); } .secondary { background: var(--sanft); color: var(--blue); }
 .text-link { color: var(--blue); font-weight: 700; }
-.notice { padding: 16px; border-left: 5px solid var(--blue); background: #eaf1f4; border-radius: 8px; margin: 20px 0; }
+.notice { padding: 16px; border-left: 5px solid var(--blue); background: var(--sanft); border-radius: 8px; margin: 20px 0; }
 .app-card strong { display: block; font-size: 1.15rem; }
-a.app-card:hover, a.app-card:focus-visible { border-color: var(--blue); outline: 4px solid rgba(28,93,135,.16); }
+a.app-card:hover, a.app-card:focus-visible { border-color: var(--blue); outline: 4px solid var(--fokus); }
 .open-hint { color: var(--blue); font-weight: 700; }
 /* Schaltflaeche, die auf dem iPhone direkt die App oeffnet. Bewusst dunkel
    und gross: Das ist auf diesen Seiten die eigentliche Handlung. */
@@ -54,18 +93,23 @@ a.app-card:hover, a.app-card:focus-visible { border-color: var(--blue); outline:
 /* Die Zeichnung bekommt eine eigene Flaeche, damit klar ist: das ist ein
    Bild vom Auto, nicht ein Teil dieser App. */
 .bild { margin: 22px 0; }
-.bild img { display: block; width: 100%; max-width: 420px; height: auto; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 10px; }
+/* Die Bildflaeche bleibt auch im Dunkelmodus hell: Die Zeichnungen sind
+   fuer hellen Grund gemacht und haetten sonst unlesbare Beschriftungen. */
+/* max-height ist wichtig: Ohne sie schob eine hohe Zeichnung den ersten
+   Schritt unter den Bildrand, und auf dem Telefon sah man nur Titel
+   und Bild. object-fit haelt das Seitenverhaeltnis dabei. */
+.bild img { display: block; width: auto; max-width: min(420px, 100%); height: auto; max-height: 40vh; background: var(--bildgrund); border: 1px solid var(--line); border-radius: 14px; padding: 10px; }
 .bild figcaption { margin-top: 8px; max-width: 420px; color: var(--muted); font-size: .92rem; text-wrap: pretty; }
 /* nowrap haelt den Pfeil beim Text, sonst rutscht er allein in die naechste Zeile */
-.bild-quelle { color: var(--muted); text-decoration: underline; white-space: nowrap; }.open-app { display: flex; align-items: center; gap: 16px; min-height: 76px; padding: 16px 20px; border-radius: 18px; background: var(--ink); color: #fff; text-decoration: none; box-shadow: 0 2px 0 rgba(23,32,42,.12); }
+.bild-quelle { color: var(--muted); text-decoration: underline; white-space: nowrap; }.open-app { display: flex; align-items: center; gap: 16px; min-height: 76px; padding: 16px 20px; border-radius: 18px; background: var(--ink); color: var(--auf-ink); text-decoration: none; box-shadow: 0 2px 0 rgba(23,32,42,.12); }
 .open-app-icon { flex: 0 0 auto; font-size: 30px; line-height: 1; }
 .open-app-text strong { display: block; font-size: 1.2rem; font-weight: 800; }
-.open-app-text small { display: block; margin-top: 3px; color: #c3d2dc; font-size: .9rem; font-weight: 600; }
-.open-app:hover, .open-app:focus-visible { outline: 4px solid rgba(28,93,135,.35); }
+.open-app-text small { display: block; margin-top: 3px; color: var(--auf-ink); opacity: .78; font-size: .9rem; font-weight: 600; }
+.open-app:hover, .open-app:focus-visible { outline: 4px solid var(--fokus-stark); }
 .setup { display: grid; gap: 10px; max-width: 420px; margin: 8px 0 0; }
 .setup label { font-weight: 700; }
 .setup input { min-height: 56px; padding: 12px 14px; font: inherit; font-size: 1.1rem; border: 2px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); }
-.setup input:focus-visible { border-color: var(--blue); outline: 4px solid rgba(28,93,135,.16); }
+.setup input:focus-visible { border-color: var(--blue); outline: 4px solid var(--fokus); }
 .setup .action-button { width: 100%; margin: 0; border: 0; }
 .setup-status { min-height: 1.4em; margin: 4px 0 0; font-weight: 700; color: var(--green); }
 .setup-status.is-error { color: var(--red); }
@@ -84,7 +128,11 @@ a.app-card:hover, a.app-card:focus-visible { border-color: var(--blue); outline:
    anfuehlen wie ein Knopf, sonst tippt niemand darauf. */
 .foto-knoepfe label { display: block; text-align: center; cursor: pointer; margin: 0; border: 0; }
 .foto-knoepfe .action-button { width: 100%; margin: 0; }
-.foto-knoepfe label:focus-within { outline: 4px solid rgba(28,93,135,.35); outline-offset: 2px; border-radius: 14px; }
+.foto-knoepfe label:focus-within { outline: 4px solid var(--fokus-stark); outline-offset: 2px; border-radius: 14px; }
+/* Das Dateifeld darf nicht "hidden" sein: display:none nimmt es aus der
+   Tabulator-Reihenfolge, dann waere der Upload per Tastatur unerreichbar.
+   Es wird deshalb nur optisch weggeraeumt und bleibt bedienbar. */
+.nur-fuer-tastatur { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .foto-meldung { min-height: 1.4em; margin: 10px 0 0; font-weight: 700; color: var(--green); }
 .foto-meldung.is-error { color: var(--red); }
 .foto-gesamt { margin: 22px 0 0; }
@@ -98,4 +146,4 @@ dialog::backdrop { background: rgba(23,32,42,.45); }
 .close { position: absolute; top: 12px; right: 14px; font-size: 30px; }
 .quick-actions { display: grid; gap: 8px; margin-top: 18px; }
 .quick-actions button { border: 1px solid var(--line); background: var(--paper); border-radius: 10px; padding: 10px; text-align: left; color: var(--ink); }
-@media (max-width: 520px) { .help-link { font-size: .88rem; } main { padding-top: 28px; } .choice, .step, .app-card, .answer { padding: 18px; } }
+@media (max-width: 520px) { .help-link { font-size: .88rem; } main { padding-top: 28px; } .choice, .step, .app-card { padding: 18px; } }

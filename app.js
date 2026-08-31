@@ -98,15 +98,11 @@ function eigenesFoto(kennung) {
   }
 }
 
-/* Zeichnungen und Fotos. Tesla weist selbst darauf hin, dass der Bildschirm
-   je nach Softwarestand anders aussieht; eine Skizze zeigt den Weg und
-   veraltet nicht mit jedem Update. Ausserdem sind die Abbildungen im
-   Tesla-Handbuch urheberrechtlich geschuetzt und duerfen hier nicht liegen.
-
-   Fotos stammen von Wikimedia Commons unter freier Lizenz. Die Lizenz
-   verlangt Urhebernennung, Lizenzangabe und einen Hinweis auf Aenderungen -
-   deshalb der Quellen-Link unter dem Bild. Bei einem eigenen Foto entfaellt
-   dieser Nachweis, denn dann stammt das Bild nicht mehr von dort. */
+/* Die Bildquelle wird immer escaped, auch die eigene Aufnahme: Der Wert
+   kommt aus dem localStorage, und der gehoert der ganzen Domain. Auf
+   GitHub Pages liegen alle Projekte eines Kontos auf derselben Adresse,
+   eine andere Seite koennte den Eintrag also veraendern. Ein Wert mit
+   Anfuehrungszeichen wuerde sonst aus dem Attribut ausbrechen. */
 function renderFigure([datei, beschreibung, hinweis = "Zeichnung, kein Foto.", quelle]) {
   const eigenes = eigenesFoto(bildKennung(datei));
   const quelltext = eigenes ? "Eigenes Foto." : esc(hinweis);
@@ -114,7 +110,7 @@ function renderFigure([datei, beschreibung, hinweis = "Zeichnung, kein Foto.", q
     ? ` <a class="bild-quelle" href="${esc(quelle[1])}" rel="noopener">${esc(quelle[0])} ↗</a>`
     : "";
   return `<figure class="bild">
-      <img src="${eigenes ? eigenes : esc(datei)}" alt="${esc(beschreibung)}" decoding="async">
+      <img src="${esc(eigenes || datei)}" alt="${esc(beschreibung)}" decoding="async">
       <figcaption>${quelltext}${nachweis}</figcaption>
     </figure>`;
 }
@@ -287,12 +283,22 @@ const FOTO_QUALITAET = 0.82;
 
 function verkleinereFoto(datei) {
   return new Promise((erfolg, fehler) => {
-    const leser = new FileReader();
-    leser.onerror = () => fehler(new Error("Die Datei ließ sich nicht lesen."));
-    leser.onload = () => {
-      const bild = new Image();
-      bild.onerror = () => fehler(new Error("Das ist kein Bild, das der Browser öffnen kann."));
-      bild.onload = () => {
+    /* Objekt-Adresse statt FileReader: Ein iPhone-Foto hat fuenf bis zehn
+       Megabyte. readAsDataURL wuerde die ganze Datei zusaetzlich als
+       Base64-Text in den Speicher legen, was Safari zum Absturz bringen
+       kann. Die Adresse zeigt dagegen nur auf die Datei und wird sofort
+       nach dem Laden wieder freigegeben. */
+    const adresse = URL.createObjectURL(datei);
+    const bild = new Image();
+
+    const aufraeumen = () => URL.revokeObjectURL(adresse);
+
+    bild.onerror = () => {
+      aufraeumen();
+      fehler(new Error("Das ist kein Bild, das der Browser öffnen kann."));
+    };
+    bild.onload = () => {
+      try {
         const faktor = Math.min(1, FOTO_MAX_KANTE / Math.max(bild.width, bild.height));
         const flaeche = document.createElement("canvas");
         flaeche.width = Math.round(bild.width * faktor);
@@ -304,10 +310,13 @@ function verkleinereFoto(datei) {
           breite: flaeche.width,
           hoehe: flaeche.height
         });
-      };
-      bild.src = leser.result;
+      } catch (error) {
+        fehler(new Error("Das Foto ließ sich nicht verkleinern."));
+      } finally {
+        aufraeumen();
+      }
     };
-    leser.readAsDataURL(datei);
+    bild.src = adresse;
   });
 }
 
@@ -346,11 +355,11 @@ function renderFotoForm() {
         </div>
         <p class="foto-wie">${esc(auftrag.wie)}</p>
         <p class="foto-achte">${esc(auftrag.achte)}</p>
-        ${vorhanden ? `<img class="foto-vorschau" src="${vorhanden}" alt="Eigenes Foto: ${esc(auftrag.titel)}">` : ""}
+        ${vorhanden ? `<img class="foto-vorschau" src="${esc(vorhanden)}" alt="Eigenes Foto: ${esc(auftrag.titel)}">` : ""}
         <div class="foto-knoepfe">
           <label class="action-button primary">
             ${vorhanden ? "Neu aufnehmen" : "Foto aufnehmen"}
-            <input type="file" accept="image/*" hidden data-foto="${esc(auftrag.id)}">
+            <input class="nur-fuer-tastatur" type="file" accept="image/*" data-foto="${esc(auftrag.id)}">
           </label>
           ${vorhanden ? `<button class="action-button secondary" type="button" data-foto-weg="${esc(auftrag.id)}">Entfernen</button>` : ""}
         </div>

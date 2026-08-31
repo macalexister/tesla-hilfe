@@ -103,14 +103,57 @@ const PAGES = {
   drive: {
     parent: "start",
     eyebrow: "Ich fahre los",
-    title: "In vier Schritten",
+    title: "Losfahren",
+    intro: "Es gibt zwei Bauarten. Schau zuerst nach: Sitzt rechts hinter dem Lenkrad ein kleiner Hebel?",
+    choices: [
+      ["🕹️", "Ja, da ist ein Hebel", "Damit wählst du vorwärts und rückwärts.", "drive-hebel", "blue"],
+      ["📱", "Nein, kein Hebel", "Dann geht es über den Bildschirm.", "drive-schirm", "green"]
+    ],
+    note: "Wenn du unsicher bist: Foto vom Lenkrad machen und Alex fragen. Der Hebel wäre etwa so lang wie ein Finger und sitzt rechts hinter dem Lenkradkranz."
+  },
+
+  "drive-hebel": {
+    parent: "drive",
+    eyebrow: "Mit Fahrhebel",
+    title: "Losfahren",
+    intro: "Der Hebel rechts hinter dem Lenkrad wählt die Fahrtrichtung.",
     steps: [
-      "Einsteigen und Tür schließen.",
-      "Auf die Bremse treten und getreten halten.",
-      "Fahrstufe wählen: D für vorwärts, R für rückwärts.",
+      "Einsteigen, Tür schließen, anschnallen. Das Auto ist jetzt an — es gibt keinen Startknopf.",
+      "Fuß auf die Bremse und dort lassen.",
+      "Vorwärts: den Hebel ganz nach unten drücken.",
+      "Rückwärts: den Hebel ganz nach oben drücken. Danach nach hinten schauen — über die Schulter und in die Spiegel, nicht nur auf die Kamera.",
+      "Oben im Bildschirm siehst du, welche Stufe gewählt ist.",
       "Fuß von der Bremse nehmen und losfahren."
     ],
-    note: "Bei einer längeren Strecke: Ziel ins Tesla-Navi eingeben. Der Tesla schlägt die Route vor und plant nötige Ladestopps mit ein."
+    cards: [
+      ["🅿️ Wieder parken", "Auf die Bremse treten und den Knopf am Ende des Hebels drücken. Danach auf dem Bildschirm nachsehen, ob wirklich P steht — verlass dich nicht darauf, dass das Auto von selbst parkt."],
+      ["🔁 Vor und zurück wechseln", "Zwischen vorwärts und rückwärts geht es nur, wenn du fast stehst. Also erst anhalten, dann umschalten."]
+    ],
+    note: "Bei einer längeren Strecke: Ziel ins Tesla-Navi eingeben. Der Tesla plant die nötigen Ladestopps selbst mit ein."
+  },
+
+  "drive-schirm": {
+    parent: "drive",
+    eyebrow: "Ohne Fahrhebel",
+    title: "Losfahren",
+    intro: "Auf dem Bildschirm erscheint ein Streifen mit vier Buchstaben: P heißt Parken, R rückwärts, N Leerlauf, D vorwärts.",
+    figure: ["bilder/fahrstufe.svg", "Am linken Rand des Bildschirms, also auf deiner Seite, erscheint ein schmaler Streifen mit P, R, N und D. Nach oben wischen wählt D für vorwärts, nach unten wischen wählt R für rückwärts.", "Zeichnung. Der Streifen erscheint erst, wenn du im geparkten Auto auf die Bremse trittst."],
+    steps: [
+      "Einsteigen, Tür schließen, anschnallen. Das Auto ist jetzt an — es gibt keinen Startknopf.",
+      "Fuß auf die Bremse und dort lassen. Erst dann erscheint der Streifen mit P, R, N und D — auf deiner Seite des Bildschirms.",
+      "Vorwärts: mit dem Finger auf dem Streifen nach oben wischen, bis D leuchtet.",
+      "Rückwärts: auf dem Streifen nach unten wischen, bis R leuchtet.",
+      "Beim Rückwärtsfahren nach hinten schauen — über die Schulter und in die Spiegel, nicht nur auf die Kamera.",
+      "Ein kurzer Ton bestätigt den Wechsel. Oben im Bild siehst du, welche Stufe gewählt ist.",
+      "Fuß von der Bremse nehmen und losfahren."
+    ],
+    cards: [
+      ["🅿️ Wieder parken", "Auf die Bremse treten und auf dem Streifen P antippen. Danach nachsehen, ob wirklich P angezeigt wird — verlass dich nicht darauf, dass das Auto von selbst parkt."],
+      ["🔁 Vor und zurück wechseln", "Zwischen vorwärts und rückwärts geht es nur, wenn du fast stehst. Also erst anhalten, dann umschalten."],
+      ["👆 Der Streifen ist weg", "Während der Fahrt blendet er sich aus. Er kommt zurück, wenn du vom Bildschirmrand zur Beifahrerseite wischst."],
+      ["🛟 Wenn der Bildschirm nicht reagiert", "Über dem Innenspiegel an der Decke sitzen vier Tasten: P, R, N und D. Sie sind für den Notfall gedacht und werden dann von selbst aktiv. Bremse treten, dann D drücken."]
+    ],
+    note: "Bei einer längeren Strecke: Ziel ins Tesla-Navi eingeben. Der Tesla plant die nötigen Ladestopps selbst mit ein."
   },
 
   charge: {
@@ -118,10 +161,33 @@ const PAGES = {
     eyebrow: "Ich möchte laden",
     title: "Welche Ladesäule ist es?",
     choices: [
-      ["🔴", "Tesla Supercharger", "Rote Tesla-Säule. Meist ohne Karte.", "supercharger", "red"],
-      ["🔵", "Andere Ladesäule", "Alles, was nicht von Tesla ist.", "other-charge", "blue"]
+      ["🔴", "Tesla Supercharger", "Rote Tesla-Säule. Keine Karte nötig.", "supercharger", "red"],
+      ["🔵", "Andere Ladesäule", "Alles, was nicht von Tesla ist.", "other-charge", "blue"],
+      ["❓", "Wo lade ich am besten?", "Zuhause, Supercharger, ADAC oder EWE Go.", "welche-karte", "green"],
+      ["🔋", "Akku im Alltag", "Wie viel laden, wie oft.", "akku-alltag"]
     ],
-    note: "Du erkennst einen Supercharger am Tesla-Logo. Alles andere ist eine fremde Ladesäule."
+    note: "Du erkennst einen Supercharger am Tesla-Logo. Alles andere ist eine öffentliche Ladesäule von anderen Anbietern."
+  },
+
+  "welche-karte": {
+    parent: "charge",
+    eyebrow: "Welche Karte wann",
+    title: "Die einfache Regel",
+    intro: "Vier Wege gibt es. Welcher der richtige ist, hängt nur davon ab, wo du gerade bist.",
+    cards: [
+      ["🏠 Zuhause — die Regel für jeden Tag", "Wenn du zu Hause laden kannst, mach das. Steck einfach abends an. Langsames Laden über Nacht ist für den Akku am besten und am günstigsten."],
+      ["🔴 Unterwegs auf langer Fahrt — Supercharger", "Auf Reisen und langen Strecken: Supercharger. Die sind schnell, du brauchst keine Karte, und das Auto rechnet sie von selbst in die Route ein."],
+      ["🔵 Kurz unterwegs, kein Supercharger da — ADAC-Karte", "Für alles dazwischen: die ADAC-Karte. Sie funktioniert an den meisten Säulen in Deutschland und ist deine erste Wahl, wenn kein Supercharger in der Nähe ist."],
+      ["🟢 Wenn die ADAC-Karte nicht geht — EWE Go", "Manche Säulen nehmen nur bestimmte Karten. Wird die ADAC-Karte abgelehnt, probier die EWE-Go-Karte. Eine von beiden geht fast immer."]
+    ],
+    steps: [
+      "Zuhause? Dann dort laden.",
+      "Lange Fahrt? Supercharger, das Navi plant sie ein.",
+      "Sonst: ADAC-Karte zuerst probieren.",
+      "Geht die nicht: EWE-Go-Karte probieren.",
+      "Geht beides nicht: eine andere Säule nehmen."
+    ],
+    note: "Meistens passt die Karte einfach nicht zum Betreiber. Es kann aber auch an der Karte oder der Säule liegen — dann steht ein Hinweis auf dem Display oder in der App."
   },
 
   supercharger: {
@@ -131,12 +197,16 @@ const PAGES = {
     steps: [
       "Ins Auto setzen und im Tesla-Navi einen Supercharger auswählen.",
       "Hinfahren und rückwärts am Ladeplatz parken.",
-      "Aussteigen, Ladekabel von der Säule nehmen.",
-      "Kabel hinten links am Auto einstecken, bis es einrastet.",
-      "Warten. Der Bildschirm im Auto zeigt, dass geladen wird. Eine Ladekarte brauchst du hier normalerweise nicht.",
-      "Zum Beenden: Taste am Kabelgriff drücken, Kabel abziehen, zurückhängen, weiterfahren."
+      "Aussteigen und das Ladekabel von der Säule nehmen.",
+      "Die Klappe hinten links öffnen: unten draufdrücken, sie springt auf. Am Supercharger geht das auch über die Taste am Stecker.",
+      "Kabel einstecken, bis es einrastet.",
+      "Warten. Der Bildschirm im Auto zeigt, dass geladen wird. Eine Ladekarte brauchst du hier nicht.",
+      "Zum Beenden: Taste am Stecker drücken und das Kabel abziehen. Geht es nicht, muss das Auto erst aufgeschlossen werden."
     ],
     figure: ["bilder/ladebuchse.svg", "Die Ladebuchse hat zwei Teile: oben der runde Bereich für normales Laden, darunter zwei große Löcher, die nur beim Schnellladen benutzt werden. Links leuchtet das Tesla-T.", "Zeichnung. Am Supercharger wird auch der untere Teil benutzt."],
+    cards: [
+      ["💳 Einmalig vorher einrichten", "Damit der Supercharger abrechnen kann, muss in der Tesla-App eine Zahlungsart hinterlegt sein. Das hat Alex eingerichtet — wenn die Säule trotzdem nach Bezahlung fragt, ruf ihn an."]
+    ],
     note: "Wenn nach etwa einer Minute nichts passiert: Kabel einmal abziehen und neu einstecken. Hilft das nicht, nimm den Nachbarplatz."
   },
 
@@ -148,7 +218,7 @@ const PAGES = {
     choices: [
       ["🔌", "So läuft es ab", "Der Ablauf Schritt für Schritt.", "public-charge-flow", "blue"],
       ["🚫", "Die Säule hat kein Display", "Nur Karte, Kabel und ein Lämpchen.", "no-display", "blue"],
-      ["💳", "ADAC e-Charge / Aral pulse", "Deine ADAC-Ladekarte und App.", "adac", "blue"],
+      ["💳", "Mit der ADAC-Karte laden", "Deine ADAC-Ladekarte und App.", "adac", "blue"],
       ["💳", "EWE Go", "Deine EWE-Go-Karte und App.", "ewe", "green"],
       ["🗺️", "Ladestation suchen", "Chargemap zeigt Ladestationen.", "chargemap"]
     ]
@@ -158,7 +228,7 @@ const PAGES = {
     parent: "other-charge",
     eyebrow: "Andere Ladesäule",
     title: "Der Ablauf",
-    figure: ["bilder/ladeanschluss.svg", "Blick auf die Fahrerseite: Der Ladeanschluss sitzt hinten links im Rücklicht.", "Zeichnung der Fahrerseite. Die Klappe geht auf, wenn das Auto aufgeschlossen ist."],
+    figure: ["bilder/ladeanschluss.svg", "Blick auf die Fahrerseite: Der Ladeanschluss sitzt hinten links im Rücklicht.", "Zeichnung. Auto aufschließen, dann unten auf die Klappe drücken — sie springt auf."],
     steps: [
       "Ins Auto setzen und die Ladestation ins Tesla-Navi eingeben.",
       "Hinfahren und am Ladeplatz parken.",
@@ -177,17 +247,17 @@ const PAGES = {
     title: "Dann zählt das Auto",
     intro: "Manche Ladesäulen haben nur ein Kartenfeld, zwei Steckdosen und ein kleines Lämpchen. Das ist normal und keine kaputte Säule.",
     steps: [
-      "Kabel zuerst am Auto einstecken, hinten links, bis es einrastet.",
+      "Als Erstes versuchen: Klappe hinten links öffnen und das Kabel am Auto einstecken. Steht auf der Säule etwas anderes, folge dem.",
       "Anderes Ende in die Steckdose der Säule stecken. Meist musst du dafür eine kleine Klappe hochschieben.",
       "Ladekarte an das Kartenfeld halten und einen Moment liegen lassen.",
       "Jetzt zum Auto schauen, nicht zur Säule: Blinkt das Tesla-T am Ladeanschluss grün, läuft alles.",
       "Zum Beenden: dieselbe Karte noch einmal an das Kartenfeld halten.",
-      "Danach die Taste am Kabelgriff drücken und das Kabel abziehen."
+      "Danach das Kabel abziehen. Hat der Stecker eine Taste, diese gedrückt halten. Geht es schwer, muss das Auto aufgeschlossen sein."
     ],
-    figure: ["bilder/ladeleuchte.svg", "Die Leuchte am Ladeanschluss: blinkt sie grün, wird geladen. Leuchtet sie durchgehend grün, ist der Ladevorgang fertig. Leuchtet sie rot, gibt es eine Störung.", "Zeichnung. Die Leuchte sitzt am Auto, hinten links am Ladeanschluss."],
+    figure: ["bilder/ladeleuchte.svg", "Die Leuchte am Ladeanschluss: blinkt sie grün, wird geladen. Leuchtet sie durchgehend grün, ist der Ladevorgang fertig. Leuchtet sie rot, gibt es eine Störung.", "Grün blinkend: es lädt. Durchgehend grün: fertig. Rot: Störung."],
     cards: [
-      ["🟢 Woran du siehst, dass es lädt", "Am Auto, nicht an der Säule. Das Tesla-T am Ladeanschluss blinkt beim Laden grün, langsamer werdend, je voller der Akku ist. Ist der Ladevorgang fertig, leuchtet es durchgehend grün. Leuchtet es rot, gibt es eine Störung — dann steht auf dem Bildschirm im Auto, was los ist."],
-      ["🔌 Kabel dabei?", "An vielen dieser Säulen hängt kein Kabel. Dann brauchst du ein eigenes Ladekabel vom Typ 2. Schau vorher nach, ob eines im Auto liegt — wenn du unsicher bist, frag Alex. An Schnellladesäulen hängt das Kabel dagegen immer fest dran."],
+      ["🔌 Hier hängt kein Kabel", "An vielen dieser Säulen musst du dein eigenes Kabel nehmen. Es liegt im Kofferraum. An Schnellladesäulen hängt das Kabel dagegen fest dran."],
+      ["🔵 Die Leuchte ist blau", "Blau heißt: Kabel steckt, es wird aber noch nicht geladen. Meist fehlt die Freischaltung — Karte noch einmal vorhalten. Gelb heißt: Stecker sitzt nicht richtig, einmal abziehen und fest einstecken."],
       ["🔒 Der Stecker rastet nicht ein", "Steck ihn noch einmal ein und halte ihn dabei leicht nach oben, bis das Auto ihn erkennt und verriegelt."],
       ["🚗 Das Kabel geht nicht mehr raus", "Das Auto verriegelt das Kabel absichtlich. Es muss aufgeschlossen sein, damit du es abziehen kannst. Hab den Schlüssel oder dein iPhone dabei und drücke die Taste am Kabelgriff."]
     ],
@@ -201,13 +271,13 @@ const PAGES = {
     steps: [
       "Ins Auto setzen und zur Ladestation fahren, am Ladeplatz parken.",
       "Auf das Display der Säule schauen und der Anzeige folgen.",
-      "Freischalten: Ladekarte an das Kartenfeld halten oder in der App den Ladepunkt starten.",
+      "Freischalten: Ladekarte an das Kartenfeld halten oder in der App Aral pulse den Ladepunkt starten.",
       "Kabel einstecken, wenn es die Säule verlangt. Manche Säulen wollen das zuerst.",
       "Prüfen, ob geladen wird. Der Bildschirm im Tesla zeigt es an.",
       "Zum Beenden: in der App oder mit der Karte beenden, dann Kabel abziehen."
     ],
     links: [["ADAC e-Charge ansehen", "https://www.adac.de/rund-ums-fahrzeug/e-angebote/ladekarte/"]],
-    note: "Die ADAC-App lässt sich von hier aus nicht öffnen. Tippe sie auf dem Startbildschirm deines iPhones an. Die ADAC-Ladekarte funktioniert an vielen Säulen, aber nicht an allen. Wenn sie nicht angenommen wird, ist die Säule nicht kaputt."
+    note: "Wird die Karte nicht angenommen, liegt es meist am Betreiber. Dann die EWE-Go-Karte probieren. Steht eine Meldung auf dem Display, lies sie oder schick Alex ein Foto."
   },
 
   ewe: {
@@ -223,7 +293,7 @@ const PAGES = {
       "Zum Beenden: in der App oder mit der Karte beenden, dann Kabel abziehen."
     ],
     links: [["EWE Go ansehen", "https://www.ewe-go.de/"]],
-    note: "Die EWE-Go-App lässt sich von hier aus nicht öffnen. Tippe sie auf dem Startbildschirm deines iPhones an. Die EWE-Go-Karte funktioniert an vielen Säulen, aber nicht an allen. Wenn sie nicht angenommen wird, ist die Säule nicht kaputt."
+    note: "Wird die Karte nicht angenommen, liegt es meist am Betreiber. Dann die ADAC-Karte probieren. Steht eine Meldung auf dem Display, lies sie oder schick Alex ein Foto."
   },
 
   chargemap: {
@@ -238,33 +308,42 @@ const PAGES = {
     parent: "start",
     eyebrow: "Ich fahre in den Urlaub",
     title: "Lass den Tesla planen",
+    intro: "Die Strecke plant das Auto. Du musst nur eine Sache vorher wissen: ob du am Ziel laden kannst.",
     steps: [
-      "Ziel ins Tesla-Navi eingeben.",
-      "Route berechnen lassen.",
-      "Die vorgeschlagenen Ladestopps ansehen.",
-      "Losfahren und den Ladestopps folgen.",
-      "Am Ladestopp laden, bis das Navi weiterfahren sagt."
+      "Vor der Abfahrt: Kannst du am Ziel laden? Bei Hotel oder Ferienwohnung vorher anrufen und fragen.",
+      "Ziel ins Tesla-Navi eingeben und Route berechnen lassen.",
+      "Auf die Anzeige schauen: Das Navi zeigt, mit wie viel Prozent du ankommst.",
+      "Kannst du am Ziel laden? Dann losfahren und den Ladestopps folgen.",
+      "Kannst du dort nicht laden? Dann am letzten Stopp länger stehen bleiben, bis die Ankunft über 30 Prozent zeigt.",
+      "Am Ladestopp bleiben, bis das Navi weiterfahren sagt."
     ],
-    note: "Du musst nicht selbst ausrechnen, wann geladen wird. Das macht der Tesla. Wenn dir der Akkustand bei Ankunft zu knapp vorkommt, lade am Stopp einfach ein paar Minuten länger."
+    cards: [
+      ["🔋 Wie viel Akku bei der Ankunft?", "Wenn du am Ziel laden kannst, sind 10 bis 15 Prozent völlig in Ordnung — das ist so geplant und nicht knapp. Kannst du dort nicht laden, sollten es mindestens 30 Prozent sein. Dann kommst du auch wieder weg und findest in Ruhe eine Ladesäule."],
+      ["⏱️ Zu wenig? Dann länger laden", "Kommt dir die Zahl zu knapp vor, bleib am letzten Ladestopp einfach ein paar Minuten länger stehen. Die Ankunftsanzeige steigt dabei mit."],
+      ["🔌 Kabel dabei?", "An manchen Ladesäulen hängt kein Kabel. Schau vor einer längeren Fahrt nach, ob dein eigenes Kabel im Kofferraum liegt."],
+      ["🏨 Am Ziel angekommen", "Wenn es dort eine Steckdose oder Ladesäule gibt: über Nacht anstecken. Langsam laden ist für den Akku am besten."],
+      ["🗺️ Vorher nachsehen", "In Chargemap kannst du schon zu Hause nachschauen, ob es in der Nähe deines Ziels Ladesäulen gibt."]
+    ],
+    appLinks: [OPEN_APP.chargemap],
+    note: "Du musst nicht selbst ausrechnen, wann geladen wird. Das macht der Tesla. Die einzige Frage, die er dir nicht beantwortet, ist die nach der Steckdose am Ziel."
   },
 
   carwash: {
     parent: "start",
     eyebrow: "Waschanlage",
     title: "Erst der Waschmodus",
-    intro: "Der Tesla hat einen eigenen Modus fürs Waschen. Ohne ihn können Ladeklappe und Scheibenwischer Schaden nehmen — und dafür zahlt die Garantie nicht.",
+    intro: "Schalte vor der Wäsche den Waschmodus ein. Sonst können Ladeklappe und Scheibenwischer Schaden nehmen.",
     steps: [
       "Vor der Einfahrt anhalten. Das Auto muss stehen und darf nicht laden.",
       "Auf dem Bildschirm tippen: Fahrzeug, dann Service, dann Waschanlagen-Modus.",
-      "Das Auto schließt alle Fenster, verriegelt die Ladeklappe und schaltet Scheibenwischer, Wächter-Modus und Parksensor-Töne ab.",
-      "Bei einer Anlage, die das Auto durchzieht: auf die Bremse treten und „Freies Rollen ein“ tippen. Sonst zieht das Auto beim Aussteigen die Handbremse an.",
+      "Das Auto schließt die Fenster, verriegelt die Ladeklappe und schaltet Scheibenwischer und Warntöne ab. Das passiert von selbst.",
+      "Bei einer Anlage, die das Auto durchzieht: auf die Bremse treten und „Freies Rollen ein“ tippen. Das Auto bleibt dann im Leerlauf und lässt sich ziehen.",
       "Türen zu, Auto verriegelt lassen und den Bildschirm während der Wäsche in Ruhe lassen.",
-      "Nach der Wäsche losfahren. Ab 15 km/h schaltet sich der Modus von selbst ab, oder du tippst „Beenden“.",
+      "Nach der Wäsche losfahren. Sobald du schneller als 15 km/h fährst, schaltet sich der Modus von selbst ab. Oder du tippst „Beenden“.",
       "Auf den ersten Metern ein paar Mal sanft bremsen. Das trocknet die Bremsen."
     ],
     figure: ["bilder/waschmodus.svg", "Der Weg auf dem Bildschirm: erst unten links auf das Auto-Symbol tippen, dann in der Liste auf Service, dann den Schalter neben Waschanlagen-Modus einschalten.", "Zeichnung. Auf deinem Bildschirm kann es etwas anders aussehen."],
     cards: [
-      ["🧼 Nur kontaktlose Waschanlagen", "Tesla schreibt ausdrücklich Anlagen ohne Bürsten vor — also solche, die das Auto nicht berühren. Bürsten und Textillappen können den Lack beschädigen. Frag im Zweifel das Personal nach einer kontaktlosen Wäsche."],
       ["🚿 Selbst waschen mit Hochdruck", "Mindestens 30 cm Abstand halten, die Düse in Bewegung lassen und nicht auf eine Stelle zielen. Nicht direkt auf Dichtungen, Parksensoren oder Kameras halten. Während des Ladens niemals mit Hochdruck an den Ladeanschluss."],
       ["☀️ Nicht in der prallen Sonne", "Und kein heißes Wasser, keine scharfen Reiniger. Ein Mikrofasertuch ist besser als ein Waschhandschuh."]
     ],
@@ -276,7 +355,7 @@ const PAGES = {
     eyebrow: "Ich weiß nicht weiter",
     title: "Was ist gerade los?",
     choices: [
-      ["🔋", "Akku wird knapp", "Nicht rechnen. Navi machen lassen.", "low-battery"],
+      ["🔋", "Akku wird knapp", "Nicht rechnen. Das Navi zeigt Ladesäulen.", "low-battery"],
       ["⚡", "Ladesäule funktioniert nicht", "Der Reihe nach durchgehen.", "failed-charge"],
       ["🗺️", "Ich weiß nicht, wo ich laden soll", "Tesla-Navi oder Chargemap.", "find-charge"],
       ["💶", "Ich möchte günstig laden", "Preise vergleichen.", "cheap-charge"],
@@ -290,11 +369,34 @@ const PAGES = {
     title: "Ruhig bleiben",
     steps: [
       "Im Tesla-Navi auf das Blitz-Symbol tippen. Es zeigt Ladestationen in der Nähe.",
-      "Den nächsten Supercharger auswählen.",
+      "Den nächsten Supercharger auswählen — das rote Tesla-Symbol.",
+      "Ist keiner in der Nähe: eine andere Säule nehmen und die ADAC-Karte bereitlegen.",
       "Hinfahren und laden.",
       "Wenn du unsicher bist: Alex anrufen."
     ],
-    note: "Der Tesla warnt dich rechtzeitig und schlägt selbst einen Ladestopp vor. Fahr ruhig weiter, bis du dort bist."
+    cards: [
+      ["🔋 Wann wird es wirklich knapp?", "Unter 20 Prozent solltest du ans Laden denken. Unter 10 Prozent nur noch zur nächsten Ladesäule fahren, nicht weiter. Ganz leer darf der Akku nie werden — das schadet dem Auto."]
+    ],
+    note: "Der Tesla warnt dich rechtzeitig und schlägt selbst einen Ladestopp vor. Wenn das Navi rot warnt, dass die Reichweite nicht reicht: nicht weiterfahren, sondern die nächstgelegene Säule ansteuern."
+  },
+
+  /* Ruhige Alltagsregeln. Bewusst NICHT auf der Notfallseite: Wer mit
+     wenig Akku unterwegs ist, braucht eine Handlung, keine Pflegetipps. */
+  "akku-alltag": {
+    parent: "charge",
+    eyebrow: "Akku im Alltag",
+    title: "Zwei einfache Regeln",
+    intro: "Um den Akku musst du dich kaum kümmern. Zwei Dinge helfen trotzdem.",
+    steps: [
+      "Zu Hause nie unter 20 Prozent stehen lassen.",
+      "Für jeden Tag reicht es, bis etwa 80 Prozent zu laden — oder bis zu der Marke, die das Auto selbst als Empfehlung anzeigt."
+    ],
+    cards: [
+      ["🏠 Warum 20 Prozent zu Hause?", "Damit du am nächsten Morgen losfahren kannst, auch wenn etwas dazwischenkommt. Ein stehendes Auto verliert etwa ein Prozent pro Tag — nach zwei Wochen Urlaub sind das schon 14 Prozent."],
+      ["🔌 Warum nur 80 Prozent?", "Der Akku hält länger, wenn er nicht ständig randvoll ist. Ganz voll laden lohnt sich nur vor einer langen Fahrt."],
+      ["⚡ Lieber öfter als selten", "Du musst nicht warten, bis der Akku leer ist. Häufiges Laden ist für den Akku sogar besser als seltenes."]
+    ],
+    note: "Das sind Empfehlungen, keine Vorschriften. Wenn du einmal mit 10 Prozent nach Hause kommst, ist nichts passiert."
   },
 
   "failed-charge": {
@@ -317,7 +419,7 @@ const PAGES = {
     title: "Zwei Wege",
     steps: [
       "Am schnellsten: im Tesla-Navi auf das Blitz-Symbol tippen.",
-      "Alternativ: unten auf eine der Schaltflächen tippen. Die App öffnet sich auf deinem iPhone."
+      "Oder: unten auf einen der Knöpfe tippen. Die App öffnet sich dann auf deinem iPhone."
     ],
     appLinks: [OPEN_APP.chargemap, OPEN_APP.maps]
   },
@@ -335,7 +437,7 @@ const PAGES = {
     eyebrow: "Anzeige unklar",
     title: "Das musst du nicht allein herausfinden",
     intro: "Mach ein Foto von der Anzeige und schick es Alex. Er sagt dir, was zu tun ist.",
-    note: "Solange das Auto normal fährt, ist eine unklare Anzeige selten dringend. Fahr an eine sichere Stelle, bevor du das Foto machst."
+    note: "Eine ROTE Warnung oder eine Anweisung auf dem Bildschirm bedeutet: sicher anhalten, sobald es geht. Alles andere kannst du in Ruhe fotografieren und Alex fragen."
   },
 
   apps: {
@@ -350,8 +452,8 @@ const PAGES = {
       ["🛟", "ADAC Pannenhilfe öffnen", "https://www.adac.de/hilfe", "Wenn das Auto stehen bleibt"]
     ],
     cards: [
-      ["💳 ADAC e-Charge", "Mit der ADAC-Ladekarte laden. Diese App tippst du auf dem Startbildschirm an, sie lässt sich von hier aus nicht öffnen.", "https://www.adac.de/rund-ums-fahrzeug/e-angebote/ladekarte/"],
-      ["💳 EWE Go", "Mit der EWE-Go-Karte laden. Diese App tippst du auf dem Startbildschirm an, sie lässt sich von hier aus nicht öffnen.", "https://www.ewe-go.de/"]
+      ["💳 ADAC e-Charge", "Mit der ADAC-Ladekarte laden. Die passende App heißt Aral pulse — dort steckt dein ADAC-Tarif drin.", "https://www.adac.de/rund-ums-fahrzeug/e-angebote/ladekarte/"],
+      ["💳 EWE Go", "Mit der EWE-Go-Karte laden. Öffne die App direkt auf dem Startbildschirm deines iPhones.", "https://www.ewe-go.de/"]
     ],
     note: "Im Zweifel reicht die Tesla-App. Die anderen brauchst du nur beim Laden an fremden Säulen."
   },
