@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 250" role="img"
+     aria-labelledby="titel text">
+  <title id="titel">Die Ladebuchse am Auto</title>
+  <desc id="text">Die Buchse hat zwei Teile. Oben der runde Bereich mit sieben
+    Löchern für normales Laden an einer Säule. Darunter zwei große Löcher, die
+    nur beim Schnellladen und am Supercharger benutzt werden. Ein normaler
+    Stecker passt nur oben hinein. Links leuchtet das Tesla-T grün, sobald
+    geladen wird.</desc>
+
+  <style>
+    .platte { fill: #1b2530; }
+    .buchse { fill: #46535f; }
+    .pin    { fill: #0f1720; }
+    .titel  { fill: #17202a; font-weight: 800; }
+    .text   { fill: #53606d; }
+    .strich { stroke: #9fb0bd; stroke-width: 2; fill: none; }
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  </style>
+
+  <!-- Traegerplatte hinter der Buchse -->
+  <rect class="platte" x="96" y="18" width="130" height="176" rx="18"/>
+
+  <!-- oberer Teil: normales Laden. Sieben Loecher, oben abgeflacht. -->
+  <path class="buchse" d="M161 40 q32 0 32 28 q0 30 -32 30 q-32 0 -32 -30 q0 -28 32 -28 z"/>
+  <circle class="pin" cx="147" cy="57" r="7"/>
+  <circle class="pin" cx="175" cy="57" r="7"/>
+  <circle class="pin" cx="140" cy="76" r="7"/>
+  <circle class="pin" cx="161" cy="79" r="7"/>
+  <circle class="pin" cx="182" cy="76" r="7"/>
+  <circle class="pin" cx="153" cy="45" r="4"/>
+  <circle class="pin" cx="169" cy="45" r="4"/>
+
+  <!-- unterer Teil: nur beim Schnellladen -->
+  <rect class="buchse" x="126" y="112" width="70" height="34" rx="17"/>
+  <circle class="pin" cx="144" cy="129" r="11"/>
+  <circle class="pin" cx="178" cy="129" r="11"/>
+
+  <!-- Tesla-T, leuchtet beim Laden -->
+  <g>
+    <circle cx="52" cy="79" r="19" fill="#0f1720"/>
+    <circle cx="52" cy="79" r="19" fill="none" stroke="#8fd3b0" stroke-width="2" opacity=".5"/>
+    <path d="M43 73 h18 M52 73 v14" stroke="#8fd3b0" stroke-width="3.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Beschriftungen -->
+  <path class="strich" d="M199 69 h44"/>
+  <text class="titel" x="249" y="66" font-size="13">Normal</text>
+  <text class="text"  x="249" y="82" font-size="12">laden</text>
+
+  <path class="strich" d="M202 129 h41"/>
+  <text class="titel" x="249" y="126" font-size="13">Schnell</text>
+  <text class="text"  x="249" y="142" font-size="12">laden</text>
+
+  <path class="strich" d="M52 100 v22"/>
+  <text class="titel" x="8" y="140" font-size="13">Leuchte</text>
+
+  <text class="text" x="8" y="222" font-size="13">Ein normaler Stecker passt nur in den</text>
+  <text class="text" x="8" y="240" font-size="13">oberen Teil. Das ist richtig so.</text>
+</svg>

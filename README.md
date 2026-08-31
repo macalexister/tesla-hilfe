@@ -44,105 +44,73 @@ Dann `http://localhost:8080` öffnen.
 Texte ändert man in `content.js`, ohne den Code anzufassen. Die Zurück-Schaltfläche
 folgt dem `parent`-Feld einer Seite, nicht dem Klickverlauf.
 
-## Zeichnungen und Fotos
+## Bilder
 
-Vier Seiten zeigen ein Bild: der Weg zum Waschanlagen-Modus, die Leuchte am
-Ladeanschluss, die Lage des Ladeanschlusses am Auto und ein Foto des
-geöffneten Ladeanschlusses. Sie stehen bewusst **vor** den Schritten — sie
-beantworten „wo muss ich hintippen“ schneller als Text, und hinter sieben
-Schritten würden sie erst nach anderthalb Bildschirmlängen auftauchen.
+Vier Seiten zeigen eine Zeichnung: der Weg zum Waschanlagen-Modus, die Leuchte
+am Ladeanschluss, die Lage des Ladeanschlusses am Auto und die Ladebuchse aus
+der Nähe. Sie stehen bewusst **vor** den Schritten — sie beantworten „wo muss
+ich hintippen“ schneller als Text, und hinter sieben Schritten würden sie erst
+nach anderthalb Bildschirmlängen auftauchen.
 
-### Warum die Bildschirm-Darstellungen gezeichnet sind
+### Warum gezeichnet und nicht fotografiert
 
 1. Die Abbildungen im Tesla-Handbuch sind urheberrechtlich geschützt
-   („© Tesla“) und dürfen nicht in dieses Repository.
+   („© Tesla“) und dürfen nicht in dieses Repository. **Bilder aus Foren oder
+   von Herstellerseiten scheiden aus demselben Grund aus**, auch wenn sie
+   frei abrufbar sind.
 2. Tesla weist selbst darauf hin, dass die Anzeige je nach Softwarestand,
-   Ausstattung und Region abweicht. Eine Skizze zeigt den Weg und veraltet
-   nicht mit jedem Update. Unter jedem Bild steht deshalb ein Hinweis, dass
-   es auf dem eigenen Bildschirm anders aussehen kann.
+   Ausstattung und Region abweicht. Eine Zeichnung zeigt den Weg und veraltet
+   nicht mit jedem Update.
 
-Die SVG-Dateien sind zusammen 12 KB. Jede trägt `<title>` und `<desc>`, im
+Es gäbe brauchbare Fotos unter freier Lizenz auf Wikimedia Commons. Eines war
+kurzzeitig eingebaut, ist aber wieder entfernt worden: Ein einzelnes Foto
+zwischen vier Zeichnungen wirkt uneinheitlich, und die Lizenz zieht dauerhafte
+Pflichten nach sich. Sobald eigene Fotos vorliegen, ersetzen sie die
+Zeichnungen — dafür gibt es die Seite unten.
+
+Die SVG-Dateien sind zusammen 16 KB. Jede trägt `<title>` und `<desc>`, im
 `alt`-Text steht der Inhalt noch einmal ausformuliert.
 
-### Herkunft des Fotos
+## Eigene Fotos aufnehmen
 
-`bilder/ladeanschluss-foto.jpg` zeigt den geöffneten Ladeanschluss eines
-europäischen Model 3.
+Die versteckte Seite **`#fotos`** ersetzt jede Zeichnung durch ein eigenes
+Foto. Gedacht ist sie für den Moment, in dem man im Auto sitzt.
 
-| | |
-| --- | --- |
-| Urheber | CarlJohanSveningsson |
-| Quelle | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:European_Tesla_Model_3_charge_port.jpg) |
-| Lizenz | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
-| Änderungen | zugeschnitten auf 4:3, auf 900 px verkleinert, JPEG-Qualität 82 |
+1. `https://macalexister.github.io/tesla-hilfe/#fotos` auf dem iPhone öffnen
+2. Auf „Foto aufnehmen“ tippen — iOS bietet Kamera oder Mediathek an
+3. Das Foto erscheint sofort in der App und ersetzt die Zeichnung
 
-Die Lizenz verlangt Urhebernennung, Lizenzangabe und einen Hinweis auf
-Änderungen. Alles drei steht unter dem Bild in der App und auf der Seite
-„Quellen“. Das bearbeitete Foto steht damit ebenfalls unter CC BY-SA 4.0.
+Zu jedem Bild steht dort, **was genau zu fotografieren ist** und worauf zu
+achten ist. Die Aufträge stehen in `content.js` unter `FOTO_AUFTRAEGE`.
 
-**Bilder aus Foren oder von Herstellerseiten sind keine Option** — sie sind
-urheberrechtlich geschützt, auch wenn sie frei abrufbar sind. Nur Material
-unter freier Lizenz oder eigene Aufnahmen gehören hierher.
+**Wichtig:** Die App hat keinen Server, ein Upload im Wortsinn ist nicht
+möglich. Die Fotos liegen im Speicher des Browsers und sind nur auf dem Gerät
+sichtbar, auf dem sie aufgenommen wurden. Über „Alle Fotos herunterladen“
+landen sie im Download-Ordner und können nach `bilder/` übernommen werden —
+erst dann sieht sie auch die Nutzerin.
+
+Jedes Foto wird beim Aufnehmen über ein Canvas auf 1000 Pixel lange Kante
+gerechnet und als JPEG mit Qualität 0,82 abgelegt. Aus 8,7 MB werden so
+rund 160 KB; ohne diesen Schritt wäre der Speicher nach zwei Bildern voll.
+
+Die Zuordnung läuft über den Dateinamen: Aus `bilder/waschmodus.svg` wird die
+Kennung `waschmodus`, und ein Foto unter dieser Kennung gewinnt gegen die
+Zeichnung. Ein neues Bild braucht deshalb keine Codeänderung.
 
 ### Neues Bild einbauen
 
 Datei nach `bilder/` legen und auf der Seite in `content.js` ergänzen:
 
 ```js
-figure: ["bilder/datei.jpg", "Was zu sehen ist.", "Hinweis unter dem Bild."]
+figure: ["bilder/datei.svg", "Was zu sehen ist.", "Hinweis unter dem Bild."]
 ```
 
-Bei fremdem Material zusätzlich den Nachweis angeben:
+Bei fremdem Material zusätzlich den Nachweis angeben, den die Lizenz verlangt:
 
 ```js
 figure: ["bilder/datei.jpg", "Was zu sehen ist.", "Hinweis.",
          ["Urheber, Lizenz, Änderung", "https://quelle"]]
 ```
-
-## Telefonnummer
-
-Die Nummer steht bewusst **nicht** im Repository. Die App holt sie aus einer von
-zwei Quellen, die beide nicht eingecheckt werden:
-
-1. **`config.local.js`** — liegt neben den anderen Dateien und steht in
-   `.gitignore`. Wird beim Ausliefern mitkopiert.
-2. **Browser-Speicher** — über die versteckte Seite `#setup` direkt auf dem
-   iPhone eingetragen. Die Nummer verlässt das Gerät nicht und überschreibt
-   `config.local.js`, falls beides vorhanden ist.
-
-Fehlt beides, blendet die App die Anruf- und WhatsApp-Schaltfläche aus und
-verlinkt stattdessen auf `#setup`.
-
-Die Eingabe darf in jeder üblichen Schreibweise erfolgen. `0171 1234567`,
-`0049 171 1234567` und `+49 (0)171 1234567` ergeben alle dieselbe Nummer
-`+491711234567`; ohne diese Umrechnung würde `wa.me` niemanden finden.
-Nach dem Speichern zeigt das Feld, was tatsächlich hinterlegt wurde.
-
-Weil `config.local.js` fehlen darf, meldet die Konsole beim Laden gegebenenfalls
-einen 404 für diese Datei. Das ist erwartet und ohne Wirkung.
-
-## Apps direkt öffnen
-
-Auf einigen Seiten gibt es große Schaltflächen, die auf dem iPhone die
-installierte App öffnen statt Safari. Das funktioniert über Universal Links.
-Jede verwendete Adresse ist beim Anbieter offiziell hinterlegt und lässt sich
-nachprüfen unter `https://<domain>/.well-known/apple-app-site-association`:
-
-| App               | Adresse                            | Eintrag beim Anbieter   |
-| ----------------- | ---------------------------------- | ----------------------- |
-| Tesla             | `tesla.com/1/app/home`             | `"Open Tesla App"`      |
-| Chargemap         | `chargemap.com/de-de/map`          | Pfadmuster `/*-*/map`   |
-| Chargeprice       | `chargeprice.app/`                 | alle Pfade              |
-| ADAC Pannenhilfe  | `adac.de/hilfe`                    | Pfad `/hilfe`           |
-| Apple Karten      | `maps.apple.com/?q=Ladestation`    | Systemapp von Apple     |
-
-**EWE Go, ADAC e-Charge und Aral pulse haben keine Universal Links.** Dort steht
-deshalb bewusst keine Schaltfläche „App öffnen“, sondern der ehrliche Hinweis,
-die App auf dem Startbildschirm anzutippen. Eine Schaltfläche, die stattdessen
-die Werbeseite öffnet, würde etwas Falsches versprechen.
-
-Ist eine App nicht installiert, öffnet iOS die normale Webseite. Es geht also
-nichts kaputt.
 
 ## Datenschutz
 

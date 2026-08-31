@@ -69,6 +69,26 @@ a.app-card:hover, a.app-card:focus-visible { border-color: var(--blue); outline:
 .setup .action-button { width: 100%; margin: 0; border: 0; }
 .setup-status { min-height: 1.4em; margin: 4px 0 0; font-weight: 700; color: var(--green); }
 .setup-status.is-error { color: var(--red); }
+
+/* Fotoaufnahme, nur auf der versteckten Seite #fotos sichtbar. */
+.foto-liste { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 16px; }
+.foto-auftrag { padding: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
+.foto-kopf { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; justify-content: space-between; }
+.foto-kopf strong { font-size: 1.1rem; }
+.foto-status { color: var(--muted); font-size: .88rem; }
+.foto-wie { margin: 10px 0 4px; }
+.foto-achte { margin: 0; color: var(--muted); font-size: .92rem; }
+.foto-vorschau { display: block; width: 100%; max-width: 320px; height: auto; margin: 12px 0 0; border-radius: 12px; border: 1px solid var(--line); }
+.foto-knoepfe { display: grid; gap: 8px; margin-top: 12px; }
+/* Das Dateifeld liegt im Label. Das Label muss deshalb aussehen und sich
+   anfuehlen wie ein Knopf, sonst tippt niemand darauf. */
+.foto-knoepfe label { display: block; text-align: center; cursor: pointer; margin: 0; border: 0; }
+.foto-knoepfe .action-button { width: 100%; margin: 0; }
+.foto-knoepfe label:focus-within { outline: 4px solid rgba(28,93,135,.35); outline-offset: 2px; border-radius: 14px; }
+.foto-meldung { min-height: 1.4em; margin: 10px 0 0; font-weight: 700; color: var(--green); }
+.foto-meldung.is-error { color: var(--red); }
+.foto-gesamt { margin: 22px 0 0; }
+.foto-gesamt .action-button { width: 100%; margin: 0; }
 .footer { max-width: 920px; margin: 0 auto; padding: 0 16px 48px; color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line); padding-top: 20px; }
 .footer p { margin: 8px 0 0; }
 .quick-actions-title { margin: 0; color: var(--muted); font-size: .9rem; }

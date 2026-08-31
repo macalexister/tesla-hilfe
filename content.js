@@ -43,6 +43,48 @@ const OPEN_APP = {
   maps: ["📍", "Ladestationen in der Karte suchen", "https://maps.apple.com/?q=Ladestation", "Öffnet die Karten-App auf dem iPhone"]
 };
 
+/*
+  Fotoauftraege fuer die versteckte Seite "#fotos".
+
+  Die id entspricht dem Dateinamen ohne Endung in bilder/. Liegt zu einer id
+  ein selbst aufgenommenes Foto im Geraetespeicher, zeigt die App dieses
+  statt der Zeichnung. So laesst sich jedes Bild einzeln ersetzen, ohne
+  Code zu aendern.
+
+  Die Beschreibungen sind absichtlich sehr konkret: Sie werden im Auto
+  gelesen, oft in der Sonne und mit wenig Geduld.
+*/
+const FOTO_AUFTRAEGE = [
+  {
+    id: "ladebuchse",
+    titel: "Ladebuchse offen, aus der Nähe",
+    ersetzt: "eine Zeichnung",
+    wie: "Auto aufschließen, Klappe hinten links öffnen. Etwa einen Schritt Abstand, Buchse mittig im Bild.",
+    achte: "Beide Teile der Buchse sollen drauf sein, oben und unten. Kein Gegenlicht, sonst wird das Schwarz zu dunkel."
+  },
+  {
+    id: "waschmodus",
+    titel: "Bildschirm: Waschanlagen-Modus",
+    ersetzt: "eine Zeichnung",
+    wie: "Im Auto: Fahrzeug, dann Service. So weit scrollen, dass „Waschanlagen-Modus“ mit seinem Schalter zu sehen ist.",
+    achte: "Gerade von vorn fotografieren, nicht schräg. Bildschirm füllt das Bild. Auf Spiegelungen achten."
+  },
+  {
+    id: "ladeleuchte",
+    titel: "Leuchte am Ladeanschluss beim Laden",
+    ersetzt: "eine Zeichnung",
+    wie: "Während geladen wird: Nahaufnahme des Tesla-T neben der Buchse, solange es grün leuchtet.",
+    achte: "Am besten in der Dämmerung oder im Schatten, dann sieht man das Grün deutlich."
+  },
+  {
+    id: "ladeanschluss",
+    titel: "Auto von der Seite, Fahrerseite",
+    ersetzt: "eine Zeichnung",
+    wie: "Ganzes Auto von der linken Seite, Klappe geschlossen. Etwa drei Schritte Abstand, Auto füllt das Bild.",
+    achte: "Auf Augenhöhe der Türgriffe, nicht von oben. Ruhiger Hintergrund."
+  }
+];
+
 const PAGES = {
   start: {
     eyebrow: "Eine Frage. Eine Handlung.",
@@ -94,7 +136,7 @@ const PAGES = {
       "Warten. Der Bildschirm im Auto zeigt, dass geladen wird. Eine Ladekarte brauchst du hier normalerweise nicht.",
       "Zum Beenden: Taste am Kabelgriff drücken, Kabel abziehen, zurückhängen, weiterfahren."
     ],
-    figure: ["bilder/ladeanschluss-foto.jpg", "Der geöffnete Ladeanschluss eines Model 3: Die Klappe ist Teil des Rücklichts, darunter sitzt die Buchse. Links daneben leuchtet das Tesla-T.", "Foto eines europäischen Model 3, zugeschnitten.", ["CarlJohanSveningsson, CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:European_Tesla_Model_3_charge_port.jpg"]],
+    figure: ["bilder/ladebuchse.svg", "Die Ladebuchse hat zwei Teile: oben der runde Bereich für normales Laden, darunter zwei große Löcher, die nur beim Schnellladen benutzt werden. Links leuchtet das Tesla-T.", "Zeichnung. Am Supercharger wird auch der untere Teil benutzt."],
     note: "Wenn nach etwa einer Minute nichts passiert: Kabel einmal abziehen und neu einstecken. Hilft das nicht, nimm den Nachbarplatz."
   },
 
@@ -333,8 +375,7 @@ const PAGES = {
       ["Chargeprice", "https://www.chargeprice.app/"]
     ],
     cards: [
-      ["📷 Bilder", "Die Zeichnungen sind selbst erstellt. Das Foto vom Ladeanschluss stammt von CarlJohanSveningsson über Wikimedia Commons, steht unter der Lizenz CC BY-SA 4.0 und wurde für diese App zugeschnitten und verkleinert.", "https://commons.wikimedia.org/wiki/File:European_Tesla_Model_3_charge_port.jpg"],
-      ["⚖️ Lizenz des Fotos", "CC BY-SA 4.0 — Weitergabe erlaubt, auch verändert, solange Urheber und Lizenz genannt werden.", "https://creativecommons.org/licenses/by-sa/4.0/deed.de"]
+      ["📷 Bilder", "Alle Zeichnungen in dieser App sind selbst erstellt. Es werden keine Abbildungen aus dem Tesla-Handbuch verwendet, die sind urheberrechtlich geschützt."]
     ],
     note: "Preise, Tarife und Funktionen ändern sich. Angaben in dieser App können veraltet sein."
   },
@@ -348,5 +389,16 @@ const PAGES = {
     intro: "Trag hier einmal die Handynummer ein. Danach funktionieren Anrufen und WhatsApp.",
     form: "contact",
     note: "Die Nummer wird nur in diesem Browser auf diesem Gerät gespeichert. Sie steht nicht im Quelltext der App, wird nirgendwo hochgeladen und ist für niemanden sonst sichtbar."
+  },
+
+  /* Zweite versteckte Seite, nur fuer Alex. Steht in keiner Auswahl und
+     wird ueber "#fotos" erreicht. Ersetzt Zeichnungen durch eigene Fotos. */
+  fotos: {
+    parent: "start",
+    eyebrow: "Nur für Alex",
+    title: "Eigene Fotos",
+    intro: "Hier lassen sich die Zeichnungen durch echte Fotos ersetzen. Die Fotos bleiben auf diesem Gerät, bis du sie herunterlädst.",
+    form: "fotos",
+    note: "Die Fotos werden beim Aufnehmen automatisch verkleinert. Sie liegen nur in diesem Browser — auf Mutters iPhone sind sie erst zu sehen, wenn sie über „Herunterladen“ ins Projekt übernommen wurden."
   }
 };

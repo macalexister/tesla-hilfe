@@ -78,6 +78,26 @@ function renderAppLinks(appLinks) {
   return `<div class="open-apps">${items}</div>`;
 }
 
+/* Eigene Fotos ersetzen Zeichnungen.
+
+   Die Bild-Kennung ist der Dateiname ohne Ordner und Endung, also wird aus
+   "bilder/waschmodus.svg" die Kennung "waschmodus". Liegt dazu ein selbst
+   aufgenommenes Foto im Geraetespeicher, gewinnt dieses. Damit laesst sich
+   jedes Bild einzeln ersetzen, ohne eine Zeile Code zu aendern. */
+const FOTO_PREFIX = "tesla-hilfe.foto.";
+
+function bildKennung(datei) {
+  return String(datei).replace(/^.*\//, "").replace(/\.[^.]+$/, "");
+}
+
+function eigenesFoto(kennung) {
+  try {
+    return localStorage.getItem(FOTO_PREFIX + kennung);
+  } catch (error) {
+    return null;
+  }
+}
+
 /* Zeichnungen und Fotos. Tesla weist selbst darauf hin, dass der Bildschirm
    je nach Softwarestand anders aussieht; eine Skizze zeigt den Weg und
    veraltet nicht mit jedem Update. Ausserdem sind die Abbildungen im
@@ -85,14 +105,17 @@ function renderAppLinks(appLinks) {
 
    Fotos stammen von Wikimedia Commons unter freier Lizenz. Die Lizenz
    verlangt Urhebernennung, Lizenzangabe und einen Hinweis auf Aenderungen -
-   deshalb der Quellen-Link unter dem Bild. */
+   deshalb der Quellen-Link unter dem Bild. Bei einem eigenen Foto entfaellt
+   dieser Nachweis, denn dann stammt das Bild nicht mehr von dort. */
 function renderFigure([datei, beschreibung, hinweis = "Zeichnung, kein Foto.", quelle]) {
-  const nachweis = quelle
+  const eigenes = eigenesFoto(bildKennung(datei));
+  const quelltext = eigenes ? "Eigenes Foto." : esc(hinweis);
+  const nachweis = quelle && !eigenes
     ? ` <a class="bild-quelle" href="${esc(quelle[1])}" rel="noopener">${esc(quelle[0])} ↗</a>`
     : "";
   return `<figure class="bild">
-      <img src="${esc(datei)}" alt="${esc(beschreibung)}" decoding="async">
-      <figcaption>${esc(hinweis)}${nachweis}</figcaption>
+      <img src="${eigenes ? eigenes : esc(datei)}" alt="${esc(beschreibung)}" decoding="async">
+      <figcaption>${quelltext}${nachweis}</figcaption>
     </figure>`;
 }
 
@@ -117,11 +140,13 @@ function render(id) {
   if (page.links) html += renderLinks(page.links);
   if (page.note) html += `<p class="notice">${esc(page.note)}</p>`;
   if (page.form === "contact") html += renderContactForm();
+  if (page.form === "fotos") html += renderFotoForm();
 
   app.innerHTML = html;
   app.querySelectorAll("[data-go]").forEach(button =>
     button.addEventListener("click", () => navigate(button.dataset.go)));
   if (page.form === "contact") wireContactForm();
+  if (page.form === "fotos") wireFotoForm();
 
   document.title = id === START ? "Deine Tesla-Hilfe" : `${page.title} – Deine Tesla-Hilfe`;
   window.scrollTo(0, 0);
@@ -244,6 +269,160 @@ function wireContactForm() {
     input.value = "";
     setContactLinks(CONFIG.defaultWhatsAppText);
     report(true, "Gelöscht.");
+  });
+}
+
+/* ---- Eigene Fotos aufnehmen -------------------------------------------
+
+   Die App laeuft ohne Server, ein Upload im Wortsinn ist also nicht
+   moeglich. Stattdessen bleibt das Foto im Geraetespeicher und wird sofort
+   angezeigt. Fuer die Uebernahme ins Projekt gibt es "Herunterladen".
+
+   iPhone-Fotos sind drei bis fuenf Megabyte gross und wuerden den Speicher
+   sofort sprengen. Deshalb wird jedes Bild ueber ein Canvas auf 1000 Pixel
+   lange Kante gerechnet und als JPEG mit Qualitaet 0.82 abgelegt - das
+   ergibt rund 100 bis 200 Kilobyte. */
+const FOTO_MAX_KANTE = 1000;
+const FOTO_QUALITAET = 0.82;
+
+function verkleinereFoto(datei) {
+  return new Promise((erfolg, fehler) => {
+    const leser = new FileReader();
+    leser.onerror = () => fehler(new Error("Die Datei ließ sich nicht lesen."));
+    leser.onload = () => {
+      const bild = new Image();
+      bild.onerror = () => fehler(new Error("Das ist kein Bild, das der Browser öffnen kann."));
+      bild.onload = () => {
+        const faktor = Math.min(1, FOTO_MAX_KANTE / Math.max(bild.width, bild.height));
+        const flaeche = document.createElement("canvas");
+        flaeche.width = Math.round(bild.width * faktor);
+        flaeche.height = Math.round(bild.height * faktor);
+        const stift = flaeche.getContext("2d");
+        stift.drawImage(bild, 0, 0, flaeche.width, flaeche.height);
+        erfolg({
+          daten: flaeche.toDataURL("image/jpeg", FOTO_QUALITAET),
+          breite: flaeche.width,
+          hoehe: flaeche.height
+        });
+      };
+      bild.src = leser.result;
+    };
+    leser.readAsDataURL(datei);
+  });
+}
+
+function speichereFoto(kennung, daten) {
+  try {
+    localStorage.setItem(FOTO_PREFIX + kennung, daten);
+    return { ok: true };
+  } catch (error) {
+    /* Der Speicher ist voll. Das passiert nach ein paar Fotos und muss
+       erklaert werden, sonst wirkt es wie ein Absturz. */
+    return { ok: false, grund: "Der Speicher dieses Browsers ist voll. Lade die vorhandenen Fotos herunter und lösche sie hier, dann geht es weiter." };
+  }
+}
+
+function loescheFoto(kennung) {
+  try {
+    localStorage.removeItem(FOTO_PREFIX + kennung);
+  } catch (error) {
+    /* Nichts zu tun: ist der Speicher nicht lesbar, gibt es auch nichts zu loeschen. */
+  }
+}
+
+function fotoGroesse(daten) {
+  /* Base64 traegt rund ein Drittel Ballast. Fuer die Anzeige reicht diese
+     Naeherung, sie muss nur die Groessenordnung stimmen. */
+  return Math.round((daten.length * 3) / 4 / 1024);
+}
+
+function renderFotoForm() {
+  const zeilen = FOTO_AUFTRAEGE.map(auftrag => {
+    const vorhanden = eigenesFoto(auftrag.id);
+    return `<li class="foto-auftrag" data-kennung="${esc(auftrag.id)}">
+        <div class="foto-kopf">
+          <strong>${esc(auftrag.titel)}</strong>
+          <span class="foto-status">${vorhanden ? "Eigenes Foto (" + fotoGroesse(vorhanden) + " KB)" : "ersetzt " + esc(auftrag.ersetzt)}</span>
+        </div>
+        <p class="foto-wie">${esc(auftrag.wie)}</p>
+        <p class="foto-achte">${esc(auftrag.achte)}</p>
+        ${vorhanden ? `<img class="foto-vorschau" src="${vorhanden}" alt="Eigenes Foto: ${esc(auftrag.titel)}">` : ""}
+        <div class="foto-knoepfe">
+          <label class="action-button primary">
+            ${vorhanden ? "Neu aufnehmen" : "Foto aufnehmen"}
+            <input type="file" accept="image/*" hidden data-foto="${esc(auftrag.id)}">
+          </label>
+          ${vorhanden ? `<button class="action-button secondary" type="button" data-foto-weg="${esc(auftrag.id)}">Entfernen</button>` : ""}
+        </div>
+        <p class="foto-meldung" role="status"></p>
+      </li>`;
+  }).join("");
+
+  return `<ul class="foto-liste">${zeilen}</ul>
+    <div class="foto-gesamt">
+      <button class="action-button secondary" type="button" id="fotoExport">Alle Fotos herunterladen</button>
+      <p class="foto-meldung" id="fotoExportMeldung" role="status"></p>
+    </div>`;
+}
+
+function wireFotoForm() {
+  const zeigeMeldung = (element, text, fehler = false) => {
+    element.textContent = text;
+    element.classList.toggle("is-error", fehler);
+  };
+
+  app.querySelectorAll("input[data-foto]").forEach(feld => {
+    feld.addEventListener("change", async () => {
+      const kennung = feld.dataset.foto;
+      const eintrag = feld.closest(".foto-auftrag");
+      const meldung = eintrag.querySelector(".foto-meldung");
+      const datei = feld.files && feld.files[0];
+      if (!datei) return;
+
+      zeigeMeldung(meldung, "Foto wird verkleinert …");
+      try {
+        const bild = await verkleinereFoto(datei);
+        const ergebnis = speichereFoto(kennung, bild.daten);
+        if (!ergebnis.ok) return zeigeMeldung(meldung, ergebnis.grund, true);
+        /* Neu zeichnen, damit Vorschau und Knopfbeschriftung stimmen. */
+        render(pageId());
+        const frisch = app.querySelector(`.foto-auftrag[data-kennung="${kennung}"] .foto-meldung`);
+        if (frisch) zeigeMeldung(frisch, `Gespeichert: ${bild.breite}×${bild.hoehe} Pixel, ${fotoGroesse(bild.daten)} KB.`);
+      } catch (error) {
+        zeigeMeldung(meldung, error.message || "Das Foto ließ sich nicht verarbeiten.", true);
+      } finally {
+        feld.value = "";
+      }
+    });
+  });
+
+  app.querySelectorAll("[data-foto-weg]").forEach(knopf => {
+    knopf.addEventListener("click", () => {
+      loescheFoto(knopf.dataset.fotoWeg);
+      render(pageId());
+    });
+  });
+
+  const exportKnopf = app.querySelector("#fotoExport");
+  exportKnopf.addEventListener("click", () => {
+    const meldung = app.querySelector("#fotoExportMeldung");
+    const vorhandene = FOTO_AUFTRAEGE.filter(a => eigenesFoto(a.id));
+    if (!vorhandene.length) return zeigeMeldung(meldung, "Es ist noch kein eigenes Foto da.", true);
+
+    vorhandene.forEach((auftrag, i) => {
+      /* Nacheinander mit Abstand, sonst blockt der Browser die Downloads. */
+      setTimeout(() => {
+        const link = document.createElement("a");
+        link.href = eigenesFoto(auftrag.id);
+        link.download = auftrag.id + ".jpg";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }, i * 700);
+    });
+    zeigeMeldung(meldung, vorhandene.length === 1
+      ? "Ein Foto wird heruntergeladen. Danach in den Ordner bilder/ legen."
+      : `${vorhandene.length} Fotos werden heruntergeladen. Danach in den Ordner bilder/ legen.`);
   });
 }
 
