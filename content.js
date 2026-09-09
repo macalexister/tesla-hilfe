@@ -16,6 +16,10 @@
     figure   - Bild [Datei, alt-Text, Hinweis, optional [Quelltext, URL]]
     weiter   - Kacheln ganz am Ende, fuer Themen die danach kommen
     form     - Sonderfall: "contact" zeigt das Formular fuer die Nummer
+    topics   - kompakte Themen-Navigation
+    before   - wichtige Hinweise vor der Anleitung
+    detailsTitle - Zusatzwissen zum Aufklappen (cards und optional figure)
+    figureInDetails - Zeichnung beim Zusatzwissen statt vor den Schritten
 */
 
 /*
@@ -57,6 +61,20 @@ const OPEN_APP = {
 */
 const FOTO_AUFTRAEGE = [
   {
+    id: "fahrstufe",
+    titel: "Fahrstufenwahl auf dem Bildschirm",
+    ersetzt: "eine Zeichnung",
+    wie: "Im sicher geparkten Auto auf die Bremse treten. Eine zweite Person fotografiert den linken Bildschirmrand mit der Fahrstufenwahl. Keine Fahrstufe wechseln.",
+    achte: "Der Streifen und die angezeigte Parkstellung sollen gut lesbar sein. Persönliche Ziele auf der Karte nicht mit aufnehmen."
+  },
+  {
+    id: "tempomat",
+    titel: "Rechtes Rädchen am Lenkrad",
+    ersetzt: "eine Zeichnung",
+    wie: "Im geparkten Auto das Lenkrad von vorn fotografieren. Das rechte Rädchen soll deutlich zu sehen sein.",
+    achte: "Keine Finger davor und keine Spiegelung. Das Rädchen nicht zur Demonstration während der Fahrt bedienen."
+  },
+  {
     id: "ladebuchse",
     titel: "Ladebuchse offen, aus der Nähe",
     ersetzt: "eine Zeichnung",
@@ -86,11 +104,17 @@ const FOTO_AUFTRAEGE = [
   }
 ];
 
+const DRIVING_TOPICS = [
+  ["🚗", "Losfahren", "drive"],
+  ["🛣️", "Tempomat", "tempomat"],
+  ["🆕", "Anders", "anders"]
+];
+
 const PAGES = {
   start: {
     eyebrow: "Eine Frage. Eine Handlung.",
     title: "Was möchtest du gerade machen?",
-    intro: "Tippe auf das, was gerade dran ist.",
+    intro: "Bitte nur im Stand benutzen. Tippe dann auf das, was gerade dran ist.",
     choices: [
       ["🚗", "Ich fahre los", "Einsteigen und sicher starten.", "drive"],
       ["⚡", "Ich möchte laden", "Supercharger oder andere Ladesäule.", "charge"],
@@ -103,6 +127,7 @@ const PAGES = {
 
   drive: {
     parent: "start",
+    topics: DRIVING_TOPICS,
     eyebrow: "Ich fahre los",
     title: "Losfahren",
     intro: "Dein Tesla hat keinen Schalthebel. Vorwärts und rückwärts wählst du auf dem Bildschirm: P heißt Parken, R rückwärts, N Leerlauf, D vorwärts.",
@@ -110,21 +135,15 @@ const PAGES = {
     steps: [
       "Einsteigen, Tür schließen, anschnallen. Das Auto ist jetzt an — es gibt keinen Startknopf.",
       "Fuß auf die Bremse und dort lassen. Erst dann erscheint der Streifen mit P, R, N und D — auf deiner Seite des Bildschirms.",
-      "Vorwärts: mit dem Finger auf dem Streifen nach oben wischen, bis D leuchtet.",
-      "Rückwärts: auf dem Streifen nach unten wischen, bis R leuchtet.",
-      "Beim Rückwärtsfahren nach hinten schauen — über die Schulter und in die Spiegel, nicht nur auf die Kamera.",
-      "Ein kurzer Ton bestätigt den Wechsel. Oben im Bild siehst du, welche Stufe gewählt ist.",
-      "Fuß von der Bremse nehmen und losfahren."
+      "Gewünschte Richtung wählen: nach oben wischen für D (vorwärts), nach unten für R (rückwärts).",
+      "Gewählte Fahrstufe auf dem Bildschirm prüfen. Beim Rückwärtsfahren auch über die Schulter und in die Spiegel schauen, nicht nur auf die Kamera.",
+      "Wenn der Weg frei ist: Fuß von der Bremse nehmen und behutsam das Fahrpedal drücken."
     ],
     cards: [
       ["🅿️ Wieder parken", "Auf die Bremse treten und auf dem Streifen P antippen. Danach nachsehen, ob wirklich P angezeigt wird — verlass dich nicht darauf, dass das Auto von selbst parkt."],
       ["🔁 Vor und zurück wechseln", "Zwischen vorwärts und rückwärts geht es nur, wenn du fast stehst. Also erst anhalten, dann umschalten."],
       ["👆 Der Streifen ist weg", "Während der Fahrt blendet er sich aus. Er kommt zurück, wenn du vom Bildschirmrand zur Beifahrerseite wischst."],
       ["🛟 Wenn der Bildschirm nicht reagiert", "Über dem Innenspiegel an der Decke sitzen vier Tasten: P, R, N und D. Sie sind für den Notfall gedacht und werden dann von selbst aktiv. Bremse treten, dann D drücken."]
-    ],
-    weiter: [
-      ["🆕", "Was anders ist als gewohnt", "Bremsen, Türen, Scheibenwischer.", "anders", "green"],
-      ["🛣️", "Tempomat auf der Autobahn", "Das Auto hält Tempo und Abstand.", "tempomat", "blue"]
     ],
     note: "Bei einer längeren Strecke: Ziel ins Tesla-Navi eingeben. Der Tesla plant die nötigen Ladestopps selbst mit ein."
   },
@@ -137,31 +156,39 @@ const PAGES = {
      ihn nicht versehentlich einschaltet. */
   tempomat: {
     parent: "drive",
+    topics: DRIVING_TOPICS,
     eyebrow: "Tempomat",
     title: "Tempo und Abstand halten",
-    intro: "Das Auto hält von selbst die Geschwindigkeit und den Abstand zum Vordermann. Du lenkst weiter selbst.",
+    intro: "Das Auto hält Tempo und Abstand. Du lenkst selbst.",
+    before: [
+      ["Einmal im Stand mit Alex einstellen", "Fahrzeug > Autonomes Fahren: Abstandsgeschwindigkeitsregler wählen. Ist der Lenkassistent gewählt, muss die Aktivierung auf „Doppelklick“ stehen, nicht „Einzelklick“. Für das Starttempo „Aktuelle Geschwindigkeit“ wählen. Ist eine Einstellung unklar, zuerst Alex fragen."],
+      ["Wichtig, bevor du ihn benutzt", "Hände ans Lenkrad, Augen auf die Straße, Fuß bremsbereit. Er hält nicht an Ampeln oder Stoppschildern und erkennt ein Stauende möglicherweise zu spät. Nicht in der Stadt, an Baustellen oder bei schlechter Sicht und Fahrbahn benutzen."]
+    ],
     figure: ["bilder/tempomat.svg", "Am rechten Daumen des Lenkrads sitzt ein Rädchen. Hineindrücken schaltet den Tempomat ein und aus. Nach oben oder unten rollen ändert die Geschwindigkeit. Seitlich drücken ändert den Abstand.", "Zeichnung. Alles läuft über das rechte Rädchen am Lenkrad."],
+    figureInDetails: true,
+    detailsTitle: "Das Rädchen im Bild und weitere Hinweise",
     steps: [
       "Auf der Autobahn oder Landstraße die Geschwindigkeit fahren, die du halten willst.",
-      "Das rechte Rädchen am Lenkrad einmal hineindrücken. Ein Ton bestätigt es, die Zahl auf dem Bildschirm wird blau.",
+      "Das rechte Rädchen am Lenkrad einmal hineindrücken. Die eingestellte Geschwindigkeit wird blau angezeigt. Prüfe die Zahl: Je nach Einstellung kann sie höher sein als dein bisheriges Tempo.",
       "Fuß vom Gas nehmen. Das Auto hält jetzt Tempo und Abstand von selbst.",
       "Schneller oder langsamer: das Rädchen nach oben oder unten rollen.",
-      "Mehr Abstand: das Rädchen zur Seite drücken. Die Zahl auf dem Bildschirm zeigt die Stufe — nimm ruhig eine größere.",
+      "Abstand ändern: das Rädchen nach links oder rechts drücken und die angezeigte Stufe prüfen. Eine größere Zahl bedeutet mehr Abstand.",
       "Ausschalten: auf die Bremse treten. Die Zahl wird wieder grau."
     ],
     cards: [
-      ["🖐️ Du fährst weiter", "Der Tempomat ist keine Selbstfahrfunktion. Hände ans Lenkrad, Augen auf die Straße, Fuß bremsbereit. Er nimmt dir nur das Gasgeben ab."],
+      ["🖐️ Du fährst weiter", "Der Tempomat ist keine Selbstfahrfunktion. Er hilft beim Gasgeben und Bremsen; du behältst die Kontrolle. Hände ans Lenkrad, Augen auf die Straße, Fuß bremsbereit."],
       ["🚦 Er hält nicht an roten Ampeln", "Auch nicht an Stoppschildern. Dort musst du selbst bremsen. Der Tempomat achtet nur auf Fahrzeuge, die vor dir fahren."],
       ["🛑 Wo du ihn nicht benutzt", "In der Stadt, an Baustellen, bei starkem Regen, Schnee oder Nebel, und bei tiefstehender Sonne. Dann lieber selbst fahren."],
       ["⚡ Er kann plötzlich beschleunigen", "Biegt der Vordermann ab, fährt das Auto wieder auf die eingestellte Geschwindigkeit hoch. Das kommt manchmal überraschend — Fuß bremsbereit halten."],
       ["🚗 Stehende Autos erkennt er schlecht", "Ein Stauende oder ein liegengebliebenes Auto wird unter Umständen zu spät erkannt. Verlass dich nie darauf, dass er bremst."],
-      ["🎯 Nur Tempomat, nicht mitlenken", "Der Tesla kann auch selbst lenken. Das ist eine andere Funktion und für den Anfang nichts für dich. Falls beim Drücken plötzlich das Lenkrad mitzieht: einmal auf die Bremse, dann ist alles aus. Alex kann einstellen, dass ein Druck nur den Tempomat einschaltet."]
+      ["🎯 Nur Tempomat, nicht mitlenken", "Der Lenkassistent ist eine andere Funktion. Diese Anleitung erklärt nur den Abstandstempomat. Falls unerwartet der Lenkassistent aktiv wird: selbst sicher weiterlenken und mit dem Bremspedal die Assistenz beenden. Die Einstellung erst wieder im Stand ändern."]
     ],
     note: "Der Tempomat ist bei deinem Auto serienmäßig dabei — du brauchst kein Zusatzpaket dafür. Bei Tempo unter 30 km/h schaltet er sich nur ein, wenn ein Auto vor dir fährt."
   },
 
   anders: {
     parent: "drive",
+    topics: DRIVING_TOPICS,
     eyebrow: "Anders als gewohnt",
     title: "Fünf Dinge, die dich überraschen",
     intro: "Ein Elektroauto verhält sich an ein paar Stellen anders. Nichts davon ist ein Fehler.",
@@ -172,7 +199,7 @@ const PAGES = {
       ["🅿️ An der Ampel", "Wenn du stehst, zeigt der Bildschirm oft „Halten“. Dann kannst du den Fuß von der Bremse nehmen, das Auto bleibt stehen. Steht es nicht da, halte lieber die Bremse."],
       ["🌧️ Scheibenwischer sitzen am Lenkrad", "Links am Lenkrad ist eine Taste mit Wischersymbol. Einmal drücken wischt einmal. Gedrückt halten sprüht Wasser. Für Dauerbetrieb: Taste drücken, dann im Menü „Auto“ wählen."]
     ],
-    note: "Wenn dich etwas anderes am Auto wundert: Foto machen und Alex fragen. Es ist selten kaputt."
+    note: "Wenn dich etwas anderes am Auto wundert: erst sicher parken, dann ein Foto machen und Alex fragen."
   },
 
   charge: {
@@ -180,7 +207,7 @@ const PAGES = {
     eyebrow: "Ich möchte laden",
     title: "Welche Ladesäule ist es?",
     choices: [
-      ["🔴", "Tesla Supercharger", "Rote Tesla-Säule. Keine Karte nötig.", "supercharger", "red"],
+      ["🔴", "Tesla Supercharger", "Am Tesla-Logo erkennen. Keine Karte nötig.", "supercharger", "red"],
       ["🔵", "Andere Ladesäule", "Alles, was nicht von Tesla ist.", "other-charge", "blue"],
       ["❓", "Wo lade ich am besten?", "Zuhause, Supercharger, ADAC oder EWE Go.", "welche-karte", "green"],
       ["🔋", "Akku im Alltag", "Wie viel laden, wie oft.", "akku-alltag"],
@@ -194,22 +221,23 @@ const PAGES = {
     parent: "charge",
     eyebrow: "Welche Karte wann",
     title: "Die einfache Regel",
-    intro: "Merk dir nur einen Satz: An Aral die ADAC-Karte, überall sonst die EWE-Go-Karte.",
-    figure: ["bilder/karten-regel.svg", "Eine Übersicht: An einer Aral-Tankstelle kostet die ADAC-Karte 55 Cent je Kilowattstunde und ist damit günstiger. An allen anderen Säulen kostet die EWE-Go-Karte 52 bis 62 Cent und ist günstiger als die ADAC-Karte mit 75 Cent.", "Preise können sich ändern."],
+    intro: "Bei Aral pulse die ADAC-Ladekarte, an anderen unterstützten Säulen EWE Go. Das ist die Faustregel für Deutschland — der aktuelle Preis beim Anbieter zählt.",
+    detailsTitle: "Tarife, Karten und mögliche Zusatzgebühren",
+    figure: ["bilder/karten-regel.svg", "Tarifvergleich vom August 2026: An Aral-pulse-Säulen ADAC e-Charge 55 Cent je Kilowattstunde. An unterstützten anderen Ladepunkten EWE Go 52 bis 62 Cent gegenüber ADAC e-Charge mit 75 Cent. Aktuellen Preis und Verfügbarkeit vor dem Start in der Anbieter-App prüfen.", "Historischer Vergleich, Stand August 2026. Keine Preis- oder Akzeptanzgarantie."],
     steps: [
-      "Zuhause? Dann dort laden, das ist immer am günstigsten.",
+      "Zuhause? Meist ist das günstig. Es hängt aber von deinem Stromtarif ab.",
       "Lange Fahrt? Supercharger. Das Navi plant sie ein, du brauchst keine Karte.",
-      "Stehst du an einer Aral-Tankstelle? Dann die ADAC-Karte.",
-      "An jeder anderen Säule: die EWE-Go-Karte.",
-      "Wird eine Karte abgelehnt: die andere probieren. Eine von beiden geht fast immer."
+      "Steht Aral pulse an der Ladesäule? Dann den hinterlegten ADAC-e-Charge-Tarif in der Aral-pulse-App prüfen — nicht nur auf das Tankstellenschild schauen.",
+      "An anderen Säulen: in EWE Go prüfen, ob der Ladepunkt unterstützt wird und was er kostet.",
+      "Wird eine Karte abgelehnt: prüfen, ob die andere den Ladepunkt unterstützt. Sonst die Anleitung an der Säule befolgen oder einen anderen Ladepunkt wählen."
     ],
     cards: [
-      ["⛽ Warum an Aral die ADAC-Karte?", "Der ADAC-Tarif läuft über Aral pulse. An deren eigenen Säulen kostet er 55 Cent statt 62 Cent mit EWE Go. Aral-Säulen stehen meist an Tankstellen — du erkennst sie am blau-weißen Aral-Zeichen."],
-      ["🔌 Warum sonst EWE Go?", "Überall außerhalb von Aral kostet die ADAC-Karte 75 Cent, die EWE-Go-Karte dagegen 52 bis 62 Cent. Bei einer vollen Ladung sind das schnell 6 bis 11 Euro Unterschied."],
-      ["🤷 Unsicher, wo du stehst?", "Dann nimm die EWE-Go-Karte. Sie ist öfter die günstigere. Falsch machen kannst du nichts — es wird nur ein paar Euro teurer."],
-      ["⏱️ Nicht ewig stehen lassen", "Wenn das Auto voll ist, steck ab. Bei EWE Go kommt an fremden Säulen nach vier Stunden eine Gebühr dazu, bei der ADAC-Karte schon nach 45 Minuten an Schnellladern. An Aral-Säulen gibt es diese Gebühr nicht."]
+      ["⛽ Warum bei Aral pulse ADAC?", "Im Preisvergleich vom August 2026 war der ADAC-e-Charge-Tarif dort günstiger. Er muss in der Aral-pulse-App aktiviert sein. Eine ADAC-Mitgliedskarte allein ist keine Ladekarte."],
+      ["🔌 Warum sonst EWE Go?", "Im damaligen Vergleich war EWE Go an unterstützten eigenen und Partner-Säulen günstiger. Das gilt nicht automatisch an jeder Säule oder im Ausland."],
+      ["🤷 Unsicher, wo du stehst?", "Ladepunkt in der Anbieter-App öffnen und Preis sowie Anschluss prüfen. Chargeprice hilft beim Vergleichen; verbindlich ist das Angebot des Anbieters."],
+      ["⏱️ Nicht erst bei vollem Akku auf die Uhr schauen", "Blockiergebühren können schon während des Ladens beginnen. Vor dem Start prüfen, ab wann sie gelten, und einen Wecker stellen. Auch Parkregeln am Standort beachten."]
     ],
-    note: "Preise zuletzt geprüft am 31. August 2026. Sie ändern sich hin und wieder — wenn du es genau wissen willst, zeigt Chargeprice den Preis für die Säule, vor der du gerade stehst.",
+    note: "Preisvergleich vom 31. August 2026, nicht live aktualisiert. Vor jedem Start gelten der aktuelle Tarif und mögliche Zusatzgebühren in der Anbieter-App.",
     appLinks: [OPEN_APP.chargeprice]
   },
 
@@ -228,7 +256,7 @@ const PAGES = {
     ],
     figure: ["bilder/ladebuchse.svg", "Die Ladebuchse hat zwei Teile: oben der runde Bereich für normales Laden, darunter zwei große Löcher, die nur beim Schnellladen benutzt werden. Links leuchtet das Tesla-T.", "Zeichnung. Am Supercharger wird auch der untere Teil benutzt."],
     cards: [
-      ["💳 Einmalig vorher einrichten", "Damit der Supercharger abrechnen kann, muss in der Tesla-App eine Zahlungsart hinterlegt sein. Das hat Alex eingerichtet — wenn die Säule trotzdem nach Bezahlung fragt, ruf ihn an."]
+      ["💳 Einmalig vorher einrichten", "Damit der Supercharger abrechnen kann, muss in der Tesla-App eine gültige Zahlungsart hinterlegt sein. Vor der ersten Fahrt gemeinsam mit Alex prüfen."]
     ],
     note: "Wenn nach etwa einer Minute nichts passiert: Kabel einmal abziehen und neu einstecken. Hilft das nicht, nimm den Nachbarplatz."
   },
@@ -237,16 +265,16 @@ const PAGES = {
     parent: "charge",
     eyebrow: "Andere Ladesäule",
     title: "Öffentlich laden",
-    intro: "Die Faustregel: An Aral die ADAC-Karte, überall sonst die EWE-Go-Karte.",
+    intro: "Bei Aral pulse die ADAC-Ladekarte, sonst EWE Go. Die Säule muss die Karte unterstützen; vor dem Start den Preis beim Anbieter ansehen.",
     choices: [
       ["🔌", "So läuft es ab", "Der Ablauf Schritt für Schritt.", "public-charge-flow", "blue"],
       ["🚫", "Die Säule hat kein Display", "Nur Karte, Kabel und ein Lämpchen.", "no-display", "blue"],
       ["💳", "Mit der EWE-Go-Karte laden", "Meistens die günstigere.", "ewe", "green"],
-      ["💳", "Mit der ADAC-Karte laden", "Günstiger an Aral-Tankstellen.", "adac", "blue"],
+      ["💳", "Mit der ADAC-Karte laden", "ADAC-Tarif bei Aral pulse prüfen.", "adac", "blue"],
       ["🗺️", "Ladestation suchen", "Chargemap zeigt Ladestationen.", "chargemap"]
     ],
     appLinks: [OPEN_APP.chargeprice],
-    note: "Die Faustregel stimmt fast immer. Willst du es für deine Säule genau wissen, zeigt Chargeprice den Preis für beide Karten."
+    note: "Chargeprice hilft beim Vergleich. Verbindlich sind die aktuellen Preise und Bedingungen der Anbieter-App."
   },
 
   "public-charge-flow": {
@@ -270,6 +298,7 @@ const PAGES = {
     parent: "other-charge",
     eyebrow: "Säule ohne Display",
     title: "Dann zählt das Auto",
+    detailsTitle: "Kein Kabel, andere Lichtfarbe oder Stecker klemmt?",
     intro: "Manche Ladesäulen haben nur ein Kartenfeld, zwei Steckdosen und ein kleines Lämpchen. Das ist normal und keine kaputte Säule.",
     steps: [
       "Als Erstes versuchen: Klappe hinten links öffnen und das Kabel am Auto einstecken. Steht auf der Säule etwas anderes, folge dem.",
@@ -277,14 +306,15 @@ const PAGES = {
       "Ladekarte an das Kartenfeld halten und einen Moment liegen lassen.",
       "Jetzt zum Auto schauen, nicht zur Säule: Blinkt das Tesla-T am Ladeanschluss grün, läuft alles.",
       "Zum Beenden: dieselbe Karte noch einmal an das Kartenfeld halten.",
-      "Danach das Kabel abziehen. Hat der Stecker eine Taste, diese gedrückt halten. Geht es schwer, muss das Auto aufgeschlossen sein."
+      "Auto aufschließen und den Ladeanschluss am Bildschirm entriegeln. Dann Kabel abziehen. Hat der Stecker eine Taste, geht das auch darüber. Nie mit Gewalt ziehen."
     ],
     figure: ["bilder/ladeleuchte.svg", "Die Leuchte am Ladeanschluss: blinkt sie grün, wird geladen. Leuchtet sie durchgehend grün, ist der Ladevorgang fertig. Leuchtet sie rot, gibt es eine Störung.", "Grün blinkend: es lädt. Durchgehend grün: fertig. Rot: Störung."],
     cards: [
       ["🔌 Hier hängt kein Kabel", "An vielen dieser Säulen musst du dein eigenes Kabel nehmen. Es liegt im Kofferraum. An Schnellladesäulen hängt das Kabel dagegen fest dran."],
-      ["🔵 Die Leuchte ist blau", "Blau heißt: Kabel steckt, es wird aber noch nicht geladen. Meist fehlt die Freischaltung — Karte noch einmal vorhalten. Gelb heißt: Stecker sitzt nicht richtig, einmal abziehen und fest einstecken."],
+      ["🔵 Die Leuchte ist blau", "Durchgehend blau: verbunden, aber es lädt noch nicht — etwa wegen einer geplanten Startzeit. Blau blinkend: Das Auto bereitet das Laden vor. Prüfe die Ladeanzeige im Auto, bevor du die Karte erneut vorhältst."],
+      ["🟡 Die Leuchte ist gelb", "Durchgehend gelb: Stecker nicht ganz eingesteckt. Gelb blinkend: Das Auto lädt mit verringerter Stromstärke. Die Meldung auf dem Bildschirm erklärt mehr."],
       ["🔒 Der Stecker rastet nicht ein", "Steck ihn noch einmal ein und halte ihn dabei leicht nach oben, bis das Auto ihn erkennt und verriegelt."],
-      ["🚗 Das Kabel geht nicht mehr raus", "Das Auto verriegelt das Kabel absichtlich. Es muss aufgeschlossen sein, damit du es abziehen kannst. Hab den Schlüssel oder dein iPhone dabei und drücke die Taste am Kabelgriff."]
+      ["🚗 Das Kabel geht nicht mehr raus", "Das Auto verriegelt das Kabel absichtlich. Mit Schlüssel oder iPhone am Auto aufschließen. Unter Fahrzeug > Laden den Ladevorgang stoppen und den Ladeanschluss entriegeln. Eine Taste am Kabelgriff ist dafür nicht nötig."]
     ],
     note: "Die Lämpchen an der Säule bedeuten bei jedem Hersteller etwas anderes. Verlass dich deshalb auf das grüne Blinken am Auto. Wenn nichts passiert: Foto machen und Alex fragen."
   },
@@ -302,7 +332,7 @@ const PAGES = {
       "Zum Beenden: in der App oder mit der Karte beenden, dann Kabel abziehen."
     ],
     cards: [
-      ["⛽ Wann diese Karte?", "An Aral-Tankstellen. Dort ist sie günstiger als die EWE-Go-Karte. Überall sonst ist EWE Go die bessere Wahl."],
+      ["⛽ Wann diese Karte?", "An Aral-pulse-Säulen mit aktiviertem ADAC-e-Charge-Tarif. Aktuellen Preis in der Aral-pulse-App prüfen; das Tankstellenschild allein reicht nicht."],
       ["💶 Genau wissen?", "Chargeprice zeigt dir für die Säule, vor der du stehst, was beide Karten kosten."]
     ],
     appLinks: [OPEN_APP.chargeprice],
@@ -323,7 +353,7 @@ const PAGES = {
       "Zum Beenden: in der App oder mit der Karte beenden, dann Kabel abziehen."
     ],
     cards: [
-      ["🔌 Wann diese Karte?", "An allen Säulen ausser Aral-Tankstellen. Das ist der Normalfall — nimm im Zweifel diese."],
+      ["🔌 Wann diese Karte?", "An eigenen und unterstützten Partner-Säulen. Vorher in EWE Go prüfen, ob der Ladepunkt dabei ist und was er kostet."],
       ["💶 Genau wissen?", "Chargeprice zeigt dir für die Säule, vor der du stehst, was beide Karten kosten."]
     ],
     appLinks: [OPEN_APP.chargeprice],
@@ -343,24 +373,25 @@ const PAGES = {
     parent: "start",
     eyebrow: "Längere Fahrt",
     title: "Lass den Tesla planen",
+    detailsTitle: "Reserve, Kabel und Laden am Ziel",
     intro: "Die Strecke plant das Auto. Du musst nur eine Sache vorher wissen: ob du am Ziel laden kannst.",
     steps: [
       "Vor der Abfahrt: Kannst du am Ziel laden? Bei Hotel oder Ferienwohnung vorher anrufen und fragen.",
       "Ziel ins Tesla-Navi eingeben und Route berechnen lassen.",
       "Auf die Anzeige schauen: Das Navi zeigt, mit wie viel Prozent du ankommst.",
       "Kannst du am Ziel laden? Dann losfahren und den Ladestopps folgen.",
-      "Kannst du dort nicht laden? Dann am letzten Stopp länger stehen bleiben, bis die Ankunft über 30 Prozent zeigt.",
+      "Kannst du dort nicht laden? Plane auch die Fahrt vom Ziel zur nächsten nutzbaren Ladesäule. Lade am letzten Stopp so viel Reserve, wie du dafür brauchst.",
       "Am Ladestopp bleiben, bis das Navi weiterfahren sagt."
     ],
     cards: [
-      ["🔋 Wie viel Akku bei der Ankunft?", "Wenn du am Ziel laden kannst, sind 10 bis 15 Prozent völlig in Ordnung — das ist so geplant und nicht knapp. Kannst du dort nicht laden, sollten es mindestens 30 Prozent sein. Dann kommst du auch wieder weg und findest in Ruhe eine Ladesäule."],
+      ["🔋 Wie viel Akku bei der Ankunft?", "Plane Reserve ein und prüfe, ob die Lademöglichkeit am Ziel wirklich nutzbar ist. 30 Prozent können ein Puffer sein, garantieren aber nicht die Rückfahrt. Entscheidend sind Strecke, Wetter und erreichbare Ladepunkte."],
       ["⏱️ Zu wenig? Dann länger laden", "Kommt dir die Zahl zu knapp vor, bleib am letzten Ladestopp einfach ein paar Minuten länger stehen. Die Ankunftsanzeige steigt dabei mit."],
       ["🔌 Kabel dabei?", "An manchen Ladesäulen hängt kein Kabel. Schau vor einer längeren Fahrt nach, ob dein eigenes Kabel im Kofferraum liegt."],
-      ["🏨 Am Ziel angekommen", "Wenn es dort eine Steckdose oder Ladesäule gibt: über Nacht anstecken. Langsam laden ist für den Akku am besten."],
+      ["🏨 Am Ziel angekommen", "Eine geeignete Ladesäule oder Wallbox nutzen. Eine unbekannte Haushaltssteckdose nicht einfach zum Dauerladen verwenden — vorher die Eignung und Erlaubnis klären."],
       ["🗺️ Vorher nachsehen", "In Chargemap kannst du schon zu Hause nachschauen, ob es in der Nähe deines Ziels Ladesäulen gibt."]
     ],
     appLinks: [OPEN_APP.chargemap],
-    note: "Du musst nicht selbst ausrechnen, wann geladen wird. Das macht der Tesla. Die einzige Frage, die er dir nicht beantwortet, ist die nach der Steckdose am Ziel."
+    note: "Das Tesla-Navi hilft bei der Ladeplanung. Prüfe vor der Fahrt, ob du am Ziel oder auf der Weiterfahrt tatsächlich laden kannst."
   },
 
   carwash: {
@@ -406,14 +437,15 @@ const PAGES = {
     steps: [
       "Im Tesla-Navi auf das Blitz-Symbol tippen. Es zeigt Ladestationen in der Nähe.",
       "Den nächsten Supercharger auswählen — das rote Tesla-Symbol.",
-      "Ist keiner in der Nähe: eine andere Säule nehmen und die ADAC-Karte bereitlegen.",
+      "Ist keiner erreichbar: eine andere erreichbare Säule wählen. Bei Aral pulse die ADAC-Ladekarte, sonst EWE Go — sofern die Säule die Karte unterstützt.",
       "Hinfahren und laden.",
       "Wenn du unsicher bist: Alex anrufen."
     ],
     cards: [
       ["🔋 Wann wird es wirklich knapp?", "Unter 20 Prozent solltest du ans Laden denken. Unter 10 Prozent nur noch zur nächsten Ladesäule fahren, nicht weiter. Ganz leer darf der Akku nie werden — das schadet dem Auto."]
     ],
-    note: "Der Tesla warnt dich rechtzeitig und schlägt selbst einen Ladestopp vor. Wenn das Navi rot warnt, dass die Reichweite nicht reicht: nicht weiterfahren, sondern die nächstgelegene Säule ansteuern."
+    note: "Reichweitenangaben sind Schätzungen. Zeigt das Navi keine sicher erreichbare Säule mehr, nicht auf gut Glück weiterfahren: sicher abstellen und Pannenhilfe kontaktieren.",
+    weiter: [["🛟", "Pannenhilfe finden", "Wenn kein Ladepunkt mehr erreichbar ist.", "panne"]]
   },
 
   /* Ruhige Alltagsregeln. Bewusst NICHT auf der Notfallseite: Wer mit
@@ -422,17 +454,18 @@ const PAGES = {
     parent: "charge",
     eyebrow: "Akku im Alltag",
     title: "Zwei einfache Regeln",
+    detailsTitle: "Warum diese Regeln helfen und was im Winter gilt",
     intro: "Um den Akku musst du dich kaum kümmern. Zwei Dinge helfen trotzdem.",
     steps: [
-      "Zu Hause nie unter 20 Prozent stehen lassen.",
-      "Für jeden Tag reicht es, bis etwa 80 Prozent zu laden — oder bis zu der Marke, die das Auto selbst als Empfehlung anzeigt."
+      "Plane zu Hause etwas Reserve ein. Rund 20 Prozent sind ein praktischer Puffer, keine feste Grenze.",
+      "Unter Fahrzeug > Laden das vom Auto empfohlene tägliche Ladelimit einstellen. Nicht pauschal 80 Prozent wählen — die Empfehlung hängt vom Akku ab."
     ],
     cards: [
-      ["🏠 Warum 20 Prozent zu Hause?", "Damit du am nächsten Morgen losfahren kannst, auch wenn etwas dazwischenkommt. Ein stehendes Auto verliert etwa ein Prozent pro Tag — nach zwei Wochen Urlaub sind das schon 14 Prozent."],
-      ["🔌 Warum nur 80 Prozent?", "Der Akku hält länger, wenn er nicht ständig randvoll ist. Ganz voll laden lohnt sich nur vor einer langen Fahrt."],
+      ["🏠 Warum Reserve zu Hause?", "Damit du am nächsten Morgen losfahren kannst, auch wenn etwas dazwischenkommt. Auch im Stand wird Strom verbraucht; wie viel, hängt unter anderem von Einstellungen und Temperatur ab."],
+      ["🔌 80 oder 100 Prozent?", "Maßgeblich ist die Empfehlung deines Autos, nicht eine allgemeine Prozentregel. Beachte auch Hinweise zum regelmäßigen Vollladen, falls dein Fahrzeug sie anzeigt."],
       ["⚡ Lieber öfter als selten", "Du musst nicht warten, bis der Akku leer ist. Häufiges Laden ist für den Akku sogar besser als seltenes."],
       ["❄️ Im Winter kommst du weniger weit", "Bei Kälte braucht das Auto mehr Strom — fürs Fahren und fürs Heizen. Das ist normal, der Akku ist nicht kaputt. Die Anzeige rechnet das schon mit ein."],
-      ["🌡️ Vor der Fahrt vorheizen", "Im Winter in der Tesla-App auf Klima gehen und einschalten, am besten eine halbe Stunde vorher. Dann ist es warm, die Scheiben sind frei — und wenn das Auto dabei am Strom hängt, kostet es keine Reichweite."],
+      ["🌡️ Vor der Fahrt vorheizen", "Im Winter in der Tesla-App auf Klima gehen und einschalten, am besten vor der Abfahrt und am Ladekabel. Das kann den Akku entlasten. Vor dem Losfahren trotzdem prüfen, ob alle Scheiben frei sind."],
       ["🧊 Etwas ist eingefroren", "In der Tesla-App gibt es „Fahrzeug enteisen“. Das taut Scheiben, Fenster und auch die Ladeklappe auf. Klemmt ein Türgriff, drück fest auf den vorderen Teil, um das Eis zu brechen — nicht mit Werkzeug hebeln."]
     ],
     note: "Das sind Empfehlungen, keine Vorschriften. Wenn du einmal mit 10 Prozent nach Hause kommst, ist nichts passiert."
@@ -443,7 +476,7 @@ const PAGES = {
     eyebrow: "Ladesäule funktioniert nicht",
     title: "Der Reihe nach",
     steps: [
-      "Kabel abziehen, kurz warten, wieder fest einstecken. Dabei den Stecker leicht nach oben halten.",
+      "Ladevorgang beenden und das Kabel entriegeln. Lässt es sich leicht abziehen, kurz warten und wieder fest einstecken. Nie mit Gewalt ziehen.",
       "Auf das Display der Säule schauen: Steht dort eine Meldung?",
       "Hat die Säule kein Display? Dann schau auf das Tesla-T am Ladeanschluss: grünes Blinken heißt, es lädt.",
       "In der App prüfen, ob der Ladepunkt frei und in Betrieb ist.",
@@ -505,7 +538,7 @@ const PAGES = {
       "Wenn der Balken durch ist, fährst du wie immer los."
     ],
     cards: [
-      ["📅 Damit es nicht wieder passiert", "Alex kann einstellen, dass Updates nur nachts laufen. Sag ihm Bescheid, wenn es dich einmal erwischt hat."],
+      ["📅 Einen passenden Zeitpunkt wählen", "Die Installation lässt sich für einen Zeitpunkt planen, an dem du das Auto nicht brauchst. Gemeinsam mit Alex einstellen; eine dauerhafte Garantie „nur nachts“ ist das nicht."],
       ["⏳ Du hast einen Termin?", "Ruf an und sag Bescheid, dass es später wird. Das Update lässt sich nicht abbrechen, sobald es läuft."]
     ],
     note: "Solange nur ein Pfeil oder eine Uhr oben im Bildschirm zu sehen ist, läuft noch kein Update — dann kannst du normal fahren."
@@ -515,8 +548,8 @@ const PAGES = {
     parent: "stuck",
     eyebrow: "Anzeige unklar",
     title: "Das musst du nicht allein herausfinden",
-    intro: "Mach ein Foto von der Anzeige und schick es Alex. Er sagt dir, was zu tun ist.",
-    note: "Eine ROTE Warnung oder eine Anweisung auf dem Bildschirm bedeutet: sicher anhalten, sobald es geht. Alles andere kannst du in Ruhe fotografieren und Alex fragen."
+    intro: "Erst sicher parken, dann ein Foto von der Anzeige machen und Alex schicken.",
+    note: "Lies den Wortlaut der Meldung: Fordert das Auto dich zum Anhalten auf, halte an einer sicheren Stelle an. Eine rote Anzeige nicht ignorieren. Die Farbe allein sagt nicht, welche Handlung nötig ist."
   },
 
   apps: {
@@ -546,6 +579,9 @@ const PAGES = {
       ["Tesla Model 3 Bedienungsanleitung", "https://www.tesla.com/ownersmanual/model3/de_de/"],
       ["Tesla Anleitung: Reinigung und Waschanlage", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-65384C1F-86F2-44E8-A8BC-8A12E7E00A40.html"],
       ["Tesla Anleitung: Anweisungen zum Laden", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-BEE08D47-0CE0-4BDD-83F2-9854FB3D578F.html"],
+      ["Tesla Anleitung: Abstandstempomat", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-DA920829-F1FA-44F9-8754-6D914C524A79.html"],
+      ["Tesla Anleitung: Transport", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-FA9E3DC9-805C-45BD-A64D-C4B3F491B8C0.html"],
+      ["Tesla Anleitung: Software-Updates", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-A5A60CB3-7659-4B08-B2FD-AFD12C2D6EE1.html"],
       ["Tesla Support: Supercharger", "https://www.tesla.com/de_DE/support/charging/supercharger"],
       ["Tesla Support: Tesla App", "https://www.tesla.com/de_DE/support/tesla-app"],
       ["Tesla Pannenhilfe", "https://www.tesla.com/de_DE/support/roadside-assistance"],
@@ -569,7 +605,7 @@ const PAGES = {
     title: "Nummer für „Alex fragen“",
     intro: "Trag hier einmal die Handynummer ein. Danach funktionieren Anrufen und WhatsApp.",
     form: "contact",
-    note: "Die Nummer wird nur in diesem Browser auf diesem Gerät gespeichert. Sie steht nicht im Quelltext der App, wird nirgendwo hochgeladen und ist für niemanden sonst sichtbar."
+    note: "Die Nummer wird lokal in diesem Browser gespeichert, nicht ins Repository hochgeladen. Andere Personen mit Zugriff auf dieses Browserprofil können sie sehen. Beim Öffnen von WhatsApp wird sie an WhatsApp übergeben."
   },
 
   /* Zweite versteckte Seite, nur fuer Alex. Steht in keiner Auswahl und

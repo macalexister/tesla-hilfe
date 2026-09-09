@@ -7,6 +7,7 @@
   <meta name="description" content="Einfache Hilfe für den Tesla: fahren, laden und weiterkommen.">
   <title>Deine Tesla-Hilfe</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -19,6 +20,9 @@
   <main id="app" tabindex="-1"></main>
 
   <footer class="footer">
+    <p class="offline-status" id="offlineStatus" role="status">Offline-Hilfe wird vorbereitet …</p>
+    <button class="action-button secondary offline-update" id="offlineUpdate" type="button" hidden>Neue Version laden</button>
+    <p>Bitte nur im Stand benutzen. Für Model 3 mit Fahrstufenwahl am Bildschirm; Ausstattung und Software können abweichen.</p>
     <a class="text-link" href="#sources">Woher die Angaben kommen</a>
     <p>Verbindlich ist immer die Anleitung deines Fahrzeugs und die Anzeige an der Ladesäule.</p>
   </footer>
@@ -30,14 +34,17 @@
       <h2 id="alexTitle">👨‍👩‍👧 Alex fragen</h2>
       <p>Wenn du unsicher bist, frag einfach Alex.</p>
       <a class="action-button primary" id="callLink" href="#">📞 Alex anrufen</a>
-      <a class="action-button secondary" id="whatsappLink" href="#" rel="noopener">💬 WhatsApp schreiben</a>
       <p class="notice" id="contactFallback" hidden>Es ist noch keine Nummer hinterlegt. <a class="text-link" href="#setup" id="setupLink">Jetzt eintragen</a> – sie bleibt nur auf diesem Gerät.</p>
       <div class="quick-actions" id="quickActions">
-        <p class="quick-actions-title">Oder schick direkt eine fertige Nachricht:</p>
+        <p class="quick-actions-title">Nachricht auswählen oder den vorgeschlagenen Text verwenden:</p>
         <button type="button" data-message="Ich weiß nicht, wo ich laden soll.">Ich weiß nicht, wo ich laden soll.</button>
         <button type="button" data-message="Die Ladesäule funktioniert nicht.">Die Ladesäule funktioniert nicht.</button>
         <button type="button" data-message="Ich verstehe die Anzeige nicht.">Ich verstehe die Anzeige nicht.</button>
+        <p class="message-preview" id="messagePreview" role="status"></p>
       </div>
+      <a class="action-button secondary" id="whatsappLink" href="#" rel="noopener">💬 Nachricht in WhatsApp öffnen</a>
+      <p class="quick-actions-title">Du kannst den Text in WhatsApp ändern. Gesendet wird erst dort.</p>
+      <a class="text-link contact-edit" href="#setup" id="editContactLink">Nummer ändern oder löschen</a>
     </form>
   </dialog>
 
@@ -46,5 +53,6 @@
   <script src="config.local.js" onerror="void 0"></script>
   <script src="content.js"></script>
   <script src="app.js"></script>
+  <script src="offline.js"></script>
 </body>
 </html>

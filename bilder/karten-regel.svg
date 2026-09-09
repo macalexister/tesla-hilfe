@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 250" role="img"
      aria-labelledby="titel text">
   <title id="titel">Welche Ladekarte ist günstiger</title>
-  <desc id="text">An einer Aral-Tankstelle kostet die ADAC-Karte 55 Cent je
-    Kilowattstunde, die EWE-Go-Karte 62 Cent — dort ist ADAC günstiger. An
-    jeder anderen Ladesäule kostet die ADAC-Karte 75 Cent, die EWE-Go-Karte
-    52 bis 62 Cent — dort ist EWE Go günstiger.</desc>
+  <desc id="text">Historischer Tarifvergleich, Deutschland, August 2026:
+    Aral pulse: ADAC e-Charge 55 Cent je Kilowattstunde, EWE Go 62 Cent.
+    Unterstützte andere Ladepunkte: ADAC e-Charge 75 Cent, EWE Go 52 bis 62 Cent.
+    Aktuelle Preise und Akzeptanz vor dem Laden in der Anbieter-App prüfen.</desc>
 
   <style>
     .karte  { fill: #ffffff; stroke: #d9dedb; stroke-width: 1.5; }
@@ -20,7 +20,7 @@
   <!-- Fall 1: Aral -->
   <g>
     <rect class="karte" x="1" y="1" width="338" height="112" rx="12"/>
-    <text class="titel" x="16" y="28" font-size="15">⛽ An einer Aral-Tankstelle</text>
+    <text class="titel" x="16" y="28" font-size="15">⛽ An Aral-pulse-Säulen</text>
 
     <rect class="gewinn" x="16" y="40" width="150" height="56" rx="10"/>
     <text class="gruen" x="28" y="60" font-size="12">ADAC-Karte</text>
@@ -35,7 +35,7 @@
   <!-- Fall 2: alle anderen -->
   <g>
     <rect class="karte" x="1" y="124" width="338" height="112" rx="12"/>
-    <text class="titel" x="16" y="151" font-size="15">🔌 An jeder anderen Säule</text>
+    <text class="titel" x="16" y="151" font-size="15">🔌 Andere unterstützte Ladepunkte</text>
 
     <rect class="karte" x="16" y="163" width="150" height="56" rx="10"/>
     <text class="blass" x="28" y="183" font-size="12">ADAC-Karte</text>

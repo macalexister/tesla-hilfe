@@ -12,6 +12,9 @@ const contactFallback = document.querySelector("#contactFallback");
 const quickActions = document.querySelector("#quickActions");
 
 const START = "start";
+const NAVIGATION_KEY = "teslaHilfeNavigation";
+const NAVIGATION_BASE = new URL(".", location.href).pathname;
+let displayedPage;
 
 /* Inhalte sind statisch, aber Escaping kostet nichts und schliesst
    eine ganze Fehlerklasse aus, falls spaeter Fremdtexte dazukommen. */
@@ -24,8 +27,14 @@ function esc(value) {
 }
 
 function pageId() {
-  const id = decodeURIComponent(location.hash.slice(1));
-  return Object.prototype.hasOwnProperty.call(PAGES, id) ? id : START;
+  try {
+    const id = decodeURIComponent(location.hash.slice(1));
+    return Object.prototype.hasOwnProperty.call(PAGES, id) ? id : START;
+  } catch (error) {
+    if (!(error instanceof URIError)) throw error;
+    console.warn("Ungültiger Seitenlink. Die Startseite wird angezeigt.");
+    return START;
+  }
 }
 
 function renderChoices(choices) {
@@ -51,6 +60,18 @@ function renderCards(cards) {
       : `<div class="app-card">${body}</div>`;
   }).join("");
   return `<div class="grid">${items}</div>`;
+}
+
+function renderTopics(topics, id) {
+  return `<nav class="topics" aria-label="Fahren und Alltag">${topics.map(([icon, title, target]) =>
+    `<button type="button" data-go="${esc(target)}"${target === id ? ' aria-current="page"' : ""}>
+      <span aria-hidden="true">${esc(icon)}</span> ${esc(title)}
+    </button>`).join("")}</nav>`;
+}
+
+function renderBefore(cards) {
+  return `<section class="before" aria-label="Vor der Benutzung">${cards.map(([title, text]) =>
+    `<div class="notice"><h2>${esc(title)}</h2><p>${esc(text)}</p></div>`).join("")}</section>`;
 }
 
 function renderLinks(links) {
@@ -115,24 +136,32 @@ function renderFigure([datei, beschreibung, hinweis = "Zeichnung, kein Foto.", q
     </figure>`;
 }
 
-function render(id) {
+function render(id, resetView = true) {
   const page = PAGES[id] || PAGES[START];
+  displayedPage = id;
   backButton.classList.toggle("is-invisible", id === START);
 
-  let html = `<section class="hero">
+  let html = page.topics ? renderTopics(page.topics, id) : "";
+  html += `<section class="hero">
       ${page.eyebrow ? `<p class="eyebrow">${esc(page.eyebrow)}</p>` : ""}
       <h1>${esc(page.title)}</h1>
       ${page.intro ? `<p>${esc(page.intro)}</p>` : ""}
     </section>`;
 
+  if (page.before) html += renderBefore(page.before);
   if (page.choices) html += renderChoices(page.choices);
   /* Die Zeichnung steht vor den Schritten. Sie beantwortet die Frage
      "wo muss ich hintippen" schneller als jeder Text, und hinter sieben
      Schritten wuerde sie erst nach anderthalb Bildschirmlaengen auftauchen. */
-  if (page.figure) html += renderFigure(page.figure);
+  if (page.figure && !page.figureInDetails) html += renderFigure(page.figure);
   if (page.steps) html += renderSteps(page.steps);
   if (page.appLinks) html += renderAppLinks(page.appLinks);
-  if (page.cards) html += renderCards(page.cards);
+  if (page.detailsTitle) {
+    html += `<details class="more"><summary>${esc(page.detailsTitle)}</summary>
+      ${page.figureInDetails && page.figure ? renderFigure(page.figure) : ""}
+      ${page.cards ? renderCards(page.cards) : ""}
+    </details>`;
+  } else if (page.cards) html += renderCards(page.cards);
   /* weiter steht am Ende: Kacheln, die erst interessieren, wenn die
      eigentliche Frage der Seite beantwortet ist. choices dagegen sind
      die Frage selbst und gehoeren nach oben. */
@@ -149,6 +178,7 @@ function render(id) {
   if (page.form === "fotos") wireFotoForm();
 
   document.title = id === START ? "Deine Tesla-Hilfe" : `${page.title} – Deine Tesla-Hilfe`;
+  if (!resetView) return;
   window.scrollTo(0, 0);
   /* preventScroll ist zwingend: focus() scrollt sonst zum Element und macht
      das scrollTo darueber zunichte. Die Ueberschrift lag dadurch auf jeder
@@ -157,14 +187,38 @@ function render(id) {
 }
 
 function navigate(id) {
+  if (!Object.prototype.hasOwnProperty.call(PAGES, id)) {
+    console.warn("Unbekannte Zielseite:", id);
+    id = START;
+  }
   if (id === pageId()) return render(id);
-  location.hash = id;
+  const state = navigationState();
+  history.pushState({ [NAVIGATION_KEY]: { base: NAVIGATION_BASE, page: id, depth: state.depth + 1 } }, "", `#${id}`);
+  render(id);
 }
 
-/* Zurueck folgt der Seitenstruktur, nicht dem Klickverlauf.
-   Damit landet man nie auf einer alten oder unerwarteten Seite. */
+function navigationState() {
+  const id = pageId();
+  const state = history.state?.[NAVIGATION_KEY];
+  if (state?.base === NAVIGATION_BASE && state.page === id &&
+      Number.isSafeInteger(state.depth) && state.depth >= 0) return state;
+  const initial = { base: NAVIGATION_BASE, page: id, depth: 0 };
+  history.replaceState({ [NAVIGATION_KEY]: initial }, "");
+  return initial;
+}
+
+/* Nur selbst angelegte Eintraege zurueckgehen: Ein Direktlink darf mit
+   dem App-Pfeil nicht auf eine fremde Website zurueckfuehren. */
 function goBack() {
-  navigate(PAGES[pageId()]?.parent || START);
+  if (navigationState().depth > 0) return history.back();
+  const id = PAGES[pageId()]?.parent || START;
+  history.replaceState({ [NAVIGATION_KEY]: { base: NAVIGATION_BASE, page: id, depth: 0 } }, "", `#${id}`);
+  render(id);
+}
+
+function restoreNavigation() {
+  const state = navigationState();
+  if (displayedPage !== state.page) render(state.page);
 }
 
 function digitsOnly(value) {
@@ -207,23 +261,23 @@ function storedContact() {
 
 function saveContact(phone) {
   try {
-    if (phone) localStorage.setItem(CONTACT_KEY, JSON.stringify({ contactPhone: phone, contactWhatsAppPhone: phone }));
-    else localStorage.removeItem(CONTACT_KEY);
+    /* Leere Werte merken, damit eine geloeschte Nummer nicht aus der
+       lokalen Konfiguration wieder auftaucht. */
+    localStorage.setItem(CONTACT_KEY, JSON.stringify({ contactPhone: phone, contactWhatsAppPhone: phone }));
     return true;
   } catch (error) {
     return false;
   }
 }
 
-/* typeof-Pruefung, damit eine fehlende config.local.js kein Fehler ist.
-   Leere Felder werden uebersprungen: sonst wuerde die eingecheckte
-   config.js mit ihren leeren Feldern eine echte Nummer ueberschreiben. */
+/* Leere lokale Vorgaben ueberspringen; explizit gespeicherte Leerwerte
+   hingegen respektieren, damit Loeschen auch die lokale Vorgabe ausblendet. */
 function contact() {
   const local = typeof CONFIG_LOCAL === "object" && CONFIG_LOCAL ? CONFIG_LOCAL : {};
   const merged = Object.assign({}, CONFIG);
-  [local, storedContact()].forEach(source => {
-    Object.keys(source).forEach(key => {
-      if (source[key] !== "" && source[key] != null) merged[key] = source[key];
+  [local, storedContact()].forEach((source, index) => {
+    ["contactPhone", "contactWhatsAppPhone"].forEach(key => {
+      if (typeof source[key] === "string" && (source[key] !== "" || index === 1)) merged[key] = source[key];
     });
   });
   /* Eine Nummer reicht: WhatsApp nutzt dieselbe, wenn nichts anderes dasteht. */
@@ -256,7 +310,9 @@ function wireContactForm() {
   form.addEventListener("submit", event => {
     event.preventDefault();
     const phone = normalizePhone(input.value);
-    if (phone.length < 8) return report(false, "Das sieht nicht nach einer vollständigen Nummer aus.");
+    if (!/^[1-9]\d{7,14}$/.test(phone) || !/^[+\d\s()./-]+$/.test(input.value)) {
+      return report(false, "Bitte eine vollständige Handynummer mit Ländervorwahl eingeben, zum Beispiel +49 171 1234567.");
+    }
     if (!saveContact(phone)) return report(false, "Der Browser erlaubt kein Speichern. Privates Surfen ausschalten und erneut versuchen.");
     /* Die fertige Nummer zurueckschreiben, damit man sieht, was gespeichert wurde. */
     input.value = "+" + phone;
@@ -265,7 +321,7 @@ function wireContactForm() {
   });
 
   app.querySelector("#contactClear").addEventListener("click", () => {
-    saveContact("");
+    if (!saveContact("")) return report(false, "Die Nummer konnte nicht gelöscht werden. Der Browser erlaubt gerade kein Speichern.");
     input.value = "";
     setContactLinks(CONFIG.defaultWhatsAppText);
     report(true, "Gelöscht.");
@@ -338,8 +394,9 @@ function speichereFoto(kennung, daten) {
 function loescheFoto(kennung) {
   try {
     localStorage.removeItem(FOTO_PREFIX + kennung);
+    return true;
   } catch (error) {
-    /* Nichts zu tun: ist der Speicher nicht lesbar, gibt es auch nichts zu loeschen. */
+    return false;
   }
 }
 
@@ -393,26 +450,38 @@ function wireFotoForm() {
       if (!datei) return;
 
       zeigeMeldung(meldung, "Foto wird verkleinert …");
+      eintrag.querySelectorAll("input, button").forEach(element => { element.disabled = true; });
       try {
         const bild = await verkleinereFoto(datei);
         const ergebnis = speichereFoto(kennung, bild.daten);
         if (!ergebnis.ok) return zeigeMeldung(meldung, ergebnis.grund, true);
         /* Neu zeichnen, damit Vorschau und Knopfbeschriftung stimmen. */
-        render(pageId());
+        /* Eine spaet fertige Aufnahme darf eine inzwischen geoeffnete
+           andere Seite oder ein neues Formular nicht neu zeichnen. */
+        if (!app.contains(eintrag)) return;
+        render(pageId(), false);
         const frisch = app.querySelector(`.foto-auftrag[data-kennung="${kennung}"] .foto-meldung`);
         if (frisch) zeigeMeldung(frisch, `Gespeichert: ${bild.breite}×${bild.hoehe} Pixel, ${fotoGroesse(bild.daten)} KB.`);
+        app.querySelector(`input[data-foto="${kennung}"]`).focus({ preventScroll: true });
       } catch (error) {
         zeigeMeldung(meldung, error.message || "Das Foto ließ sich nicht verarbeiten.", true);
       } finally {
         feld.value = "";
+        eintrag.querySelectorAll("input, button").forEach(element => { element.disabled = false; });
       }
     });
   });
 
   app.querySelectorAll("[data-foto-weg]").forEach(knopf => {
     knopf.addEventListener("click", () => {
-      loescheFoto(knopf.dataset.fotoWeg);
-      render(pageId());
+      const kennung = knopf.dataset.fotoWeg;
+      if (!loescheFoto(kennung)) {
+        return zeigeMeldung(knopf.closest(".foto-auftrag").querySelector(".foto-meldung"),
+          "Das Foto konnte nicht entfernt werden. Der Browser erlaubt gerade keinen Zugriff auf den Speicher.", true);
+      }
+      render(pageId(), false);
+      zeigeMeldung(app.querySelector(`.foto-auftrag[data-kennung="${kennung}"] .foto-meldung`), "Foto entfernt. Die Zeichnung wird wieder angezeigt.");
+      app.querySelector(`input[data-foto="${kennung}"]`).focus({ preventScroll: true });
     });
   });
 
@@ -457,6 +526,9 @@ function setContactLinks(message) {
   const hasContact = Boolean(phone || whatsappPhone);
   contactFallback.hidden = hasContact;
   quickActions.hidden = !whatsappPhone;
+  quickActions.querySelectorAll("button").forEach(button =>
+    button.setAttribute("aria-pressed", String(button.dataset.message === message)));
+  document.querySelector("#messagePreview").textContent = hasContact ? message : "";
 }
 
 alexButton.addEventListener("click", () => {
@@ -467,13 +539,28 @@ alexButton.addEventListener("click", () => {
 /* Der Link steht im Dialog. Ohne close() bliebe der Dialog offen und
    verdeckte die Seite, zu der er gerade gesprungen ist. */
 document.querySelector("#setupLink").addEventListener("click", () => alexDialog.close());
+document.querySelector("#editContactLink").addEventListener("click", () => alexDialog.close());
 
 backButton.addEventListener("click", goBack);
 
 quickActions.querySelectorAll("button").forEach(button =>
   button.addEventListener("click", () => setContactLinks(button.dataset.message)));
 
-window.addEventListener("hashchange", () => render(pageId()));
+document.addEventListener("click", event => {
+  const link = event.target.closest("a[href]");
+  if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey ||
+      event.ctrlKey || event.shiftKey || event.altKey || link.target || link.hasAttribute("download")) return;
+  const url = new URL(link.href);
+  if (url.origin !== location.origin || url.pathname !== location.pathname || url.search !== location.search || !url.hash) return;
+  const id = url.hash.slice(1);
+  if (!Object.prototype.hasOwnProperty.call(PAGES, id)) return;
+  event.preventDefault();
+  navigate(id);
+});
+
+window.addEventListener("popstate", restoreNavigation);
+window.addEventListener("hashchange", restoreNavigation);
 
 setContactLinks(CONFIG.defaultWhatsAppText);
+navigationState();
 render(pageId());

@@ -18,6 +18,17 @@ Einmalig, danach läuft es von allein:
 3. Teilen-Symbol → **Zum Home-Bildschirm** — dann startet die Hilfe
    wie eine App, ohne Adresszeile
 
+Vor dem ersten Einsatz kurz online geöffnet lassen, bis unten **„Hilfe offline
+bereit“** steht. Danach lassen sich Texte und Zeichnungen auch ohne Internet
+neu öffnen. Anbieter-Seiten, aktuelle Preise und WhatsApp brauchen weiterhin
+Internet. Die Speicherung gilt nur für diesen Browser bzw. die installierte
+Web-App; der Browser kann sie beim Löschen seiner Daten entfernen.
+
+Eine neue Version wird vollständig im Hintergrund gespeichert. Erst der
+Knopf **„Neue Version laden“** aktiviert sie und lädt die Seite neu; Kontakte
+und eigene Fotos bleiben dabei erhalten. Fehler beim Speichern werden unten
+angezeigt, statt Offline-Verfügbarkeit zu versprechen.
+
 ## Lokal starten
 
 ```sh
@@ -38,19 +49,34 @@ Dann `http://localhost:8080` öffnen.
 | `content.js`              | Alle Texte und Abläufe                         |
 | `app.js`                  | Darstellung und Navigation                     |
 | `styles.css`              | Layout                                         |
+| `offline.js`              | Offline-Status und bewusste Aktualisierung     |
+| `sw.js`                   | Versionsweiser Cache öffentlicher App-Dateien |
+| `manifest.webmanifest`    | Installation auf dem Home-Bildschirm           |
 | `bilder/`                 | Zeichnungen, selbst erstellt                   |
 | `karte/`                  | QR-Code und druckbare Karte fürs Handschuhfach |
 
 Texte ändert man in `content.js`, ohne den Code anzufassen. Die Zurück-Schaltfläche
-folgt dem `parent`-Feld einer Seite, nicht dem Klickverlauf.
+folgt dem tatsächlichen Weg durch die App, auch nach einem Neuladen. Bei einem
+Direktlink ohne internen Verlauf führt sie zum `parent`, nie auf eine fremde
+Website. „Losfahren“, „Tempomat“ und „Anders“ sind oben direkt erreichbar.
+
+`before` stellt Voraussetzungen vor die Anleitung; `detailsTitle` macht
+Zusatzkarten aufklappbar. Mit `figureInDetails` liegt auch die Zeichnung dort.
+Die Tempomat-Grenzen bleiben sichtbar, nicht im aufgeklappten Zusatzwissen.
+
+**Bei jedem Release die Version in `CACHE_NAME` in `sw.js` erhöhen.** Alle
+App-Dateien zusammen veröffentlichen. Neue benötigte Bilder oder Skripte
+müssen auch in `FILES` stehen. Der Cache verwendet nur diese Positivliste
+und einen projektspezifischen Namen: `config.local.js`, private Fotos,
+Kontaktdaten und externe Antworten werden nicht darin gespeichert.
 
 ## Bilder
 
-Vier Seiten zeigen eine Zeichnung: der Weg zum Waschanlagen-Modus, die Leuchte
-am Ladeanschluss, die Lage des Ladeanschlusses am Auto und die Ladebuchse aus
-der Nähe. Sie stehen bewusst **vor** den Schritten — sie beantworten „wo muss
-ich hintippen“ schneller als Text, und hinter sieben Schritten würden sie erst
-nach anderthalb Bildschirmlängen auftauchen.
+Sieben Seiten zeigen eine Zeichnung: Fahrstufe, Tempomat, Kartenvergleich,
+Waschanlagen-Modus, Ladeleuchte, Lage des Ladeanschlusses und Ladebuchse.
+Die Tempomat-Zeichnung liegt beim aufklappbaren Zusatzwissen; die anderen
+stehen vor den Schritten. Eigene Fotos können sechs Bedienbilder ersetzen,
+der Kartenvergleich bleibt eine Grafik.
 
 ### Warum gezeichnet und nicht fotografiert
 
@@ -130,7 +156,15 @@ Sichtbar ist deshalb nur, was auch im Repository steht.
   angelegtes Repository, weil ein Force-Push allein die alten Commits auf
   GitHub nicht entfernt.
 - Wird die Nummer über `#setup` eingetragen, liegt sie im `localStorage` des
-  Browsers auf dem Gerät. Löschen geht auf derselben Seite.
+  Browsers auf dem Gerät. Ändern oder Löschen geht jederzeit über den Link
+  im Alex-Dialog. Beim Löschen werden leere Kontaktwerte gespeichert, damit
+  eine Nummer aus `config.local.js` nicht wieder eingeblendet wird. Die lokale
+  Konfigurationsdatei selbst wird dadurch nicht verändert.
+- Der Gerätespeicher ist kein geschützter Tresor: Personen mit Zugriff auf das
+  Browserprofil und andere Seiten derselben Herkunft können darauf zugreifen.
+- Die Nachrichtenauswahl im Alex-Dialog zeigt eine Vorschau. Sie öffnet oder
+  sendet nichts automatisch; WhatsApp wird erst über die eigene Schaltfläche
+  geöffnet. Dort bestätigt die Nutzerin das Senden.
 - Externe Links führen zu Tesla, ADAC, EWE Go, Chargemap, Chargeprice und Apple.
   Für deren Datenverarbeitung gelten deren eigene Bestimmungen.
 
@@ -162,10 +196,12 @@ sich bei Nichtreaktion unter Warnblinken und Zwangsbremsung. Für eine
 unsichere Erstfahrerin ist das keine Hilfe, sondern eine zusätzliche
 Stressquelle.
 
-Erwähnt wird er nur in einer Karte — damit sie ihn nicht versehentlich
-einschaltet und weiß, wie sie ihn loswird (Bremse). Wichtig: Steht die
+Die Einrichtung steht sichtbar **vor** den Bedienschritten, zusammen mit den
+wichtigsten Grenzen. Wichtig: Steht die
 Einstellung auf „Einzelklick", aktiviert **ein** Druck aufs Rädchen beide
-Funktionen. Auf „Doppelklick" schaltet ein Druck nur den Tempomat.
+Funktionen. Auf „Doppelklick" schaltet ein Druck nur den Tempomat. Die
+Startgeschwindigkeit richtet sich nach der Fahrzeugeinstellung; gemeinsam
+„Aktuelle Geschwindigkeit“ wählen und die blaue Zahl trotzdem kontrollieren.
 
 Kein Zusatzpaket nötig. Das kostenpflichtige Paket (rund 99 €/Monat) enthält
 Spurwechsel, Navigieren mit Lenkassistent, Autoparken und Herbeirufen — davon
@@ -190,7 +226,11 @@ Blockiergebühr: ADAC 0,15 €/min ab 120 min AC bzw. **45 min DC** an
 Fremdsäulen, keine bei Aral. EWE Go 0,10 €/min ab 240 min an Partnersäulen,
 höchstens 24 €, keine an eigenen.
 
-Daraus folgt die Regel: **an Aral die ADAC-Karte, überall sonst EWE Go.**
+Daraus folgte für unterstützte Ladepunkte in Deutschland die Faustregel:
+**bei Aral pulse ADAC e-Charge prüfen, sonst EWE Go.** Sie ist weder eine
+aktuelle Preiszusage noch eine Garantie, dass eine Karte akzeptiert wird.
+Entscheidend ist der Betreiber des Ladepunkts, nicht das Tankstellenschild.
+Vor dem Start Tarif, Akzeptanz, Blockiergebühren und Parkregeln prüfen.
 
 Quellen: [ADAC e-Charge](https://www.adac.de/rund-ums-fahrzeug/e-angebote/ladekarte/) ·
 [EWE Go Ladetarif](https://www.ewe-go.de/ladetarif)
@@ -230,10 +270,9 @@ Die App fasst zusammen und ersetzt keine offizielle Anleitung.
   anderes. Stattdessen zählt die Ladeanschlussleuchte am Auto: grünes Blinken
   heißt laden, durchgehend grün heißt fertig, rot heißt Störung. Das steht so
   in der Tesla-Anleitung und gilt unabhängig vom Betreiber.
-- Beim Thema **Waschanlage** folgt die App der Tesla-Anleitung, auch wo diese
-  unbequem ist: nur kontaktlose Anlagen ohne Bürsten, mindestens 30 cm Abstand
-  beim Hochdruckreiniger. Schäden durch falsches Waschen sind laut Tesla nicht
-  von der Garantie gedeckt.
+- Die Texte zu **Waschanlage und Panne** bleiben auf ausdrücklichen Wunsch
+  unverändert gegenüber der bisherigen veröffentlichten Fassung. Der
+  zusätzliche Hinweis auf kontaktlose Anlagen wird nicht in die App übernommen.
 - Es werden keine Telefonnummern für Pannenhilfe genannt, da diese sich ändern.
   Stattdessen wird auf die Tesla-App und die offiziellen Seiten verwiesen.
 - Die App enthält **bewusst keine Notfallseite**. Sie deckt das ab, was im
@@ -245,3 +284,10 @@ Die App fasst zusammen und ersetzt keine offizielle Anleitung.
 - Die Seite „Quellen“ in der App verlinkt die offiziellen Belege.
 
 Verbindlich ist immer die Bedienungsanleitung des Fahrzeugs.
+
+Die Überarbeitung vom 09.09.2026 ergänzt gut lesbare Hinweise, kürzere
+Detailseiten, eine sichtbare WhatsApp-Textauswahl und Offline-Zugriff.
+Ladegrenzen richten sich nach der Fahrzeugempfehlung statt pauschal nach
+80 Prozent; blaue und gelbe Ladeleuchten unterscheiden Dauerlicht und
+Blinken. Die Tarifzahlen bleiben als historischer Vergleich vom August
+gekennzeichnet. Wasch- und Pannentexte wurden bewusst nicht erweitert.
