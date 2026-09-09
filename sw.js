@@ -1,7 +1,7 @@
 const ROOT = new URL("./", self.location.href);
 const CACHE_PREFIX = `tesla-hilfe:${ROOT.pathname}:`;
 // Bei jeder Aenderung an einer App-Datei erhoehen.
-const CACHE_NAME = `${CACHE_PREFIX}2026-09-09-2`;
+const CACHE_NAME = `${CACHE_PREFIX}2026-09-09-3`;
 const FILES = [
   "index.html",
   "styles.css",

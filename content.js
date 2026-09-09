@@ -20,6 +20,9 @@
     before   - wichtige Hinweise vor der Anleitung
     detailsTitle - Zusatzwissen zum Aufklappen (cards und optional figure)
     figureInDetails - Zeichnung beim Zusatzwissen statt vor den Schritten
+    shortcuts - kompakte Links vor dem Inhalt [Titel, Zielseite]
+    walkthrough - visueller Bedienweg [Ort/Element, Handlung]
+    batteryComparison - Vergleich mit Beispiel-Akkuständen
 */
 
 /*
@@ -210,7 +213,7 @@ const PAGES = {
       ["🔴", "Tesla Supercharger", "Am Tesla-Logo erkennen. Keine Karte nötig.", "supercharger", "red"],
       ["🔵", "Andere Ladesäule", "Alles, was nicht von Tesla ist.", "other-charge", "blue"],
       ["❓", "Wo lade ich am besten?", "Zuhause, Supercharger, ADAC oder EWE Go.", "welche-karte", "green"],
-      ["🔋", "Akku im Alltag", "Wie viel laden, wie oft.", "akku-alltag"],
+      ["🔋", "Akku einstellen & Alltag", "Ladelimit, Akku am Ziel und tägliches Laden.", "akku-alltag"],
       ["⚡", "Es klappt nicht", "Die Säule lädt nicht.", "failed-charge", "red"],
       ["💶", "Günstig laden", "Preise vergleichen.", "cheap-charge"]
     ],
@@ -375,17 +378,18 @@ const PAGES = {
     title: "Lass den Tesla planen",
     detailsTitle: "Reserve, Kabel und Laden am Ziel",
     intro: "Die Strecke plant das Auto. Du musst nur eine Sache vorher wissen: ob du am Ziel laden kannst.",
+    shortcuts: [["Akku bei Ankunft einstellen", "zielakku"]],
     steps: [
       "Vor der Abfahrt: Kannst du am Ziel laden? Bei Hotel oder Ferienwohnung vorher anrufen und fragen.",
       "Ziel ins Tesla-Navi eingeben und Route berechnen lassen.",
-      "Auf die Anzeige schauen: Das Navi zeigt, mit wie viel Prozent du ankommst.",
+      "Auf die Anzeige schauen: Das Navi zeigt, mit wie viel Prozent du ankommst. Über „% bei Ankunft einstellen“ kannst du, sofern verfügbar, deinen Wunschwert vorgeben.",
       "Kannst du am Ziel laden? Dann losfahren und den Ladestopps folgen.",
       "Kannst du dort nicht laden? Plane auch die Fahrt vom Ziel zur nächsten nutzbaren Ladesäule. Lade am letzten Stopp so viel Reserve, wie du dafür brauchst.",
       "Am Ladestopp bleiben, bis das Navi weiterfahren sagt."
     ],
     cards: [
       ["🔋 Wie viel Akku bei der Ankunft?", "Plane Reserve ein und prüfe, ob die Lademöglichkeit am Ziel wirklich nutzbar ist. 30 Prozent können ein Puffer sein, garantieren aber nicht die Rückfahrt. Entscheidend sind Strecke, Wetter und erreichbare Ladepunkte."],
-      ["⏱️ Zu wenig? Dann länger laden", "Kommt dir die Zahl zu knapp vor, bleib am letzten Ladestopp einfach ein paar Minuten länger stehen. Die Ankunftsanzeige steigt dabei mit."],
+      ["⏱️ Mehr Reserve gewünscht?", "Wenn verfügbar, im Navi „% bei Ankunft einstellen“ verwenden. Fehlt die Funktion, die Ankunftsschätzung beobachten und bei Bedarf am Ladestopp länger laden. Prüfe dabei, ob dein Ladelimit weiteres Laden erlaubt."],
       ["🔌 Kabel dabei?", "An manchen Ladesäulen hängt kein Kabel. Schau vor einer längeren Fahrt nach, ob dein eigenes Kabel im Kofferraum liegt."],
       ["🏨 Am Ziel angekommen", "Eine geeignete Ladesäule oder Wallbox nutzen. Eine unbekannte Haushaltssteckdose nicht einfach zum Dauerladen verwenden — vorher die Eignung und Erlaubnis klären."],
       ["🗺️ Vorher nachsehen", "In Chargemap kannst du schon zu Hause nachschauen, ob es in der Nähe deines Ziels Ladesäulen gibt."]
@@ -453,9 +457,14 @@ const PAGES = {
   "akku-alltag": {
     parent: "charge",
     eyebrow: "Akku im Alltag",
-    title: "Zwei einfache Regeln",
+    title: "Welchen Akkustand meinst du?",
     detailsTitle: "Warum diese Regeln helfen und was im Winter gilt",
-    intro: "Um den Akku musst du dich kaum kümmern. Zwei Dinge helfen trotzdem.",
+    intro: "Bis wie viel Prozent laden und mit wie viel Prozent ankommen sind zwei verschiedene Einstellungen.",
+    batteryComparison: true,
+    shortcuts: [
+      ["Akku am Reiseziel einstellen", "zielakku"],
+      ["Ladelimit einstellen", "ladelimit"]
+    ],
     steps: [
       "Plane zu Hause etwas Reserve ein. Rund 20 Prozent sind ein praktischer Puffer, keine feste Grenze.",
       "Unter Fahrzeug > Laden das vom Auto empfohlene tägliche Ladelimit einstellen. Nicht pauschal 80 Prozent wählen — die Empfehlung hängt vom Akku ab."
@@ -469,6 +478,48 @@ const PAGES = {
       ["🧊 Etwas ist eingefroren", "In der Tesla-App gibt es „Fahrzeug enteisen“. Das taut Scheiben, Fenster und auch die Ladeklappe auf. Klemmt ein Türgriff, drück fest auf den vorderen Teil, um das Eis zu brechen — nicht mit Werkzeug hebeln."]
     ],
     note: "Das sind Empfehlungen, keine Vorschriften. Wenn du einmal mit 10 Prozent nach Hause kommst, ist nichts passiert."
+  },
+
+  zielakku: {
+    parent: "holiday",
+    eyebrow: "Akku am Reiseziel",
+    title: "Mit mehr Akku ankommen",
+    intro: "Du gibst dem Navi vor, wie viel Akku am Ziel übrig sein soll. Stelle das vor der Fahrt im geparkten Auto ein.",
+    walkthrough: [
+      ["Ziel im Tesla-Navi", "Dein Reiseziel eingeben und die Route berechnen lassen."],
+      ["„% bei Ankunft einstellen“", "Diese Option in der Routenanzeige mit den Abbiegehinweisen auswählen, sofern sie angezeigt wird."],
+      ["Schieberegler", "Auf den gewünschten Prozentwert schieben. Beispiel: 30 Prozent am Ziel — das ist nur ein Beispiel, keine Empfehlung für jede Fahrt."],
+      ["Neue Routenplanung ansehen", "Die angezeigte Ankunftsschätzung und die Ladestopps prüfen. Folge der Ladeplanung und behalte die Schätzung unterwegs im Blick."]
+    ],
+    cards: [
+      ["Die Option fehlt?", "Dann ist sie auf deinem aktuellen Fahrzeug- oder Softwarestand möglicherweise nicht verfügbar. Du hast nichts falsch gemacht. Nutze die Ankunftsschätzung im Navi und plane bei Bedarf mehr Ladezeit ein; das Ladelimit muss dafür hoch genug sein."],
+      ["Ein Wunschwert, keine Garantie", "Wetter, Tempo und Umwege verändern den Verbrauch. Plane auch die Weiterfahrt, wenn du am Ziel nicht laden kannst."]
+    ],
+    shortcuts: [["Nicht verwechseln: Ladelimit", "ladelimit"]],
+    links: [["Tesla-Anleitung: Akku bei Ankunft", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-01F1A582-99D1-4933-B5FB-B2F0203FFE6F.html"]],
+    note: "Hier stellst du nichts am Auto um. Diese Hilfe zeigt nur den Bedienweg. Die Ankunftseinstellung gehört ins Tesla-Navi, nicht in die Ladeeinstellungen."
+  },
+
+  ladelimit: {
+    parent: "akku-alltag",
+    eyebrow: "Ladelimit",
+    title: "Bis wie viel Prozent laden?",
+    intro: "Das Ladelimit ist der Akkustand, bis zu dem das Auto aufladen soll. Es ist nicht der Akkustand bei Ankunft.",
+    walkthrough: [
+      ["Batteriesymbol im Auto", "Im geparkten Auto auf das Batteriesymbol am Bildschirm tippen. Alternativ: Fahrzeug > Laden bzw. Aufladen."],
+      ["„Limit einstellen“", "Den Schieberegler in den Ladeeinstellungen suchen."],
+      ["Gewünschten Wert wählen", "Den Regler verschieben und die Prozentzahl prüfen. Für den Alltag die Empfehlung deines Autos verwenden — nicht pauschal 80 oder 100 Prozent."],
+      ["Einstellung kontrollieren", "Der Wert gilt für sofortiges und geplantes Laden. Vor dem Verlassen des Autos prüfen, ob der Ladevorgang tatsächlich gestartet ist."]
+    ],
+    detailsTitle: "Am iPhone und vor einer längeren Fahrt",
+    cards: [
+      ["Auch in der Tesla-App", "Dein Auto öffnen und das Laden-Symbol antippen. Dort das Ladelimit anpassen und den angezeigten Wert kontrollieren. Die Ansicht kann je nach App-Version anders aussehen."],
+      ["Nur für eine lange Fahrt höher laden", "Wenn das Auto beim Erhöhen ein einmaliges höheres Ladelimit anbietet, kannst du diese Option nutzen. Sie kehrt danach zum vorherigen Wert zurück. Sonst nach der Fahrt die Alltagsempfehlung wieder einstellen."],
+      ["Mehr Akku am Reiseziel?", "Das planst du im Navi über „% bei Ankunft einstellen“, sofern verfügbar. Ein höheres Ladelimit allein sagt dem Navi nicht, wie viel Reserve du am Ziel möchtest."]
+    ],
+    shortcuts: [["Stattdessen Akku am Reiseziel", "zielakku"]],
+    links: [["Tesla-Anleitung: Ladelimit", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-BEE08D47-0CE0-4BDD-83F2-9854FB3D578F.html"]],
+    note: "Diese Seite ist nur eine Anleitung. Der echte Regler befindet sich im Auto oder in der Tesla-App."
   },
 
   "failed-charge": {
@@ -579,6 +630,7 @@ const PAGES = {
       ["Tesla Model 3 Bedienungsanleitung", "https://www.tesla.com/ownersmanual/model3/de_de/"],
       ["Tesla Anleitung: Reinigung und Waschanlage", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-65384C1F-86F2-44E8-A8BC-8A12E7E00A40.html"],
       ["Tesla Anleitung: Anweisungen zum Laden", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-BEE08D47-0CE0-4BDD-83F2-9854FB3D578F.html"],
+      ["Tesla Anleitung: Navigation und Akku bei Ankunft", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-01F1A582-99D1-4933-B5FB-B2F0203FFE6F.html"],
       ["Tesla Anleitung: Abstandstempomat", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-DA920829-F1FA-44F9-8754-6D914C524A79.html"],
       ["Tesla Anleitung: Transport", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-FA9E3DC9-805C-45BD-A64D-C4B3F491B8C0.html"],
       ["Tesla Anleitung: Software-Updates", "https://www.tesla.com/ownersmanual/model3/de_de/GUID-A5A60CB3-7659-4B08-B2FD-AFD12C2D6EE1.html"],

@@ -64,6 +64,22 @@ Website. „Losfahren“, „Tempomat“ und „Anders“ sind oben direkt errei
 Zusatzkarten aufklappbar. Mit `figureInDetails` liegt auch die Zeichnung dort.
 Die Tempomat-Grenzen bleiben sichtbar, nicht im aufgeklappten Zusatzwissen.
 
+Die Seiten `zielakku` und `ladelimit` unterscheiden den gewünschten Akkustand
+bei Ankunft von der Ladegrenze. `walkthrough` zeigt den Bedienweg als
+nummerierte, verbundene Stationen, `shortcuts` verlinkt direkt zur passenden
+Anleitung. Der Akkuvergleich auf `akku-alltag` nutzt beschriftete Beispielwerte
+(80 % beim Laden, 30 % am Ziel), keine Empfehlung oder Verbrauchsberechnung.
+Alle Darstellungen sind HTML/CSS, skalieren mit der Schrift und übernehmen
+den Hell-/Dunkelmodus. Sie sind nicht mit dem Fahrzeug verbunden.
+
+Unter „Längere Fahrt“ führt ein Link direkt zu „Akku bei Ankunft einstellen“.
+Die Funktion `% bei Ankunft einstellen` ist laut Tesla nur **sofern verfügbar**
+vorhanden. Die Anleitung nennt deshalb einen Ausweg bei fehlender Option.
+Quelle, abgerufen am 09.09.2026:
+[Tesla: Karten und Navigation](https://www.tesla.com/ownersmanual/model3/de_de/GUID-01F1A582-99D1-4933-B5FB-B2F0203FFE6F.html).
+Für das separate Ladelimit gilt
+[Tesla: Anweisungen zum Laden](https://www.tesla.com/ownersmanual/model3/de_de/GUID-BEE08D47-0CE0-4BDD-83F2-9854FB3D578F.html).
+
 **Bei jedem Release die Version in `CACHE_NAME` in `sw.js` erhöhen.** Alle
 App-Dateien zusammen veröffentlichen. Neue benötigte Bilder oder Skripte
 müssen auch in `FILES` stehen. Der Cache verwendet nur diese Positivliste

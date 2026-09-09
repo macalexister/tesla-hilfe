@@ -74,6 +74,43 @@ function renderBefore(cards) {
     `<div class="notice"><h2>${esc(title)}</h2><p>${esc(text)}</p></div>`).join("")}</section>`;
 }
 
+function renderShortcuts(shortcuts) {
+  return `<nav class="shortcuts" aria-label="Passende Anleitung">${shortcuts.map(([title, target]) =>
+    `<button type="button" data-go="${esc(target)}">${esc(title)} <span aria-hidden="true">→</span></button>`).join("")}</nav>`;
+}
+
+function renderWalkthrough(steps) {
+  return `<section class="walkthrough" aria-label="Bedienweg im Tesla">
+    <p class="guide-caption">So gehst du im Auto vor · keine bedienbare Fahrzeuganzeige</p>
+    <ol>${steps.map(([place, action], i) => `<li>
+      <span class="number" aria-hidden="true">${i + 1}</span>
+      <div><h2>${esc(place)}</h2><p>${esc(action)}</p></div>
+    </li>`).join("")}</ol>
+  </section>`;
+}
+
+function renderBatteryComparison() {
+  return `<figure class="battery-comparison">
+    <figcaption>Beispiel: zwei unterschiedliche Akkustände</figcaption>
+    <div class="battery-journey">
+      <div class="battery-stop">
+        <span class="battery-place">Am Ladekabel</span>
+        <div class="battery-icon charge-example" aria-hidden="true"><span></span></div>
+        <strong>80 %</strong><span>Bis hier laden</span>
+        <b>Ladelimit</b>
+      </div>
+      <div class="journey-arrow" aria-hidden="true">→</div>
+      <div class="battery-stop">
+        <span class="battery-place">Am Reiseziel</span>
+        <div class="battery-icon arrival-example" aria-hidden="true"><span></span></div>
+        <strong>30 %</strong><span>Soll übrig sein</span>
+        <b>Akku bei Ankunft</b>
+      </div>
+    </div>
+    <p>Die Fahrt verbraucht Akku. Die Zahlen sind nur ein Beispiel — keine Berechnung und keine Ladeempfehlung.</p>
+  </figure>`;
+}
+
 function renderLinks(links) {
   const items = links.map(([label, url], i) => {
     const external = !url.startsWith("tel:");
@@ -149,11 +186,14 @@ function render(id, resetView = true) {
     </section>`;
 
   if (page.before) html += renderBefore(page.before);
+  if (page.batteryComparison) html += renderBatteryComparison();
+  if (page.shortcuts) html += renderShortcuts(page.shortcuts);
   if (page.choices) html += renderChoices(page.choices);
   /* Die Zeichnung steht vor den Schritten. Sie beantwortet die Frage
      "wo muss ich hintippen" schneller als jeder Text, und hinter sieben
      Schritten wuerde sie erst nach anderthalb Bildschirmlaengen auftauchen. */
   if (page.figure && !page.figureInDetails) html += renderFigure(page.figure);
+  if (page.walkthrough) html += renderWalkthrough(page.walkthrough);
   if (page.steps) html += renderSteps(page.steps);
   if (page.appLinks) html += renderAppLinks(page.appLinks);
   if (page.detailsTitle) {
